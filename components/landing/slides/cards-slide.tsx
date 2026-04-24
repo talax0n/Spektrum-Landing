@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 interface SlideProps {
@@ -11,47 +12,57 @@ const CARDS = [
   {
     name: "WITCH TRAINEE",
     type: "FIRE",
+    tribe: "Kujana",
     rarity: "COMMON",
+    level: 1,
     power: "2/6",
-    desc: "A Kujana apprentice learning the dark arts. Her Doomflare skill deals 2 fire damage to the opponent's Active Avatar.",
+    desc: "Avatar — Kujana Witch. Doomflare costs 2 Fire energy and deals 2 damage, becoming 3 against Borah or Kobar Avatars.",
     color: "#ff4444",
-    icon: "🔥",
+    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Witch Trainee.webp",
   },
   {
     name: "THE COUNT",
     type: "WATER",
+    tribe: "Kuhaka",
     rarity: "RARE",
-    power: "5/8",
-    desc: "An evolved Level 2 Water Avatar. The Count commands the deep seas, healing allies and controlling the battlefield with tidal forces.",
+    level: 2,
+    power: "9/15",
+    desc: "Avatar — Kuhaka Warrior. Blood Blade deals 9 damage, rising to 13 against Kobar or Borah types. Chilling Bone Mist weakens non-allied Avatars.",
     color: "#00b4d8",
-    icon: "🌊",
+    image: "/cards/GENESIS/water/avatars/Blue Elemental Avatar for Apps_The Count.webp",
   },
   {
     name: "BANASPATI",
     type: "FIRE",
+    tribe: "Kuhaka",
     rarity: "RARE",
-    power: "6/7",
-    desc: "An evolved Level 2 Fire Avatar. Banaspati channels volcanic fury, dealing devastating AoE burn damage to all enemy Avatars.",
+    level: 2,
+    power: "3/17",
+    desc: "Avatar — Kuhaka Pyromancer. Spread Ember deals 13 damage and puts 3 damage into all opponent reserve Avatars. Devastating AoE.",
     color: "#ff6b35",
-    icon: "🌋",
+    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Banaspati.webp",
   },
   {
     name: "ENERGY DAGGER",
     type: "NEUTRAL",
+    tribe: null,
     rarity: "UNCOMMON",
+    level: null,
     power: "EQP",
-    desc: "A versatile Equipment card. Deals +1 bonus damage for each extra Spektra energy spent beyond its base cost. Fits any deck.",
+    desc: "Equipment — Equip to any Avatar. Grants +1 bonus damage for each extra energy spent when attacking. Pay 1 to move between Avatars.",
     color: "#a0a0a0",
-    icon: "⚔",
+    image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Energy Dagger.webp",
   },
   {
     name: "SACRED BOX",
     type: "NEUTRAL",
+    tribe: null,
     rarity: "RARE",
+    level: null,
     power: "EQP",
-    desc: "Kobar & Borah exclusive Equipment. Removes 1 battle damage counter from the equipped Avatar after each attack. Ultimate protection.",
+    desc: "Equipment — Kobar & Borah exclusive. Removes 1 battle damage counter after each attack. Only one Sacred Box allowed on field.",
     color: "#ffd700",
-    icon: "🛡",
+    image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Sacred Box.webp",
   },
 ];
 
@@ -133,7 +144,7 @@ export default function CardsSlide({ active }: SlideProps) {
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col p-4">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-2">
                     <div>
                       <span
                         className="text-[7px] font-mono tracking-[0.4em] uppercase"
@@ -145,28 +156,31 @@ export default function CardsSlide({ active }: SlideProps) {
                         {card.name}
                       </h3>
                     </div>
-                    <span
-                      className="text-xl opacity-30"
-                      style={{ color: card.color }}
-                    >
-                      {card.icon}
-                    </span>
+                    {card.level && (
+                      <span
+                        className="text-[7px] font-mono tracking-[0.2em] uppercase px-1 py-0.5 border"
+                        style={{ color: card.color, borderColor: `${card.color}30` }}
+                      >
+                        LV{card.level}
+                      </span>
+                    )}
                   </div>
 
                   {/* Art area */}
-                  <div className="flex-1 border border-white/5 mb-3 flex items-center justify-center relative overflow-hidden">
+                  <div className="flex-1 border border-white/5 mb-2 relative overflow-hidden">
+                    <Image
+                      src={card.image}
+                      alt={card.name}
+                      fill
+                      className="object-cover object-top"
+                      sizes="200px"
+                    />
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: `radial-gradient(circle, ${card.color}10 0%, transparent 70%)`,
+                        background: `linear-gradient(to top, var(--spektrum-deep) 0%, transparent 40%)`,
                       }}
                     />
-                    <span
-                      className="text-4xl opacity-15"
-                      style={{ color: card.color }}
-                    >
-                      {card.icon}
-                    </span>
                   </div>
 
                   {/* Footer */}
@@ -219,6 +233,12 @@ export default function CardsSlide({ active }: SlideProps) {
           <div className="mt-3 flex items-center justify-center gap-4 text-[9px] font-mono tracking-[0.2em] uppercase text-white/20">
             <span>{CARDS[activeCard].type}</span>
             <span className="w-1 h-1 bg-white/10 rounded-full" />
+            {CARDS[activeCard].tribe && (
+              <>
+                <span>{CARDS[activeCard].tribe}</span>
+                <span className="w-1 h-1 bg-white/10 rounded-full" />
+              </>
+            )}
             <span>{CARDS[activeCard].rarity}</span>
           </div>
         </motion.div>

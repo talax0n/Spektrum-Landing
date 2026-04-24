@@ -26,6 +26,7 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const touchStart = useRef(0);
   const lastScroll = useRef(0);
@@ -122,17 +123,19 @@ export default function Home() {
       <Sidebar
         sections={SECTIONS}
         currentSection={currentSection}
-        onNavigate={goToSection}
+        onNavigate={(i) => { goToSection(i); setSidebarCollapsed(false); }}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         isMobile={isMobile}
+        collapsed={sidebarCollapsed}
+        onExpand={() => setSidebarCollapsed(false)}
       />
 
       {/* ── Top Bar ── */}
       <TopBar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
 
       {/* ── Main Content (Fullscreen slides) ── */}
-      <div className="fixed inset-0">
+      <div className="fixed inset-0" onClick={() => { if (!isMobile && !sidebarCollapsed) setSidebarCollapsed(true); }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSection}
