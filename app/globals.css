@@ -1,26 +1,170 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #000000;
+  --foreground: #f0f0f0;
+  --primary: #00e5ff;
+  --primary-foreground: #000000;
+  --accent: #ff2d6b;
+  --muted: #1a1a2e;
+  --muted-foreground: #888899;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --spektrum-cyan: #00e5ff;
+  --spektrum-magenta: #ff2d6b;
+  --spektrum-gold: #ffd700;
+  --spektrum-purple: #8b5cf6;
+  --spektrum-deep: #050510;
+}
+
+/* Scrollbar */
+html {
+  overflow: hidden;
+}
+::-webkit-scrollbar { width: 0; display: none; }
+
+::selection {
+  background: var(--spektrum-cyan);
+  color: #000;
+}
+
+/* Noise overlay */
+.noise-overlay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Glow effects */
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5), 0 0 40px rgba(0, 229, 255, 0.2);
+}
+
+/* Scanlines */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* Corner brackets */
+.corner-brackets { position: relative; }
+.corner-brackets::before,
+.corner-brackets::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: rgba(255,255,255,0.2);
+  pointer-events: none;
+}
+.corner-brackets::before {
+  top: 0; left: 0;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.corner-brackets::after {
+  bottom: 0; right: 0;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+/* Holo card shimmer */
+@keyframes holoShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.holo-card {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 229, 255, 0.1) 0%,
+    rgba(139, 92, 246, 0.1) 25%,
+    rgba(255, 45, 107, 0.1) 50%,
+    rgba(255, 215, 0, 0.1) 75%,
+    rgba(0, 229, 255, 0.1) 100%
+  );
+  background-size: 200% 200%;
+  animation: holoShift 6s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+/* Scroll arrow animation */
+@keyframes scrollArrow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0; }
+}
+
+/* Gradient mesh */
+.gradient-mesh {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 229, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 45, 107, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
+    #050510;
+}
+
+/* Active sidebar item */
+.sidebar-item.active {
+  background-color: #000;
+  border-right-color: var(--spektrum-cyan);
+}
+.sidebar-item.active .sidebar-label {
+  color: var(--spektrum-cyan);
+}
+.sidebar-item.active .sidebar-marker {
+  opacity: 1;
+}
+
+/* Progress bar at bottom */
+.section-progress {
+  transition: width 0.5s ease;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

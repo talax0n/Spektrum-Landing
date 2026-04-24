@@ -1,65 +1,172 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Sidebar from "@/components/landing/sidebar";
+import TopBar from "@/components/landing/top-bar";
+import HeroSlide from "@/components/landing/slides/hero-slide";
+import LoreSlide from "@/components/landing/slides/lore-slide";
+import CardsSlide from "@/components/landing/slides/cards-slide";
+import GameplaySlide from "@/components/landing/slides/gameplay-slide";
+import NewsSlide from "@/components/landing/slides/news-slide";
+import CommunitySlide from "@/components/landing/slides/community-slide";
+import BottomBar from "@/components/landing/bottom-bar";
+import ScrollIndicator from "@/components/landing/scroll-indicator";
+
+const SECTIONS = [
+  { id: "home", label: "HOME" },
+  { id: "lore", label: "THE LORE" },
+  { id: "cards", label: "CARD ARCHIVE" },
+  { id: "gameplay", label: "GAMEPLAY" },
+  { id: "news", label: "SPEKTRUM DAILY" },
+  { id: "community", label: "COMMUNITY" },
+];
 
 export default function Home() {
+  const [currentSection, setCurrentSection] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const touchStart = useRef(0);
+  const lastScroll = useRef(0);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 750);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  const goToSection = useCallback(
+    (index: number) => {
+      if (isTransitioning || index < 0 || index >= SECTIONS.length) return;
+      if (index === currentSection) return;
+      setIsTransitioning(true);
+      setCurrentSection(index);
+      setTimeout(() => setIsTransitioning(false), 800);
+    },
+    [currentSection, isTransitioning]
+  );
+
+  // Mouse wheel navigation
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const now = Date.now();
+      if (now - lastScroll.current < 1000) return;
+      lastScroll.current = now;
+
+      if (e.deltaY > 0) {
+        goToSection(currentSection + 1);
+      } else if (e.deltaY < 0) {
+        goToSection(currentSection - 1);
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [currentSection, goToSection]);
+
+  // Touch navigation
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStart.current = e.touches[0].clientY;
+    };
+    const handleTouchEnd = (e: TouchEvent) => {
+      const delta = touchStart.current - e.changedTouches[0].clientY;
+      if (Math.abs(delta) < 50) return;
+      const now = Date.now();
+      if (now - lastScroll.current < 1000) return;
+      lastScroll.current = now;
+
+      if (delta > 0) goToSection(currentSection + 1);
+      else goToSection(currentSection - 1);
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [currentSection, goToSection]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown" || e.key === " ") {
+        e.preventDefault();
+        goToSection(currentSection + 1);
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        goToSection(currentSection - 1);
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [currentSection, goToSection]);
+
+  const SLIDES = [
+    <HeroSlide key="hero" active={currentSection === 0} />,
+    <LoreSlide key="lore" active={currentSection === 1} />,
+    <CardsSlide key="cards" active={currentSection === 2} />,
+    <GameplaySlide key="gameplay" active={currentSection === 3} />,
+    <NewsSlide key="news" active={currentSection === 4} />,
+    <CommunitySlide key="community" active={currentSection === 5} />,
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="noise-overlay fixed inset-0 bg-black overflow-hidden">
+      {/* ── Left Sidebar (Desktop) ── */}
+      <Sidebar
+        sections={SECTIONS}
+        currentSection={currentSection}
+        onNavigate={goToSection}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        isMobile={isMobile}
+      />
+
+      {/* ── Top Bar ── */}
+      <TopBar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
+
+      {/* ── Main Content (Fullscreen slides) ── */}
+      <div className="fixed inset-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSection}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full h-full"
+          >
+            {SLIDES[currentSection]}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* ── Bottom Bar (download links / CTA) ── */}
+      <BottomBar currentSection={currentSection} />
+
+      {/* ── Scroll indicator arrows ── */}
+      <ScrollIndicator
+        currentSection={currentSection}
+        totalSections={SECTIONS.length}
+        onNext={() => goToSection(currentSection + 1)}
+        onPrev={() => goToSection(currentSection - 1)}
+      />
+
+      {/* ── Bottom progress bar ── */}
+      <div className="fixed bottom-0 left-0 right-0 h-[3px] bg-transparent z-40">
+        <div
+          className="h-full bg-[var(--spektrum-cyan)] section-progress"
+          style={{
+            width: `${((currentSection + 1) / SECTIONS.length) * 100}%`,
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }
