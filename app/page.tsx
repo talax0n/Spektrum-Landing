@@ -29,6 +29,8 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const touchStart = useRef(0);
   const lastScroll = useRef(0);
+  const wheelTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const wheelConsumed = useRef(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 750);
@@ -48,13 +50,25 @@ export default function Home() {
     [currentSection, isTransitioning]
   );
 
-  // Mouse wheel navigation
+  // Mouse wheel navigation — one slide per scroll gesture
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const now = Date.now();
-      if (now - lastScroll.current < 1000) return;
-      lastScroll.current = now;
+
+      // Reset the idle timer on every wheel event
+      if (wheelTimeout.current) clearTimeout(wheelTimeout.current);
+      wheelTimeout.current = setTimeout(() => {
+        // No wheel events for 300ms → gesture is over, allow next one
+        wheelConsumed.current = false;
+      }, 300);
+
+      // If we already navigated during this gesture, ignore the rest
+      if (wheelConsumed.current) return;
+
+      // Ignore tiny deltas (trackpad noise)
+      if (Math.abs(e.deltaY) < 5) return;
+
+      wheelConsumed.current = true;
 
       if (e.deltaY > 0) {
         goToSection(currentSection + 1);
@@ -64,7 +78,10 @@ export default function Home() {
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (wheelTimeout.current) clearTimeout(wheelTimeout.current);
+    };
   }, [currentSection, goToSection]);
 
   // Touch navigation
