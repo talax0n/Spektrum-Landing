@@ -61,7 +61,7 @@ export default function LoreSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-cyan)]/60 block mb-1">
                 Origins
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
                 The Lore
               </h2>
             </div>
@@ -137,10 +137,10 @@ export default function LoreSlide({ active }: SlideProps) {
                 >
                   Chapter {String(currentPage + 1).padStart(2, "0")}
                 </span>
-                <h3 className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl tracking-[0.1em] uppercase text-[#1a1a2e] mb-5">
+                <h3 className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl tracking-[0.1em] uppercase text-foreground mb-5">
                   {LORE_PAGES[currentPage].title}
                 </h3>
-                <p className="text-[#1a1a2e]/50 text-sm md:text-base leading-relaxed mb-8">
+                <p className="text-foreground/50 text-sm md:text-base leading-relaxed mb-8">
                   {LORE_PAGES[currentPage].text}
                 </p>
               </motion.div>
@@ -150,9 +150,9 @@ export default function LoreSlide({ active }: SlideProps) {
             <div className="flex items-center gap-4">
               <button
                 onClick={goPrev}
-                className="w-8 h-8 flex items-center justify-center border border-black/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 transition-all duration-300"
+                className="w-8 h-8 flex items-center justify-center border border-black/[0.08] dark:border-white/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 dark:hover:bg-white/[0.06] transition-all duration-300"
               >
-                <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-[#1a1a2e]/30">
+                <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-foreground/30">
                   <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
                 </svg>
               </button>
@@ -165,7 +165,7 @@ export default function LoreSlide({ active }: SlideProps) {
                     className={`h-[3px] transition-all duration-500 ${
                       currentPage === i
                         ? "w-10 bg-[var(--spektrum-cyan)]"
-                        : "w-4 bg-[#1a1a2e]/10 hover:bg-[#1a1a2e]/25"
+                        : "w-4 bg-foreground/10 hover:bg-foreground/25"
                     }`}
                   />
                 ))}
@@ -173,14 +173,14 @@ export default function LoreSlide({ active }: SlideProps) {
 
               <button
                 onClick={goNext}
-                className="w-8 h-8 flex items-center justify-center border border-black/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 transition-all duration-300"
+                className="w-8 h-8 flex items-center justify-center border border-black/[0.08] dark:border-white/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 dark:hover:bg-white/[0.06] transition-all duration-300"
               >
-                <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-[#1a1a2e]/30">
+                <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-foreground/30">
                   <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
                 </svg>
               </button>
 
-              <span className="text-[10px] font-mono text-[#1a1a2e]/20 ml-2">
+              <span className="text-[10px] font-mono text-foreground/20 ml-2">
                 {currentPage + 1} / {LORE_PAGES.length}
               </span>
             </div>
@@ -202,8 +202,8 @@ export default function LoreSlide({ active }: SlideProps) {
               onClick={() => setCurrentPage(i)}
               className={`py-2.5 px-3 text-left transition-all duration-300 border-t-[2px] ${
                 currentPage === i
-                  ? "bg-white/60 border-t-[var(--spektrum-cyan)]"
-                  : "bg-black/[0.02] border-t-transparent hover:bg-white/40"
+                  ? "bg-white/60 dark:bg-white/[0.06] border-t-[var(--spektrum-cyan)]"
+                  : "bg-black/[0.02] dark:bg-white/[0.02] border-t-transparent hover:bg-white/40 dark:hover:bg-white/[0.05]"
               }`}
             >
               <span
@@ -216,7 +216,7 @@ export default function LoreSlide({ active }: SlideProps) {
               </span>
               <span
                 className={`text-[9px] font-bold tracking-wider uppercase leading-tight transition-colors duration-300 block ${
-                  currentPage === i ? "text-[#1a1a2e]" : "text-[#1a1a2e]/30"
+                  currentPage === i ? "text-foreground" : "text-foreground/30"
                 }`}
               >
                 {page.title}
@@ -234,7 +234,7 @@ export default function LoreSlide({ active }: SlideProps) {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="absolute bottom-8 right-8 z-10"
         >
-          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-[#1a1a2e] font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
             Play the Game
             <div className="absolute inset-0 border border-white/20" />
           </button>

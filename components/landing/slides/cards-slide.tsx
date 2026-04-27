@@ -102,7 +102,7 @@ export default function CardsSlide({ active }: SlideProps) {
                 <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-magenta)]/60 block mb-0.5">
                   Genesis Collection
                 </span>
-                <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
+                <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
                   Card Archive
                 </h2>
               </div>
@@ -118,8 +118,8 @@ export default function CardsSlide({ active }: SlideProps) {
                     onClick={() => setElementFilter(f.value)}
                     className={`px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border transition-all duration-200 ${
                       elementFilter === f.value
-                        ? "border-[#1a1a2e]/20 text-[#1a1a2e] bg-[#1a1a2e]/[0.06]"
-                        : "border-[#1a1a2e]/[0.06] text-[#1a1a2e]/35 hover:text-[#1a1a2e]/55 hover:border-[#1a1a2e]/15"
+                        ? "border-foreground/20 text-foreground bg-foreground/[0.06]"
+                        : "border-foreground/[0.06] text-foreground/35 hover:text-foreground/55 hover:border-foreground/15"
                     }`}
                   >
                     {f.value !== "All" && (
@@ -133,17 +133,17 @@ export default function CardsSlide({ active }: SlideProps) {
                 ))}
               </div>
 
-              <span className="w-px h-4 bg-[#1a1a2e]/10 mx-1 hidden md:block" />
+              <span className="w-px h-4 bg-foreground/10 mx-1 hidden md:block" />
 
               {/* Type filter dropdown */}
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value as CardType | "All")}
-                className="px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border border-[#1a1a2e]/[0.06] text-[#1a1a2e]/40 bg-transparent hover:border-[#1a1a2e]/15 transition-colors cursor-pointer appearance-none"
+                className="px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border border-foreground/[0.06] text-foreground/40 bg-transparent hover:border-foreground/15 transition-colors cursor-pointer appearance-none"
                 style={{ backgroundImage: "none" }}
               >
                 {TYPE_FILTERS.map((f) => (
-                  <option key={f.value} value={f.value} className="bg-[var(--spektrum-deep)] text-[#1a1a2e]/60">
+                  <option key={f.value} value={f.value} className="bg-[var(--spektrum-deep)] text-foreground/60">
                     {f.label}
                   </option>
                 ))}
@@ -151,11 +151,11 @@ export default function CardsSlide({ active }: SlideProps) {
 
               {/* Card count + search — pushed to the right */}
               <div className="flex items-center gap-3 ml-auto">
-                <span className="text-[10px] font-mono text-[#1a1a2e]/25 whitespace-nowrap">
+                <span className="text-[10px] font-mono text-foreground/25 whitespace-nowrap">
                   {filtered.length} cards
                 </span>
                 <div className="relative">
-                  <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#1a1a2e]/25">
+                  <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-foreground/25">
                     <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth={1.5} />
                     <path d="M11 11l4 4" stroke="currentColor" strokeWidth={1.5} />
                   </svg>
@@ -164,7 +164,7 @@ export default function CardsSlide({ active }: SlideProps) {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search cards..."
-                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-[#1a1a2e]/[0.06] bg-transparent text-[#1a1a2e]/60 placeholder:text-[#1a1a2e]/20 focus:outline-none focus:border-[#1a1a2e]/20 transition-colors"
+                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-foreground/[0.06] bg-transparent text-foreground/60 placeholder:text-foreground/20 focus:outline-none focus:border-foreground/20 transition-colors"
                   />
                 </div>
               </div>
@@ -198,7 +198,7 @@ export default function CardsSlide({ active }: SlideProps) {
                   className="group cursor-pointer"
                 >
                   {/* Card image */}
-                  <div className="relative aspect-[2.5/3.5] overflow-hidden bg-black/[0.02] border border-black/[0.06] transition-all duration-300 group-hover:border-black/15 group-hover:scale-[1.03] group-hover:z-10 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
+                  <div className="relative aspect-[2.5/3.5] overflow-hidden bg-black/[0.02] border border-black/[0.06] dark:border-white/[0.06] transition-all duration-300 group-hover:border-black/15 dark:group-hover:border-white/15 group-hover:scale-[1.03] group-hover:z-10 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
                     <Image
                       src={card.image}
                       alt={card.name}
@@ -210,7 +210,7 @@ export default function CardsSlide({ active }: SlideProps) {
 
                   {/* Card info below */}
                   <div className="mt-1.5 px-0.5">
-                    <p className="text-[10px] font-[family-name:var(--font-display)] font-bold tracking-wider uppercase text-[#1a1a2e]/70 truncate">
+                    <p className="text-[10px] font-[family-name:var(--font-display)] font-bold tracking-wider uppercase text-foreground/70 truncate">
                       {card.name}
                     </p>
                     <div className="flex items-center gap-1.5 mt-0.5">
@@ -220,7 +220,7 @@ export default function CardsSlide({ active }: SlideProps) {
                       >
                         {card.element}
                       </span>
-                      <span className="w-0.5 h-0.5 rounded-full bg-[#1a1a2e]/15" />
+                      <span className="w-0.5 h-0.5 rounded-full bg-foreground/15" />
                       <span
                         className="text-[8px] font-mono tracking-[0.1em] uppercase"
                         style={{ color: RARITY_COLORS[card.rarity] }}
@@ -237,11 +237,26 @@ export default function CardsSlide({ active }: SlideProps) {
           {/* Empty state */}
           {filtered.length === 0 && (
             <div className="flex items-center justify-center h-60">
-              <p className="text-[#1a1a2e]/25 text-sm font-mono">No cards match the current filters.</p>
+              <p className="text-foreground/25 text-sm font-mono">No cards match the current filters.</p>
             </div>
           )}
         </div>
       </div>
+
+      {/* Play the Game button — bottom right */}
+      {active && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="absolute bottom-8 right-8 z-20"
+        >
+          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+            Play the Game
+            <div className="absolute inset-0 border border-white/20" />
+          </button>
+        </motion.div>
+      )}
 
       {/* Card Detail Modal */}
       {selectedCard && (
@@ -256,7 +271,7 @@ export default function CardsSlide({ active }: SlideProps) {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative flex flex-col md:flex-row gap-6 max-w-3xl w-full bg-[var(--spektrum-deep)] p-6 border border-black/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+            className="relative flex flex-col md:flex-row gap-6 max-w-3xl w-full bg-[var(--spektrum-deep)] p-6 border border-black/[0.08] dark:border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Large card image */}
@@ -276,7 +291,7 @@ export default function CardsSlide({ active }: SlideProps) {
               {/* Close button */}
               <button
                 onClick={() => setSelectedCard(null)}
-                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#1a1a2e]/30 hover:text-[#1a1a2e]/60 transition-colors"
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-foreground/30 hover:text-foreground/60 transition-colors"
               >
                 <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5">
                   <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth={1.5} />
@@ -301,19 +316,19 @@ export default function CardsSlide({ active }: SlideProps) {
                 </span>
               </div>
 
-              <h3 className="font-[family-name:var(--font-display)] font-black text-2xl tracking-[0.1em] uppercase text-[#1a1a2e] mt-2">
+              <h3 className="font-[family-name:var(--font-display)] font-black text-2xl tracking-[0.1em] uppercase text-foreground mt-2">
                 {selectedCard.name}
               </h3>
 
-              <p className="text-[#1a1a2e]/40 text-xs font-mono mt-1 tracking-wide uppercase">
+              <p className="text-foreground/40 text-xs font-mono mt-1 tracking-wide uppercase">
                 {selectedCard.type}
                 {selectedCard.tribe && ` \u2014 ${selectedCard.tribe}`}
                 {selectedCard.level && ` \u2014 Level ${selectedCard.level}`}
               </p>
 
-              <div className="w-12 h-px bg-[#1a1a2e]/10 mt-4 mb-4" />
+              <div className="w-12 h-px bg-foreground/10 mt-4 mb-4" />
 
-              <p className="text-[#1a1a2e]/50 text-sm leading-relaxed">
+              <p className="text-foreground/50 text-sm leading-relaxed">
                 {selectedCard.description}
               </p>
 
@@ -322,16 +337,16 @@ export default function CardsSlide({ active }: SlideProps) {
                 <div className="flex gap-4 mt-4">
                   {selectedCard.atk !== undefined && (
                     <div>
-                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-[#1a1a2e]/25 block">ATK</span>
-                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-[#1a1a2e]/70">
+                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-foreground/25 block">ATK</span>
+                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-foreground/70">
                         {selectedCard.atk}
                       </span>
                     </div>
                   )}
                   {selectedCard.hp !== undefined && (
                     <div>
-                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-[#1a1a2e]/25 block">HP</span>
-                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-[#1a1a2e]/70">
+                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-foreground/25 block">HP</span>
+                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-foreground/70">
                         {selectedCard.hp}
                       </span>
                     </div>
@@ -339,7 +354,7 @@ export default function CardsSlide({ active }: SlideProps) {
                 </div>
               )}
 
-              <div className="text-[9px] font-mono text-[#1a1a2e]/15 mt-6 tracking-[0.2em] uppercase">
+              <div className="text-[9px] font-mono text-foreground/15 mt-6 tracking-[0.2em] uppercase">
                 Genesis Expansion
               </div>
             </div>

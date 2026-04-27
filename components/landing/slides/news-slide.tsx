@@ -52,7 +52,7 @@ export default function NewsSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-purple)]/60 block mb-1">
                 Updates
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
                 Spektrum Daily
               </h2>
             </div>
@@ -67,7 +67,7 @@ export default function NewsSlide({ active }: SlideProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="absolute top-7 right-6 z-10 text-[10px] font-[family-name:var(--font-display)] font-bold tracking-[0.2em] uppercase text-[#1a1a2e]/30 hover:text-[var(--spektrum-cyan)] transition-colors bg-white/60 backdrop-blur-sm px-4 py-2"
+          className="absolute top-7 right-6 z-10 text-[10px] font-[family-name:var(--font-display)] font-bold tracking-[0.2em] uppercase text-foreground/30 hover:text-[var(--spektrum-cyan)] transition-colors bg-white/60 dark:bg-white/[0.06] backdrop-blur-sm px-4 py-2"
         >
           MORE &gt;
         </motion.a>
@@ -83,7 +83,7 @@ export default function NewsSlide({ active }: SlideProps) {
               initial={active ? { opacity: 0, y: 30 } : {}}
               animate={active ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-              className="group relative bg-white/60 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 overflow-hidden shadow-sm shadow-black/[0.03]"
+              className="group relative bg-white/60 dark:bg-white/[0.06] backdrop-blur-sm hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-300 overflow-hidden shadow-sm shadow-black/[0.03]"
             >
               <div className="flex">
                 {/* Thumbnail */}
@@ -114,11 +114,11 @@ export default function NewsSlide({ active }: SlideProps) {
                     >
                       {item.tag}
                     </span>
-                    <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] md:text-xs tracking-wider uppercase text-[#1a1a2e] leading-snug group-hover:text-[var(--spektrum-cyan)] transition-colors line-clamp-2">
+                    <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] md:text-xs tracking-wider uppercase text-foreground leading-snug group-hover:text-[var(--spektrum-cyan)] transition-colors line-clamp-2">
                       {item.title}
                     </h3>
                   </div>
-                  <span className="text-[9px] font-mono text-[#1a1a2e]/20 mt-2">
+                  <span className="text-[9px] font-mono text-foreground/20 mt-2">
                     {item.date}
                   </span>
                 </div>
@@ -133,6 +133,21 @@ export default function NewsSlide({ active }: SlideProps) {
           ))}
         </div>
       </div>
+
+      {/* Play the Game button — bottom right */}
+      {active && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="absolute bottom-8 right-8 z-10"
+        >
+          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+            Play the Game
+            <div className="absolute inset-0 border border-white/20" />
+          </button>
+        </motion.div>
+      )}
 
       {/* Decorative line */}
       <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-px bg-gradient-to-r from-transparent via-black/[0.04] to-transparent" />

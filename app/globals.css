@@ -39,6 +39,25 @@
   --spektrum-card: #ffffff;
 }
 
+.dark {
+  --background: #0d0d1a;
+  --foreground: #e8e6f0;
+  --primary: #00c4d4;
+  --primary-foreground: #0d0d1a;
+  --accent: #e8467c;
+  --muted: #1a1a2e;
+  --muted-foreground: #9491a5;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --spektrum-cyan: #00c4d4;
+  --spektrum-magenta: #e8467c;
+  --spektrum-gold: #d4a017;
+  --spektrum-purple: #8b5cf6;
+  --spektrum-deep: #0d0d1a;
+  --spektrum-surface: #1a1a2e;
+  --spektrum-card: #141428;
+}
+
 /* Scrollbar */
 html {
   overflow: hidden;
@@ -63,12 +82,15 @@ html {
   background-size: 256px 256px;
 }
 
-/* Glow effects — light theme uses subtle text shadows */
+/* Glow effects */
 .text-glow-cyan {
   text-shadow: 0 0 30px rgba(0, 145, 163, 0.3), 0 0 60px rgba(0, 145, 163, 0.1);
 }
+.dark .text-glow-cyan {
+  text-shadow: 0 0 30px rgba(0, 196, 212, 0.5), 0 0 60px rgba(0, 196, 212, 0.2);
+}
 
-/* Scanlines — very faint on light */
+/* Scanlines */
 .scanlines::after {
   content: "";
   position: absolute;
@@ -82,8 +104,17 @@ html {
     rgba(0, 0, 0, 0.015) 4px
   );
 }
+.dark .scanlines::after {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.02) 2px,
+    rgba(255, 255, 255, 0.02) 4px
+  );
+}
 
-/* Corner brackets — dark on light */
+/* Corner brackets */
 .corner-brackets { position: relative; }
 .corner-brackets::before,
 .corner-brackets::after {
@@ -93,6 +124,10 @@ html {
   height: 16px;
   border-color: rgba(0,0,0,0.12);
   pointer-events: none;
+}
+.dark .corner-brackets::before,
+.dark .corner-brackets::after {
+  border-color: rgba(255,255,255,0.15);
 }
 .corner-brackets::before {
   top: 0; left: 0;
@@ -137,19 +172,29 @@ html {
   50% { opacity: 0; }
 }
 
-/* Gradient mesh — warm light version */
+/* Gradient mesh */
 .gradient-mesh {
   background:
     radial-gradient(ellipse at 20% 50%, rgba(0, 145, 163, 0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(212, 35, 90, 0.04) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 80%, rgba(109, 63, 192, 0.04) 0%, transparent 50%),
-    #f5f2ec;
+    var(--background);
+}
+.dark .gradient-mesh {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(0, 196, 212, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232, 70, 124, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.07) 0%, transparent 50%),
+    var(--background);
 }
 
 /* Active sidebar item */
 .sidebar-item.active {
   background-color: #fff;
   border-right-color: var(--spektrum-cyan);
+}
+.dark .sidebar-item.active {
+  background-color: var(--spektrum-surface);
 }
 .sidebar-item.active .sidebar-label {
   color: var(--spektrum-cyan);
@@ -169,4 +214,9 @@ html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+}
+
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }

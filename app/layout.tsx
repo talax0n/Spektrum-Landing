@@ -43,8 +43,16 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${zenDots.variable} ${notoSans.variable} ${jetbrains.variable} antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-screen bg-[#f5f2ec] text-[#1a1a2e] overflow-x-hidden">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body className="min-h-screen bg-background text-foreground overflow-x-hidden transition-colors duration-300">
         {children}
       </body>
     </html>

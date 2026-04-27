@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const SOCIALS = [
   {
@@ -85,7 +86,7 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-[28px] h-[28px] bg-[#1a1a2e]/80 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
+            className={`w-[28px] h-[28px] bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
               i >= 3 ? "hidden sm:flex" : ""
             }`}
             title={s.label}
@@ -95,10 +96,16 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
         ))}
       </div>
 
+      {/* Theme toggle */}
+      <AnimatedThemeToggler
+        variant="circle"
+        className="w-[28px] h-[28px] bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-1 [&_svg]:w-3.5 [&_svg]:h-3.5"
+      />
+
       {/* Shop button */}
       <a
         href="#"
-        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-[#1a1a2e]/80 backdrop-blur-sm text-white/50 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
+        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm text-white/50 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
           <circle cx="9" cy="21" r="1" />

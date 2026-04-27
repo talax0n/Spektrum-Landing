@@ -134,7 +134,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="noise-overlay fixed inset-0 bg-[#f5f2ec] overflow-hidden">
+    <div className="noise-overlay fixed inset-0 bg-background overflow-hidden">
       {/* ── Left Sidebar (Desktop) ── */}
       <Sidebar
         sections={SECTIONS}
@@ -175,7 +175,7 @@ export default function Home() {
       />
 
       {/* ── Bottom progress bar ── */}
-      <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-black/[0.04] z-40">
+      <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-black/[0.04] dark:bg-white/[0.06] z-40">
         <div
           className="h-full bg-[var(--spektrum-cyan)] section-progress"
           style={{

@@ -59,7 +59,7 @@ export default function GameplaySlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-gold)]/60 block mb-1">
                 Mechanics
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
                 Gameplay
               </h2>
             </div>
@@ -84,8 +84,8 @@ export default function GameplaySlide({ active }: SlideProps) {
                   onClick={() => setActiveFeat(i)}
                   className={`text-left p-5 border-l-[2px] transition-all duration-400 ${
                     activeFeat === i
-                      ? "border-l-[var(--spektrum-cyan)] bg-white/40"
-                      : "border-l-transparent hover:bg-white/20"
+                      ? "border-l-[var(--spektrum-cyan)] bg-white/40 dark:bg-white/[0.06]"
+                      : "border-l-transparent hover:bg-white/20 dark:hover:bg-white/[0.04]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -111,7 +111,7 @@ export default function GameplaySlide({ active }: SlideProps) {
                       </span>
                       <h3
                         className={`font-[family-name:var(--font-display)] font-bold text-sm tracking-wider uppercase transition-colors ${
-                          activeFeat === i ? "text-[#1a1a2e]" : "text-[#1a1a2e]/30"
+                          activeFeat === i ? "text-foreground" : "text-foreground/30"
                         }`}
                       >
                         {feat.title}
@@ -133,7 +133,7 @@ export default function GameplaySlide({ active }: SlideProps) {
             >
               {/* Visual box */}
               <div className="relative aspect-[16/10] border border-black/[0.06] overflow-hidden mb-6 shadow-sm">
-                <div className="absolute inset-0 bg-white" />
+                <div className="absolute inset-0 bg-white dark:bg-[var(--spektrum-card)]" />
                 <div
                   className="absolute inset-0 flex items-center justify-center"
                   style={{
@@ -163,10 +163,10 @@ export default function GameplaySlide({ active }: SlideProps) {
                 </div>
               </div>
 
-              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl tracking-wider uppercase text-[#1a1a2e] mb-3">
+              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl tracking-wider uppercase text-foreground mb-3">
                 {FEATURES[activeFeat].title}
               </h3>
-              <p className="text-[#1a1a2e]/40 text-sm leading-relaxed">
+              <p className="text-foreground/40 text-sm leading-relaxed">
                 {FEATURES[activeFeat].desc}
               </p>
               <div
@@ -179,6 +179,20 @@ export default function GameplaySlide({ active }: SlideProps) {
           )}
         </div>
       </div>
+      {/* Play the Game button — bottom right */}
+      {active && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="absolute bottom-8 right-8 z-10"
+        >
+          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+            Play the Game
+            <div className="absolute inset-0 border border-white/20" />
+          </button>
+        </motion.div>
+      )}
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function ScrollIndicator({
       {!isFirst && (
         <button
           onClick={onPrev}
-          className="w-5 h-5 flex items-center justify-center text-[#1a1a2e]/25 hover:text-[#1a1a2e]/50 transition-colors"
+          className="w-5 h-5 flex items-center justify-center text-foreground/25 hover:text-foreground/50 transition-colors"
         >
           <svg viewBox="0 0 12 8" fill="none" className="w-3 h-2">
             <path d="M1 7L6 2L11 7" stroke="currentColor" strokeWidth={1.5} />
@@ -44,7 +44,7 @@ export default function ScrollIndicator({
           <motion.svg
             viewBox="0 0 12 8"
             fill="none"
-            className="w-3 h-2 text-[#1a1a2e]/30"
+            className="w-3 h-2 text-foreground/30"
             animate={{ y: [0, 3, 0] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
