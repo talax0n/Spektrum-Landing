@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 interface SlideProps {
@@ -12,19 +13,19 @@ const LORE_PAGES = [
     title: "The Five Spektra",
     text: "The world is built on five elemental energies called Spektra — Fire, Water, Ground, Air, and Neutral. Each Spektrum carries unique power and defines distinct playstyles, from aggressive burn to defensive control.",
     color: "var(--spektrum-cyan)",
-    icon: "◇",
+    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Crimson.webp",
   },
   {
     title: "The Tribes",
     text: "Five tribes inhabit this world: Kobar (masked male warriors), Borah (masked female guardians), Kuhaka (consumed males who embraced darkness), Kujana (consumed females transformed by chaos), and Kuku (pure monsters born from chaos itself).",
     color: "var(--spektrum-purple)",
-    icon: "⬡",
+    image: "/cards/GENESIS/water/avatars/Blue Elemental Avatar for Apps_The Count.webp",
   },
   {
     title: "The Ritual",
     text: "New wielders undergo The Ritual — choosing between The Guardians (Kobar & Borah) or The Corrupted (Kuhaka & Kujana), and receiving an elemental affinity. This defines your first 40-card battle-ready deck and your path forward.",
     color: "var(--spektrum-magenta)",
-    icon: "✦",
+    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Blood Demon.webp",
   },
 ];
 
@@ -39,14 +40,14 @@ export default function LoreSlide({ active }: SlideProps) {
       {/* Background */}
       <div className="absolute inset-0 gradient-mesh" />
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
         }}
       />
 
-      {/* Section title in top-left */}
+      {/* Section title */}
       {active && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -60,7 +61,7 @@ export default function LoreSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-cyan)]/60 block mb-1">
                 Origins
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-white">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
                 The Lore
               </h2>
             </div>
@@ -68,10 +69,10 @@ export default function LoreSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Main content area */}
+      {/* Main content */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          {/* Left: visual + chapter tabs */}
+          {/* Left: visual */}
           {active && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -79,49 +80,50 @@ export default function LoreSlide({ active }: SlideProps) {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="relative max-w-[360px] mx-auto w-full"
             >
-              {/* Visual box */}
-              <div className="relative aspect-square border border-white/5 overflow-hidden">
-                <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
+              <div className="relative aspect-square border border-black/[0.06] overflow-hidden shadow-lg shadow-black/[0.06]">
+                <div className="absolute inset-0 bg-[var(--spektrum-surface)]" />
                 <div
                   className="absolute inset-0 transition-colors duration-500"
                   style={{
-                    background: `radial-gradient(circle, ${LORE_PAGES[currentPage].color}12 0%, transparent 60%)`,
+                    background: `radial-gradient(circle, ${LORE_PAGES[currentPage].color}15 0%, transparent 60%)`,
                   }}
                 />
-                {/* Central prismatic symbol */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentPage}
-                      initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
-                      animate={{ rotate: 0, opacity: 1, scale: 1 }}
-                      exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
-                      transition={{ duration: 0.4 }}
-                      className="w-24 h-24 relative"
-                    >
-                      <div
-                        className="absolute inset-0 rotate-45 opacity-30"
-                        style={{ backgroundColor: LORE_PAGES[currentPage].color }}
-                      />
-                      <div className="absolute inset-3 bg-[var(--spektrum-deep)] rotate-45" />
-                      <div
-                        className="absolute inset-6 rotate-45 opacity-20"
-                        style={{ backgroundColor: LORE_PAGES[currentPage].color }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl opacity-40" style={{ color: LORE_PAGES[currentPage].color }}>
-                          {LORE_PAGES[currentPage].icon}
-                        </span>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                <div className="absolute inset-0 scanlines opacity-30" />
-                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-white/10" />
-                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-white/10" />
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPage}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={LORE_PAGES[currentPage].image}
+                      alt={LORE_PAGES[currentPage].title}
+                      fill
+                      className="object-cover object-top"
+                      sizes="360px"
+                    />
+                    {/* Bottom fade */}
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background: `linear-gradient(to top, var(--spektrum-surface) 0%, transparent 50%)`,
+                      }}
+                    />
+                    {/* Color tint */}
+                    <div
+                      className="absolute inset-0 opacity-10 mix-blend-multiply"
+                      style={{ backgroundColor: LORE_PAGES[currentPage].color }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                <div className="absolute inset-0 scanlines opacity-20" />
+                <div className="absolute top-3 left-3 w-4 h-4 border-t border-l border-black/[0.08]" />
+                <div className="absolute bottom-3 right-3 w-4 h-4 border-b border-r border-black/[0.08]" />
               </div>
 
-              {/* Chapter tab buttons below the visual */}
+              {/* Chapter tabs */}
               <div className="flex mt-3 gap-1">
                 {LORE_PAGES.map((page, i) => (
                   <button
@@ -129,21 +131,21 @@ export default function LoreSlide({ active }: SlideProps) {
                     onClick={() => setCurrentPage(i)}
                     className={`flex-1 py-2.5 px-2 text-left transition-all duration-300 border-t-[2px] ${
                       currentPage === i
-                        ? "bg-white/[0.04] border-t-[var(--spektrum-cyan)]"
-                        : "bg-white/[0.01] border-t-transparent hover:bg-white/[0.03]"
+                        ? "bg-white/60 border-t-[var(--spektrum-cyan)]"
+                        : "bg-black/[0.02] border-t-transparent hover:bg-white/40"
                     }`}
                   >
                     <span
                       className="text-[8px] font-mono tracking-[0.3em] uppercase block mb-0.5 transition-colors duration-300"
                       style={{
-                        color: currentPage === i ? LORE_PAGES[i].color : "rgba(255,255,255,0.25)",
+                        color: currentPage === i ? LORE_PAGES[i].color : "rgba(26,26,46,0.25)",
                       }}
                     >
                       CH.{String(i + 1).padStart(2, "0")}
                     </span>
                     <span
                       className={`text-[9px] font-bold tracking-wider uppercase leading-tight transition-colors duration-300 block ${
-                        currentPage === i ? "text-white" : "text-white/30"
+                        currentPage === i ? "text-[#1a1a2e]" : "text-[#1a1a2e]/30"
                       }`}
                     >
                       {page.title}
@@ -154,7 +156,7 @@ export default function LoreSlide({ active }: SlideProps) {
             </motion.div>
           )}
 
-          {/* Right: text content with prev/next */}
+          {/* Right: text */}
           {active && (
             <div className="relative">
               <AnimatePresence mode="wait">
@@ -171,28 +173,26 @@ export default function LoreSlide({ active }: SlideProps) {
                   >
                     Chapter {String(currentPage + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl tracking-[0.1em] uppercase text-white mb-5">
+                  <h3 className="font-[family-name:var(--font-display)] font-bold text-2xl md:text-3xl tracking-[0.1em] uppercase text-[#1a1a2e] mb-5">
                     {LORE_PAGES[currentPage].title}
                   </h3>
-                  <p className="text-white/40 text-sm md:text-base leading-relaxed mb-8">
+                  <p className="text-[#1a1a2e]/45 text-sm md:text-base leading-relaxed mb-8">
                     {LORE_PAGES[currentPage].text}
                   </p>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation: prev/next arrows + dots */}
+              {/* Navigation */}
               <div className="flex items-center gap-4">
-                {/* Prev arrow */}
                 <button
                   onClick={goPrev}
-                  className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/[0.03] transition-all duration-300"
+                  className="w-8 h-8 flex items-center justify-center border border-black/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 transition-all duration-300"
                 >
-                  <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-white/40 hover:text-white/70">
+                  <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-[#1a1a2e]/30">
                     <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
                   </svg>
                 </button>
 
-                {/* Page dots */}
                 <div className="flex items-center gap-2">
                   {LORE_PAGES.map((_, i) => (
                     <button
@@ -201,24 +201,22 @@ export default function LoreSlide({ active }: SlideProps) {
                       className={`h-[3px] transition-all duration-500 ${
                         currentPage === i
                           ? "w-10 bg-[var(--spektrum-cyan)]"
-                          : "w-4 bg-white/15 hover:bg-white/30"
+                          : "w-4 bg-[#1a1a2e]/10 hover:bg-[#1a1a2e]/25"
                       }`}
                     />
                   ))}
                 </div>
 
-                {/* Next arrow */}
                 <button
                   onClick={goNext}
-                  className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/[0.03] transition-all duration-300"
+                  className="w-8 h-8 flex items-center justify-center border border-black/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 transition-all duration-300"
                 >
-                  <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-white/40 hover:text-white/70">
+                  <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-[#1a1a2e]/30">
                     <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
                   </svg>
                 </button>
 
-                {/* Page counter */}
-                <span className="text-[10px] font-mono text-white/20 ml-2">
+                <span className="text-[10px] font-mono text-[#1a1a2e]/20 ml-2">
                   {currentPage + 1} / {LORE_PAGES.length}
                 </span>
               </div>

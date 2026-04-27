@@ -16,9 +16,9 @@ import ScrollIndicator from "@/components/landing/scroll-indicator";
 const SECTIONS = [
   { id: "home", label: "HOME" },
   { id: "lore", label: "THE LORE" },
-  { id: "cards", label: "CARD ARCHIVE" },
   { id: "gameplay", label: "GAMEPLAY" },
-  { id: "news", label: "SPEKTRUM DAILY" },
+  { id: "cards", label: "CARDS ARCHIVE" },
+  { id: "news", label: "NEWS" },
   { id: "community", label: "COMMUNITY" },
 ];
 
@@ -111,14 +111,14 @@ export default function Home() {
   const SLIDES = [
     <HeroSlide key="hero" active={currentSection === 0} />,
     <LoreSlide key="lore" active={currentSection === 1} />,
-    <CardsSlide key="cards" active={currentSection === 2} />,
-    <GameplaySlide key="gameplay" active={currentSection === 3} />,
+    <GameplaySlide key="gameplay" active={currentSection === 2} />,
+    <CardsSlide key="cards" active={currentSection === 3} />,
     <NewsSlide key="news" active={currentSection === 4} />,
     <CommunitySlide key="community" active={currentSection === 5} />,
   ];
 
   return (
-    <div className="noise-overlay fixed inset-0 bg-black overflow-hidden">
+    <div className="noise-overlay fixed inset-0 bg-[#f5f2ec] overflow-hidden">
       {/* ── Left Sidebar (Desktop) ── */}
       <Sidebar
         sections={SECTIONS}
@@ -162,7 +162,7 @@ export default function Home() {
       />
 
       {/* ── Bottom progress bar ── */}
-      <div className="fixed bottom-0 left-0 right-0 h-[3px] bg-transparent z-40">
+      <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-black/[0.04] z-40">
         <div
           className="h-full bg-[var(--spektrum-cyan)] section-progress"
           style={{

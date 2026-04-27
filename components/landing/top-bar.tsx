@@ -61,18 +61,17 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
       initial={{ y: -60, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.5 }}
-      className="fixed top-0 right-0 z-40 flex items-center gap-3 pr-5 pt-5"
-      style={{ left: isMobile ? 0 : 0 }}
+      className="fixed top-0 left-0 right-0 z-40 flex items-center gap-2 sm:gap-3 px-3 sm:px-5 pt-3 sm:pt-5"
     >
       {/* Mobile hamburger */}
       {isMobile && (
         <button
           onClick={onMenuToggle}
-          className="ml-5 w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+          className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 flex-shrink-0"
         >
-          <span className="w-5 h-px bg-white" />
-          <span className="w-5 h-px bg-white" />
-          <span className="w-3.5 h-px bg-white self-start ml-[10px]" />
+          <span className="w-5 h-px bg-[#1a1a2e]" />
+          <span className="w-5 h-px bg-[#1a1a2e]" />
+          <span className="w-3.5 h-px bg-[#1a1a2e] self-start ml-[10px]" />
         </button>
       )}
 
@@ -80,13 +79,15 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
 
       {/* Social icons */}
       <div className="flex items-center">
-        {SOCIALS.map((s) => (
+        {SOCIALS.map((s, i) => (
           <a
             key={s.label}
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-[28px] h-[28px] bg-[#191919] flex items-center justify-center text-white/60 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px]"
+            className={`w-[28px] h-[28px] bg-white/80 backdrop-blur-sm flex items-center justify-center text-[#1a1a2e]/40 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
+              i >= 3 ? "hidden sm:flex" : ""
+            }`}
             title={s.label}
           >
             {s.icon}
@@ -94,21 +95,21 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
         ))}
       </div>
 
-      {/* Top-Up / Shop style button */}
+      {/* Shop button */}
       <a
         href="#"
-        className="flex items-center gap-2 h-[28px] px-3 bg-[#191919] text-white/60 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
+        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-white/80 backdrop-blur-sm text-[#1a1a2e]/50 hover:text-[#1a1a2e] transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
           <circle cx="9" cy="21" r="1" />
           <circle cx="20" cy="21" r="1" />
           <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
         </svg>
-        SHOP
+        <span className="hidden sm:inline">SHOP</span>
       </a>
 
-      {/* "Sale" badge like Etheria's 5% OFF */}
-      <span className="h-[28px] px-3 bg-[var(--spektrum-cyan)] text-black text-[9px] font-bold tracking-wider uppercase flex items-center">
+      {/* "NEW" badge */}
+      <span className="h-[28px] px-2 sm:px-3 bg-[var(--spektrum-cyan)] text-white text-[9px] font-bold tracking-wider uppercase flex items-center">
         NEW
       </span>
     </motion.div>

@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Orbitron, Rajdhani, JetBrains_Mono } from "next/font/google";
+import { Zen_Dots, Noto_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const orbitron = Orbitron({
+const zenDots = Zen_Dots({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400"],
 });
 
-const rajdhani = Rajdhani({
+const notoSans = Noto_Sans({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -42,9 +42,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${rajdhani.variable} ${jetbrains.variable} dark antialiased`}
+      className={`${zenDots.variable} ${notoSans.variable} ${jetbrains.variable} antialiased`}
     >
-      <body className="min-h-screen bg-black text-white overflow-x-hidden">
+      <body className="min-h-screen bg-[#f5f2ec] text-[#1a1a2e] overflow-x-hidden">
         {children}
       </body>
     </html>

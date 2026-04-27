@@ -20,7 +20,7 @@ const LINKS = [
   {
     name: "X / Twitter",
     count: "25.8K",
-    color: "#fff",
+    color: "#1a1a2e",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -53,7 +53,7 @@ export default function CommunitySlide({ active }: SlideProps) {
   return (
     <div className="w-full h-full relative overflow-hidden">
       <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--spektrum-cyan)] rounded-full blur-[300px] opacity-[0.04]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--spektrum-cyan)] rounded-full blur-[300px] opacity-[0.06]" />
 
       {/* Section header */}
       {active && (
@@ -69,7 +69,7 @@ export default function CommunitySlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-cyan)]/60 block mb-1">
                 Connect
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-white">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
                 Community
               </h2>
             </div>
@@ -77,17 +77,16 @@ export default function CommunitySlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Content — centered like Etheria's about section */}
+      {/* Content */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="max-w-3xl w-full text-center">
-          {/* Big heading */}
           {active && (
             <>
               <motion.h3
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="font-[family-name:var(--font-display)] font-black text-3xl md:text-5xl tracking-[0.08em] uppercase text-white mb-3"
+                className="font-[family-name:var(--font-display)] font-black text-3xl md:text-5xl tracking-[0.08em] uppercase text-[#1a1a2e] mb-3"
               >
                 Join the{" "}
                 <span className="text-[var(--spektrum-cyan)] text-glow-cyan">
@@ -98,14 +97,14 @@ export default function CommunitySlide({ active }: SlideProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="text-white/35 text-sm max-w-lg mx-auto mb-12"
+                className="text-[#1a1a2e]/40 text-sm max-w-lg mx-auto mb-12"
               >
                 Connect with fellow wielders, share strategies, and compete in tournaments across our growing community.
               </motion.p>
             </>
           )}
 
-          {/* Social cards row */}
+          {/* Social cards */}
           <div className="flex flex-wrap justify-center gap-3">
             {LINKS.map((link, i) => (
               <motion.a
@@ -116,18 +115,18 @@ export default function CommunitySlide({ active }: SlideProps) {
                 initial={active ? { opacity: 0, y: 30 } : {}}
                 animate={active ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                className="group w-[140px] md:w-[160px] bg-[#2a2a2a] hover:bg-[#333] p-6 flex flex-col items-center text-center transition-all duration-300 relative overflow-hidden"
+                className="group w-[140px] md:w-[160px] bg-white/60 backdrop-blur-sm hover:bg-white/90 p-6 flex flex-col items-center text-center transition-all duration-300 relative overflow-hidden shadow-sm shadow-black/[0.03]"
               >
                 <div
-                  className="mb-3 opacity-40 group-hover:opacity-80 transition-opacity duration-300"
+                  className="mb-3 opacity-30 group-hover:opacity-70 transition-opacity duration-300"
                   style={{ color: link.color }}
                 >
                   {link.icon}
                 </div>
-                <span className="font-[family-name:var(--font-display)] font-bold text-[10px] tracking-[0.15em] uppercase text-white mb-1">
+                <span className="font-[family-name:var(--font-display)] font-bold text-[10px] tracking-[0.15em] uppercase text-[#1a1a2e] mb-1">
                   {link.name}
                 </span>
-                <span className="text-[9px] font-mono text-white/25">
+                <span className="text-[9px] font-mono text-[#1a1a2e]/25">
                   {link.count}
                 </span>
 
@@ -135,14 +134,14 @@ export default function CommunitySlide({ active }: SlideProps) {
                 <div
                   className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: `linear-gradient(90deg, transparent, ${link.color}60, transparent)`,
+                    background: `linear-gradient(90deg, transparent, ${link.color}50, transparent)`,
                   }}
                 />
               </motion.a>
             ))}
           </div>
 
-          {/* Newsletter — like Etheria footer */}
+          {/* Newsletter */}
           {active && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -154,22 +153,22 @@ export default function CommunitySlide({ active }: SlideProps) {
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-white/5 border border-white/10 text-white text-xs font-mono placeholder:text-white/20 focus:outline-none focus:border-[var(--spektrum-cyan)]/40 transition-colors"
+                  className="flex-1 px-4 py-3 bg-white/60 border border-black/[0.08] text-[#1a1a2e] text-xs font-mono placeholder:text-[#1a1a2e]/25 focus:outline-none focus:border-[var(--spektrum-cyan)]/40 transition-colors"
                 />
-                <button className="px-5 py-3 bg-[var(--spektrum-cyan)] text-black font-bold text-[10px] tracking-[0.2em] uppercase hover:bg-white transition-colors duration-300 flex-shrink-0">
+                <button className="px-5 py-3 bg-[var(--spektrum-cyan)] text-white font-bold text-[10px] tracking-[0.2em] uppercase hover:bg-[#1a1a2e] transition-colors duration-300 flex-shrink-0">
                   Subscribe
                 </button>
               </div>
             </motion.div>
           )}
 
-          {/* Footer line */}
+          {/* Footer */}
           {active && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
-              className="mt-16 text-[9px] font-mono tracking-[0.2em] uppercase text-white/10"
+              className="mt-16 text-[9px] font-mono tracking-[0.2em] uppercase text-[#1a1a2e]/15"
             >
               &copy; 2025 Spektrum TCG. All Rights Reserved.
             </motion.div>

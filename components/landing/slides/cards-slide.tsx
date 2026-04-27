@@ -17,7 +17,7 @@ const CARDS = [
     level: 1,
     power: "2/6",
     desc: "Avatar — Kujana Witch. Doomflare costs 2 Fire energy and deals 2 damage, becoming 3 against Borah or Kobar Avatars.",
-    color: "#ff4444",
+    color: "#e03e3e",
     image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Witch Trainee.webp",
   },
   {
@@ -28,7 +28,7 @@ const CARDS = [
     level: 2,
     power: "9/15",
     desc: "Avatar — Kuhaka Warrior. Blood Blade deals 9 damage, rising to 13 against Kobar or Borah types. Chilling Bone Mist weakens non-allied Avatars.",
-    color: "#00b4d8",
+    color: "#0091a3",
     image: "/cards/GENESIS/water/avatars/Blue Elemental Avatar for Apps_The Count.webp",
   },
   {
@@ -39,7 +39,7 @@ const CARDS = [
     level: 2,
     power: "3/17",
     desc: "Avatar — Kuhaka Pyromancer. Spread Ember deals 13 damage and puts 3 damage into all opponent reserve Avatars. Devastating AoE.",
-    color: "#ff6b35",
+    color: "#d45a1a",
     image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Banaspati.webp",
   },
   {
@@ -50,7 +50,7 @@ const CARDS = [
     level: null,
     power: "EQP",
     desc: "Equipment — Equip to any Avatar. Grants +1 bonus damage for each extra energy spent when attacking. Pay 1 to move between Avatars.",
-    color: "#a0a0a0",
+    color: "#6b6878",
     image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Energy Dagger.webp",
   },
   {
@@ -61,7 +61,7 @@ const CARDS = [
     level: null,
     power: "EQP",
     desc: "Equipment — Kobar & Borah exclusive. Removes 1 battle damage counter after each attack. Only one Sacred Box allowed on field.",
-    color: "#ffd700",
+    color: "#b8860b",
     image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Sacred Box.webp",
   },
 ];
@@ -74,7 +74,7 @@ export default function CardsSlide({ active }: SlideProps) {
       {/* Background */}
       <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[250px] opacity-[0.06] transition-colors duration-700"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[250px] opacity-[0.08] transition-colors duration-700"
         style={{ backgroundColor: CARDS[activeCard].color }}
       />
 
@@ -92,7 +92,7 @@ export default function CardsSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-magenta)]/60 block mb-1">
                 Collection
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-white">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
                 Card Archive
               </h2>
             </div>
@@ -100,7 +100,7 @@ export default function CardsSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Cards row - centered */}
+      {/* Cards row */}
       <div className="absolute inset-0 flex items-center justify-center px-4">
         <div className="flex gap-3 md:gap-4 overflow-x-auto max-w-full pb-4 px-2 snap-x">
           {CARDS.map((card, i) => (
@@ -115,21 +115,21 @@ export default function CardsSlide({ active }: SlideProps) {
               }`}
             >
               <div
-                className="relative w-[180px] h-[270px] md:w-[200px] md:h-[300px] border overflow-hidden bg-[var(--spektrum-deep)]"
+                className="relative w-[180px] h-[270px] md:w-[200px] md:h-[300px] border overflow-hidden bg-white"
                 style={{
                   borderColor:
                     activeCard === i
-                      ? `${card.color}40`
-                      : "rgba(255,255,255,0.05)",
+                      ? `${card.color}50`
+                      : "rgba(0,0,0,0.06)",
                   boxShadow:
                     activeCard === i
-                      ? `0 0 40px ${card.color}15, 0 20px 50px rgba(0,0,0,0.5)`
-                      : "none",
+                      ? `0 0 40px ${card.color}12, 0 20px 50px rgba(0,0,0,0.08)`
+                      : "0 2px 8px rgba(0,0,0,0.04)",
                 }}
               >
                 {/* Card inner glow */}
                 <div
-                  className="absolute inset-0 opacity-10"
+                  className="absolute inset-0 opacity-[0.06]"
                   style={{
                     background: `radial-gradient(circle at 50% 30%, ${card.color} 0%, transparent 70%)`,
                   }}
@@ -139,11 +139,10 @@ export default function CardsSlide({ active }: SlideProps) {
                   <div className="absolute inset-0 holo-card opacity-20" />
                 )}
 
-                <div className="absolute inset-0 scanlines opacity-40" />
+                <div className="absolute inset-0 scanlines opacity-30" />
 
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col p-4">
-                  {/* Header */}
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <span
@@ -152,7 +151,7 @@ export default function CardsSlide({ active }: SlideProps) {
                       >
                         {card.type}
                       </span>
-                      <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] tracking-wider uppercase text-white mt-0.5">
+                      <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] tracking-wider uppercase text-[#1a1a2e] mt-0.5">
                         {card.name}
                       </h3>
                     </div>
@@ -166,8 +165,8 @@ export default function CardsSlide({ active }: SlideProps) {
                     )}
                   </div>
 
-                  {/* Art area */}
-                  <div className="flex-1 border border-white/5 mb-2 relative overflow-hidden">
+                  {/* Art */}
+                  <div className="flex-1 border border-black/[0.04] mb-2 relative overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.name}
@@ -178,7 +177,7 @@ export default function CardsSlide({ active }: SlideProps) {
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: `linear-gradient(to top, var(--spektrum-deep) 0%, transparent 40%)`,
+                        background: `linear-gradient(to top, white 0%, transparent 40%)`,
                       }}
                     />
                   </div>
@@ -194,9 +193,9 @@ export default function CardsSlide({ active }: SlideProps) {
                     >
                       {card.rarity}
                     </span>
-                    <span className="font-[family-name:var(--font-display)] font-bold text-[11px] text-white/50">
+                    <span className="font-[family-name:var(--font-display)] font-bold text-[11px] text-[#1a1a2e]/50">
                       {card.power}
-                      <span className="text-[7px] text-white/25 ml-0.5">
+                      <span className="text-[7px] text-[#1a1a2e]/25 ml-0.5">
                         {card.power.includes("/") ? "ATK/HP" : ""}
                       </span>
                     </span>
@@ -208,7 +207,7 @@ export default function CardsSlide({ active }: SlideProps) {
                   <div
                     className="absolute top-0 left-0 right-0 h-px"
                     style={{
-                      background: `linear-gradient(90deg, transparent, ${card.color}80, transparent)`,
+                      background: `linear-gradient(90deg, transparent, ${card.color}60, transparent)`,
                     }}
                   />
                 )}
@@ -218,7 +217,7 @@ export default function CardsSlide({ active }: SlideProps) {
         </div>
       </div>
 
-      {/* Active card info below */}
+      {/* Active card info */}
       {active && (
         <motion.div
           key={activeCard}
@@ -227,16 +226,16 @@ export default function CardsSlide({ active }: SlideProps) {
           transition={{ duration: 0.3 }}
           className="absolute bottom-20 left-1/2 -translate-x-1/2 text-center max-w-lg px-6 z-10"
         >
-          <p className="text-white/30 text-xs leading-relaxed">
+          <p className="text-[#1a1a2e]/35 text-xs leading-relaxed">
             {CARDS[activeCard].desc}
           </p>
-          <div className="mt-3 flex items-center justify-center gap-4 text-[9px] font-mono tracking-[0.2em] uppercase text-white/20">
+          <div className="mt-3 flex items-center justify-center gap-4 text-[9px] font-mono tracking-[0.2em] uppercase text-[#1a1a2e]/20">
             <span>{CARDS[activeCard].type}</span>
-            <span className="w-1 h-1 bg-white/10 rounded-full" />
+            <span className="w-1 h-1 bg-[#1a1a2e]/10 rounded-full" />
             {CARDS[activeCard].tribe && (
               <>
                 <span>{CARDS[activeCard].tribe}</span>
-                <span className="w-1 h-1 bg-white/10 rounded-full" />
+                <span className="w-1 h-1 bg-[#1a1a2e]/10 rounded-full" />
               </>
             )}
             <span>{CARDS[activeCard].rarity}</span>
@@ -244,10 +243,10 @@ export default function CardsSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Navigation arrows like Etheria's character carousel */}
+      {/* Navigation arrows */}
       <button
         onClick={() => setActiveCard(Math.max(0, activeCard - 1))}
-        className="absolute left-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-white/20 hover:text-white/50 transition-colors z-10"
+        className="absolute left-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-[#1a1a2e]/20 hover:text-[#1a1a2e]/50 transition-colors z-10"
       >
         <svg viewBox="0 0 8 14" fill="none" className="w-3 h-5">
           <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
@@ -257,7 +256,7 @@ export default function CardsSlide({ active }: SlideProps) {
         onClick={() =>
           setActiveCard(Math.min(CARDS.length - 1, activeCard + 1))
         }
-        className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-white/20 hover:text-white/50 transition-colors z-10"
+        className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-[#1a1a2e]/20 hover:text-[#1a1a2e]/50 transition-colors z-10"
       >
         <svg viewBox="0 0 8 14" fill="none" className="w-3 h-5">
           <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />

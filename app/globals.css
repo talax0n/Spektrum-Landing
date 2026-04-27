@@ -21,20 +21,22 @@
 }
 
 :root {
-  --background: #000000;
-  --foreground: #f0f0f0;
-  --primary: #00e5ff;
-  --primary-foreground: #000000;
-  --accent: #ff2d6b;
-  --muted: #1a1a2e;
-  --muted-foreground: #888899;
-  --border: rgba(255, 255, 255, 0.08);
+  --background: #f5f2ec;
+  --foreground: #1a1a2e;
+  --primary: #0091a3;
+  --primary-foreground: #ffffff;
+  --accent: #d4235a;
+  --muted: #ece8e0;
+  --muted-foreground: #6b6878;
+  --border: rgba(0, 0, 0, 0.08);
 
-  --spektrum-cyan: #00e5ff;
-  --spektrum-magenta: #ff2d6b;
-  --spektrum-gold: #ffd700;
-  --spektrum-purple: #8b5cf6;
-  --spektrum-deep: #050510;
+  --spektrum-cyan: #0091a3;
+  --spektrum-magenta: #d4235a;
+  --spektrum-gold: #b8860b;
+  --spektrum-purple: #6d3fc0;
+  --spektrum-deep: #f5f2ec;
+  --spektrum-surface: #ece8e0;
+  --spektrum-card: #ffffff;
 }
 
 /* Scrollbar */
@@ -45,28 +47,28 @@ html {
 
 ::selection {
   background: var(--spektrum-cyan);
-  color: #000;
+  color: #fff;
 }
 
-/* Noise overlay */
+/* Noise overlay — subtle warm grain */
 .noise-overlay::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
-/* Glow effects */
+/* Glow effects — light theme uses subtle text shadows */
 .text-glow-cyan {
-  text-shadow: 0 0 20px rgba(0, 229, 255, 0.5), 0 0 40px rgba(0, 229, 255, 0.2);
+  text-shadow: 0 0 30px rgba(0, 145, 163, 0.3), 0 0 60px rgba(0, 145, 163, 0.1);
 }
 
-/* Scanlines */
+/* Scanlines — very faint on light */
 .scanlines::after {
   content: "";
   position: absolute;
@@ -76,12 +78,12 @@ html {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
+    rgba(0, 0, 0, 0.015) 2px,
+    rgba(0, 0, 0, 0.015) 4px
   );
 }
 
-/* Corner brackets */
+/* Corner brackets — dark on light */
 .corner-brackets { position: relative; }
 .corner-brackets::before,
 .corner-brackets::after {
@@ -89,7 +91,7 @@ html {
   position: absolute;
   width: 16px;
   height: 16px;
-  border-color: rgba(255,255,255,0.2);
+  border-color: rgba(0,0,0,0.12);
   pointer-events: none;
 }
 .corner-brackets::before {
@@ -112,11 +114,11 @@ html {
 .holo-card {
   background: linear-gradient(
     135deg,
-    rgba(0, 229, 255, 0.1) 0%,
-    rgba(139, 92, 246, 0.1) 25%,
-    rgba(255, 45, 107, 0.1) 50%,
-    rgba(255, 215, 0, 0.1) 75%,
-    rgba(0, 229, 255, 0.1) 100%
+    rgba(0, 145, 163, 0.12) 0%,
+    rgba(109, 63, 192, 0.12) 25%,
+    rgba(212, 35, 90, 0.12) 50%,
+    rgba(184, 134, 11, 0.12) 75%,
+    rgba(0, 145, 163, 0.12) 100%
   );
   background-size: 200% 200%;
   animation: holoShift 6s ease-in-out infinite;
@@ -135,18 +137,18 @@ html {
   50% { opacity: 0; }
 }
 
-/* Gradient mesh */
+/* Gradient mesh — warm light version */
 .gradient-mesh {
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(0, 229, 255, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(255, 45, 107, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 50%),
-    #050510;
+    radial-gradient(ellipse at 20% 50%, rgba(0, 145, 163, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 35, 90, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(109, 63, 192, 0.04) 0%, transparent 50%),
+    #f5f2ec;
 }
 
 /* Active sidebar item */
 .sidebar-item.active {
-  background-color: #000;
+  background-color: #fff;
   border-right-color: var(--spektrum-cyan);
 }
 .sidebar-item.active .sidebar-label {

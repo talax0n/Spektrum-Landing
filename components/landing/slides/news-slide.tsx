@@ -52,7 +52,7 @@ export default function NewsSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-purple)]/60 block mb-1">
                 Updates
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-white">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
                 Spektrum Daily
               </h2>
             </div>
@@ -60,20 +60,20 @@ export default function NewsSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* "MORE >" button top-right like Etheria */}
+      {/* "MORE >" button */}
       {active && (
         <motion.a
           href="#"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="absolute top-7 right-6 z-10 text-[10px] font-[family-name:var(--font-display)] font-bold tracking-[0.2em] uppercase text-white/30 hover:text-[var(--spektrum-cyan)] transition-colors bg-[#2a2a2a] px-4 py-2"
+          className="absolute top-7 right-6 z-10 text-[10px] font-[family-name:var(--font-display)] font-bold tracking-[0.2em] uppercase text-[#1a1a2e]/30 hover:text-[var(--spektrum-cyan)] transition-colors bg-white/60 backdrop-blur-sm px-4 py-2"
         >
           MORE &gt;
         </motion.a>
       )}
 
-      {/* News grid — like Etheria's news cards layout */}
+      {/* News grid */}
       <div className="absolute inset-0 flex items-center justify-center px-6">
         <div className="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
           {NEWS.map((item, i) => (
@@ -83,12 +83,12 @@ export default function NewsSlide({ active }: SlideProps) {
               initial={active ? { opacity: 0, y: 30 } : {}}
               animate={active ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-              className="group relative bg-[#2a2a2a] hover:bg-[#333] transition-all duration-300 overflow-hidden"
+              className="group relative bg-white/60 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 overflow-hidden shadow-sm shadow-black/[0.03]"
             >
               <div className="flex">
-                {/* Thumbnail placeholder */}
+                {/* Thumbnail */}
                 <div className="w-[120px] md:w-[150px] flex-shrink-0 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[#3b3b3b]" />
+                  <div className="absolute inset-0 bg-[var(--spektrum-surface)]" />
                   <div
                     className="absolute inset-0 flex items-center justify-center"
                     style={{
@@ -96,7 +96,7 @@ export default function NewsSlide({ active }: SlideProps) {
                     }}
                   >
                     <div
-                      className="w-8 h-8 rotate-45 opacity-20"
+                      className="w-8 h-8 rotate-45 opacity-15"
                       style={{ backgroundColor: item.thumb }}
                     />
                   </div>
@@ -105,21 +105,20 @@ export default function NewsSlide({ active }: SlideProps) {
                 {/* Text */}
                 <div className="flex-1 p-4 flex flex-col justify-between min-h-[100px]">
                   <div>
-                    {/* Tag */}
                     <span
                       className="inline-block text-[8px] font-mono tracking-[0.2em] uppercase px-1.5 py-0.5 mb-2"
                       style={{
                         color: item.thumb,
-                        backgroundColor: `color-mix(in srgb, ${item.thumb} 10%, transparent)`,
+                        backgroundColor: `color-mix(in srgb, ${item.thumb} 8%, transparent)`,
                       }}
                     >
                       {item.tag}
                     </span>
-                    <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] md:text-xs tracking-wider uppercase text-white leading-snug group-hover:text-[var(--spektrum-cyan)] transition-colors line-clamp-2">
+                    <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] md:text-xs tracking-wider uppercase text-[#1a1a2e] leading-snug group-hover:text-[var(--spektrum-cyan)] transition-colors line-clamp-2">
                       {item.title}
                     </h3>
                   </div>
-                  <span className="text-[9px] font-mono text-white/20 mt-2">
+                  <span className="text-[9px] font-mono text-[#1a1a2e]/20 mt-2">
                     {item.date}
                   </span>
                 </div>
@@ -135,8 +134,8 @@ export default function NewsSlide({ active }: SlideProps) {
         </div>
       </div>
 
-      {/* Decorative lines like Etheria */}
-      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+      {/* Decorative line */}
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-px bg-gradient-to-r from-transparent via-black/[0.04] to-transparent" />
     </div>
   );
 }

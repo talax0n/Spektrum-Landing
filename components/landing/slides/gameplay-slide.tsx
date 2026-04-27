@@ -36,11 +36,11 @@ export default function GameplaySlide({ active }: SlideProps) {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)`,
           backgroundSize: "32px 32px",
         }}
       />
@@ -59,7 +59,7 @@ export default function GameplaySlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-gold)]/60 block mb-1">
                 Mechanics
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-white">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
                 Gameplay
               </h2>
             </div>
@@ -84,8 +84,8 @@ export default function GameplaySlide({ active }: SlideProps) {
                   onClick={() => setActiveFeat(i)}
                   className={`text-left p-5 border-l-[2px] transition-all duration-400 ${
                     activeFeat === i
-                      ? "border-l-[var(--spektrum-cyan)] bg-white/[0.02]"
-                      : "border-l-transparent hover:bg-white/[0.01]"
+                      ? "border-l-[var(--spektrum-cyan)] bg-white/40"
+                      : "border-l-transparent hover:bg-white/20"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -104,14 +104,14 @@ export default function GameplaySlide({ active }: SlideProps) {
                           color:
                             activeFeat === i
                               ? feat.color
-                              : "rgba(255,255,255,0.25)",
+                              : "rgba(26,26,46,0.25)",
                         }}
                       >
                         {feat.subtitle}
                       </span>
                       <h3
                         className={`font-[family-name:var(--font-display)] font-bold text-sm tracking-wider uppercase transition-colors ${
-                          activeFeat === i ? "text-white" : "text-white/30"
+                          activeFeat === i ? "text-[#1a1a2e]" : "text-[#1a1a2e]/30"
                         }`}
                       >
                         {feat.title}
@@ -132,29 +132,27 @@ export default function GameplaySlide({ active }: SlideProps) {
               transition={{ duration: 0.4 }}
             >
               {/* Visual box */}
-              <div className="relative aspect-[16/10] border border-white/5 overflow-hidden mb-6">
-                <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
+              <div className="relative aspect-[16/10] border border-black/[0.06] overflow-hidden mb-6 shadow-sm">
+                <div className="absolute inset-0 bg-white" />
                 <div
                   className="absolute inset-0 flex items-center justify-center"
                   style={{
-                    background: `radial-gradient(circle, ${FEATURES[activeFeat].color}08 0%, transparent 60%)`,
+                    background: `radial-gradient(circle, ${FEATURES[activeFeat].color}10 0%, transparent 60%)`,
                   }}
                 >
                   <span
-                    className="text-[100px] md:text-[140px] opacity-[0.06] animate-float"
+                    className="text-[100px] md:text-[140px] opacity-[0.08] animate-float"
                     style={{ color: FEATURES[activeFeat].color }}
                   >
                     {FEATURES[activeFeat].icon}
                   </span>
                 </div>
-                <div className="absolute inset-0 scanlines opacity-20" />
-                {/* Corner brackets */}
-                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/8" />
-                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-white/8" />
-                {/* Label */}
+                <div className="absolute inset-0 scanlines opacity-15" />
+                <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-black/[0.06]" />
+                <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-black/[0.06]" />
                 <div className="absolute bottom-3 left-3">
                   <span
-                    className="text-[8px] font-mono tracking-[0.3em] uppercase px-2 py-0.5 border bg-black/50"
+                    className="text-[8px] font-mono tracking-[0.3em] uppercase px-2 py-0.5 border bg-white/70"
                     style={{
                       color: FEATURES[activeFeat].color,
                       borderColor: `${FEATURES[activeFeat].color}25`,
@@ -165,10 +163,10 @@ export default function GameplaySlide({ active }: SlideProps) {
                 </div>
               </div>
 
-              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl tracking-wider uppercase text-white mb-3">
+              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl tracking-wider uppercase text-[#1a1a2e] mb-3">
                 {FEATURES[activeFeat].title}
               </h3>
-              <p className="text-white/35 text-sm leading-relaxed">
+              <p className="text-[#1a1a2e]/40 text-sm leading-relaxed">
                 {FEATURES[activeFeat].desc}
               </p>
               <div
