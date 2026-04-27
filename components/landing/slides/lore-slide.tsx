@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 
 interface SlideProps {
   active: boolean;
@@ -31,12 +31,61 @@ const LORE_PAGES = [
 
 export default function LoreSlide({ active }: SlideProps) {
   const [currentPage, setCurrentPage] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(0);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
-  const goNext = () => setCurrentPage((p) => (p + 1) % LORE_PAGES.length);
-  const goPrev = () => setCurrentPage((p) => (p - 1 + LORE_PAGES.length) % LORE_PAGES.length);
+  const goNext = useCallback(() => {
+    setSlideDirection(1);
+    setCurrentPage((p) => Math.min(p + 1, LORE_PAGES.length - 1));
+  }, []);
+  const goPrev = useCallback(() => {
+    setSlideDirection(-1);
+    setCurrentPage((p) => Math.max(p - 1, 0));
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only count as horizontal swipe if horizontal movement > vertical
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  }, [goNext, goPrev]);
+
+  // Mouse drag support for desktop
+  const mouseStartX = useRef(0);
+  const mouseDown = useRef(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    mouseDown.current = true;
+  }, []);
+
+  const handleMouseUp = useCallback((e: React.MouseEvent) => {
+    if (!mouseDown.current) return;
+    mouseDown.current = false;
+    const dx = e.clientX - mouseStartX.current;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  }, [goNext, goPrev]);
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
+    <div
+      className="w-full h-full relative overflow-hidden select-none"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+    >
       {/* Background */}
       <div className="absolute inset-0 bg-white dark:bg-[#0a0a16]" />
 
@@ -119,9 +168,9 @@ export default function LoreSlide({ active }: SlideProps) {
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentPage}
-                initial={{ opacity: 0, x: 40 }}
+                initial={{ opacity: 0, x: slideDirection >= 0 ? 60 : -60 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
+                exit={{ opacity: 0, x: slideDirection >= 0 ? -60 : 60 }}
                 transition={{ duration: 0.35 }}
               >
                 <span
@@ -154,7 +203,7 @@ export default function LoreSlide({ active }: SlideProps) {
                 {LORE_PAGES.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => setCurrentPage(i)}
+                    onClick={() => { setSlideDirection(i > currentPage ? 1 : -1); setCurrentPage(i); }}
                     className={`h-[3px] transition-all duration-500 ${
                       currentPage === i
                         ? "w-10 bg-[var(--spektrum-cyan)]"
@@ -192,7 +241,7 @@ export default function LoreSlide({ active }: SlideProps) {
           {LORE_PAGES.map((page, i) => (
             <button
               key={i}
-              onClick={() => setCurrentPage(i)}
+              onClick={() => { setSlideDirection(i > currentPage ? 1 : -1); setCurrentPage(i); }}
               className={`py-2.5 px-3 text-left transition-all duration-300 border-t-[2px] ${
                 currentPage === i
                   ? "bg-white/60 dark:bg-white/[0.06] border-t-[var(--spektrum-cyan)]"

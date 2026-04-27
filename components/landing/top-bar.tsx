@@ -78,15 +78,18 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
 
       <div className="flex-1" />
 
-      {/* Social icons */}
-      <div className="flex items-center">
+      {/* Social icons + theme + shop — unified bar */}
+      <div
+        className="flex items-center gap-[2px] h-[34px] px-1 rounded-xl overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+      >
         {SOCIALS.map((s, i) => (
           <a
             key={s.label}
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-[28px] h-[28px] bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
+            className={`w-[30px] h-[30px] flex items-center justify-center text-white/60 hover:text-white transition-colors duration-300 ${
               i >= 3 ? "hidden sm:flex" : ""
             }`}
             title={s.label}
@@ -94,26 +97,30 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
             {s.icon}
           </a>
         ))}
+
+        <div className="w-px h-4 bg-white/15 mx-1" />
+
+        {/* Theme toggle */}
+        <AnimatedThemeToggler
+          variant="circle"
+          className="w-[30px] h-[30px] flex items-center justify-center text-white/60 hover:text-white transition-colors duration-300 [&_svg]:w-3.5 [&_svg]:h-3.5"
+        />
+
+        <div className="w-px h-4 bg-white/15 mx-1" />
+
+        {/* Shop button */}
+        <a
+          href="#"
+          className="flex items-center gap-1.5 h-[30px] px-2 sm:px-3 text-white/60 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+          </svg>
+          <span className="hidden sm:inline">SHOP</span>
+        </a>
       </div>
-
-      {/* Theme toggle */}
-      <AnimatedThemeToggler
-        variant="circle"
-        className="w-[28px] h-[28px] bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-1 [&_svg]:w-3.5 [&_svg]:h-3.5"
-      />
-
-      {/* Shop button */}
-      <a
-        href="#"
-        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-[#1a1a2e]/80 dark:bg-white/10 backdrop-blur-sm text-white/50 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
-          <circle cx="9" cy="21" r="1" />
-          <circle cx="20" cy="21" r="1" />
-          <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
-        </svg>
-        <span className="hidden sm:inline">SHOP</span>
-      </a>
     </motion.div>
   );
 }

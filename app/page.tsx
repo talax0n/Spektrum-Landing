@@ -6,6 +6,7 @@ import Sidebar from "@/components/landing/sidebar";
 import TopBar from "@/components/landing/top-bar";
 import HeroSlide from "@/components/landing/slides/hero-slide";
 import LoreSlide from "@/components/landing/slides/lore-slide";
+import CharacterSlide from "@/components/landing/slides/character-slide";
 import CardsSlide from "@/components/landing/slides/cards-slide";
 import GameplaySlide from "@/components/landing/slides/gameplay-slide";
 import NewsSlide from "@/components/landing/slides/news-slide";
@@ -15,6 +16,7 @@ import ScrollIndicator from "@/components/landing/scroll-indicator";
 const SECTIONS = [
   { id: "home", label: "HOME" },
   { id: "lore", label: "THE LORE" },
+  { id: "characters", label: "CHARACTERS" },
   { id: "gameplay", label: "GAMEPLAY" },
   { id: "cards", label: "CARDS ARCHIVE" },
   { id: "news", label: "NEWS" },
@@ -127,10 +129,11 @@ export default function Home() {
   const SLIDES = [
     <HeroSlide key="hero" active={currentSection === 0} />,
     <LoreSlide key="lore" active={currentSection === 1} />,
-    <GameplaySlide key="gameplay" active={currentSection === 2} />,
-    <CardsSlide key="cards" active={currentSection === 3} />,
-    <NewsSlide key="news" active={currentSection === 4} />,
-    <CommunitySlide key="community" active={currentSection === 5} />,
+    <CharacterSlide key="characters" active={currentSection === 2} />,
+    <GameplaySlide key="gameplay" active={currentSection === 3} />,
+    <CardsSlide key="cards" active={currentSection === 4} />,
+    <NewsSlide key="news" active={currentSection === 5} />,
+    <CommunitySlide key="community" active={currentSection === 6} />,
   ];
 
   return (
