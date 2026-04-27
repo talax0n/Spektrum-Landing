@@ -2,266 +2,350 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import {
+  GENESIS_CARDS,
+  type CardElement,
+  type CardType,
+  type GenesisCard,
+} from "@/data/genesis-cards";
 
 interface SlideProps {
   active: boolean;
 }
 
-const CARDS = [
-  {
-    name: "WITCH TRAINEE",
-    type: "FIRE",
-    tribe: "Kujana",
-    rarity: "COMMON",
-    level: 1,
-    power: "2/6",
-    desc: "Avatar — Kujana Witch. Doomflare costs 2 Fire energy and deals 2 damage, becoming 3 against Borah or Kobar Avatars.",
-    color: "#e03e3e",
-    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Witch Trainee.webp",
-  },
-  {
-    name: "THE COUNT",
-    type: "WATER",
-    tribe: "Kuhaka",
-    rarity: "RARE",
-    level: 2,
-    power: "9/15",
-    desc: "Avatar — Kuhaka Warrior. Blood Blade deals 9 damage, rising to 13 against Kobar or Borah types. Chilling Bone Mist weakens non-allied Avatars.",
-    color: "#0091a3",
-    image: "/cards/GENESIS/water/avatars/Blue Elemental Avatar for Apps_The Count.webp",
-  },
-  {
-    name: "BANASPATI",
-    type: "FIRE",
-    tribe: "Kuhaka",
-    rarity: "RARE",
-    level: 2,
-    power: "3/17",
-    desc: "Avatar — Kuhaka Pyromancer. Spread Ember deals 13 damage and puts 3 damage into all opponent reserve Avatars. Devastating AoE.",
-    color: "#d45a1a",
-    image: "/cards/GENESIS/fire/avatars/Red Elemental Avatar for Apps_Ava - Banaspati.webp",
-  },
-  {
-    name: "ENERGY DAGGER",
-    type: "NEUTRAL",
-    tribe: null,
-    rarity: "UNCOMMON",
-    level: null,
-    power: "EQP",
-    desc: "Equipment — Equip to any Avatar. Grants +1 bonus damage for each extra energy spent when attacking. Pay 1 to move between Avatars.",
-    color: "#6b6878",
-    image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Energy Dagger.webp",
-  },
-  {
-    name: "SACRED BOX",
-    type: "NEUTRAL",
-    tribe: null,
-    rarity: "RARE",
-    level: null,
-    power: "EQP",
-    desc: "Equipment — Kobar & Borah exclusive. Removes 1 battle damage counter after each attack. Only one Sacred Box allowed on field.",
-    color: "#b8860b",
-    image: "/cards/GENESIS/neutral/Non Elemental For Apps_Equipment - Sacred Box.webp",
-  },
+const ELEMENT_FILTERS: { label: string; value: CardElement | "All" }[] = [
+  { label: "All", value: "All" },
+  { label: "Fire", value: "Fire" },
+  { label: "Water", value: "Water" },
+  { label: "Neutral", value: "Neutral" },
 ];
 
+const TYPE_FILTERS: { label: string; value: CardType | "All" }[] = [
+  { label: "All Types", value: "All" },
+  { label: "Avatar", value: "Avatar" },
+  { label: "Spell", value: "Spell" },
+  { label: "Quick Spell", value: "Quick Spell" },
+  { label: "Ritual Armor", value: "Ritual Armor" },
+  { label: "Field", value: "Field" },
+  { label: "Equipment", value: "Equipment" },
+  { label: "Item", value: "Item" },
+];
+
+const ELEMENT_COLORS: Record<CardElement, string> = {
+  Fire: "#e03e3e",
+  Water: "#0091a3",
+  Neutral: "#6b6878",
+};
+
+const RARITY_COLORS: Record<string, string> = {
+  Common: "#8a8a8a",
+  Uncommon: "#3d8a3d",
+  Rare: "#2563eb",
+  "Super Rare": "#7c3aed",
+  Mythic: "#d97706",
+};
+
 export default function CardsSlide({ active }: SlideProps) {
-  const [activeCard, setActiveCard] = useState(2);
+  const [elementFilter, setElementFilter] = useState<CardElement | "All">("All");
+  const [typeFilter, setTypeFilter] = useState<CardType | "All">("All");
+  const [search, setSearch] = useState("");
+  const [selectedCard, setSelectedCard] = useState<GenesisCard | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const filtered = GENESIS_CARDS.filter((card) => {
+    if (elementFilter !== "All" && card.element !== elementFilter) return false;
+    if (typeFilter !== "All" && card.type !== typeFilter) return false;
+    if (search && !card.name.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  // Prevent parent slide navigation when scrolling inside the gallery
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollTop, scrollHeight, clientHeight } = el;
+    const atTop = scrollTop === 0 && e.deltaY < 0;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 1 && e.deltaY > 0;
+    if (!atTop && !atBottom) {
+      e.stopPropagation();
+    }
+  }, []);
+
+  // Close modal on Escape
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedCard(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[250px] opacity-[0.08] transition-colors duration-700"
-        style={{ backgroundColor: CARDS[activeCard].color }}
-      />
+    <div className="w-full h-full relative overflow-hidden bg-[var(--spektrum-deep)]">
+      {/* Subtle background glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[200px] opacity-[0.06] bg-[var(--spektrum-cyan)]" />
 
-      {/* Section header */}
+      {/* Header area */}
       {active && (
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="absolute top-6 left-6 z-10"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="relative z-10 pt-16 md:pt-6 px-4 md:px-8 pb-3"
         >
-          <div className="flex items-start gap-2">
-            <div className="w-[3px] h-16 bg-gradient-to-b from-[var(--spektrum-magenta)] to-transparent mt-1" />
-            <div>
-              <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-magenta)]/60 block mb-1">
-                Collection
-              </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
-                Card Archive
-              </h2>
+          <div className="max-w-7xl mx-auto">
+            {/* Title */}
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-[3px] h-12 bg-gradient-to-b from-[var(--spektrum-magenta)] to-transparent mt-0.5" />
+              <div>
+                <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-magenta)]/60 block mb-0.5">
+                  Genesis Collection
+                </span>
+                <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-[#1a1a2e]">
+                  Card Archive
+                </h2>
+              </div>
+            </div>
+
+            {/* Filters row */}
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Element filters */}
+              <div className="flex gap-1">
+                {ELEMENT_FILTERS.map((f) => (
+                  <button
+                    key={f.value}
+                    onClick={() => setElementFilter(f.value)}
+                    className={`px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border transition-all duration-200 ${
+                      elementFilter === f.value
+                        ? "border-[#1a1a2e]/20 text-[#1a1a2e] bg-[#1a1a2e]/[0.06]"
+                        : "border-[#1a1a2e]/[0.06] text-[#1a1a2e]/35 hover:text-[#1a1a2e]/55 hover:border-[#1a1a2e]/15"
+                    }`}
+                  >
+                    {f.value !== "All" && (
+                      <span
+                        className="inline-block w-1.5 h-1.5 rounded-full mr-1.5"
+                        style={{ backgroundColor: ELEMENT_COLORS[f.value as CardElement] }}
+                      />
+                    )}
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+
+              <span className="w-px h-4 bg-[#1a1a2e]/10 mx-1 hidden md:block" />
+
+              {/* Type filter dropdown */}
+              <select
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value as CardType | "All")}
+                className="px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border border-[#1a1a2e]/[0.06] text-[#1a1a2e]/40 bg-transparent hover:border-[#1a1a2e]/15 transition-colors cursor-pointer appearance-none"
+                style={{ backgroundImage: "none" }}
+              >
+                {TYPE_FILTERS.map((f) => (
+                  <option key={f.value} value={f.value} className="bg-[var(--spektrum-deep)] text-[#1a1a2e]/60">
+                    {f.label}
+                  </option>
+                ))}
+              </select>
+
+              {/* Card count + search — pushed to the right */}
+              <div className="flex items-center gap-3 ml-auto">
+                <span className="text-[10px] font-mono text-[#1a1a2e]/25 whitespace-nowrap">
+                  {filtered.length} cards
+                </span>
+                <div className="relative">
+                  <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#1a1a2e]/25">
+                    <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth={1.5} />
+                    <path d="M11 11l4 4" stroke="currentColor" strokeWidth={1.5} />
+                  </svg>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search cards..."
+                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-[#1a1a2e]/[0.06] bg-transparent text-[#1a1a2e]/60 placeholder:text-[#1a1a2e]/20 focus:outline-none focus:border-[#1a1a2e]/20 transition-colors"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
       )}
 
-      {/* Cards row */}
-      <div className="absolute inset-0 flex items-center justify-center px-4">
-        <div className="flex gap-3 md:gap-4 overflow-x-auto max-w-full pb-4 px-2 snap-x">
-          {CARDS.map((card, i) => (
+      {/* Card Grid — scrollable */}
+      <div
+        ref={scrollRef}
+        onWheel={handleWheel}
+        className="relative z-10 overflow-y-auto px-4 md:px-8"
+        style={{ height: "calc(100% - 140px)" }}
+      >
+        <div className="max-w-7xl mx-auto pb-20">
+          {active && (
             <motion.div
-              key={card.name}
-              initial={active ? { opacity: 0, y: 40 } : {}}
-              animate={active ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-              onClick={() => setActiveCard(i)}
-              className={`snap-center flex-shrink-0 cursor-pointer transition-all duration-500 ${
-                activeCard === i ? "scale-105 z-10" : "scale-100 opacity-60 hover:opacity-80"
-              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-5"
             >
-              <div
-                className="relative w-[180px] h-[270px] md:w-[200px] md:h-[300px] border overflow-hidden bg-white"
-                style={{
-                  borderColor:
-                    activeCard === i
-                      ? `${card.color}50`
-                      : "rgba(0,0,0,0.06)",
-                  boxShadow:
-                    activeCard === i
-                      ? `0 0 40px ${card.color}12, 0 20px 50px rgba(0,0,0,0.08)`
-                      : "0 2px 8px rgba(0,0,0,0.04)",
-                }}
-              >
-                {/* Card inner glow */}
-                <div
-                  className="absolute inset-0 opacity-[0.06]"
-                  style={{
-                    background: `radial-gradient(circle at 50% 30%, ${card.color} 0%, transparent 70%)`,
-                  }}
-                />
-
-                {activeCard === i && (
-                  <div className="absolute inset-0 holo-card opacity-20" />
-                )}
-
-                <div className="absolute inset-0 scanlines opacity-30" />
-
-                {/* Content */}
-                <div className="relative z-10 h-full flex flex-col p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <span
-                        className="text-[7px] font-mono tracking-[0.4em] uppercase"
-                        style={{ color: card.color }}
-                      >
-                        {card.type}
-                      </span>
-                      <h3 className="font-[family-name:var(--font-display)] font-bold text-[11px] tracking-wider uppercase text-[#1a1a2e] mt-0.5">
-                        {card.name}
-                      </h3>
-                    </div>
-                    {card.level && (
-                      <span
-                        className="text-[7px] font-mono tracking-[0.2em] uppercase px-1 py-0.5 border"
-                        style={{ color: card.color, borderColor: `${card.color}30` }}
-                      >
-                        LV{card.level}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Art */}
-                  <div className="flex-1 border border-black/[0.04] mb-2 relative overflow-hidden">
+              {filtered.map((card, i) => (
+                <motion.div
+                  key={card.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: Math.min(i * 0.02, 0.6) }}
+                  onClick={() => setSelectedCard(card)}
+                  className="group cursor-pointer"
+                >
+                  {/* Card image */}
+                  <div className="relative aspect-[2.5/3.5] overflow-hidden bg-black/[0.02] border border-black/[0.06] transition-all duration-300 group-hover:border-black/15 group-hover:scale-[1.03] group-hover:z-10 group-hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]">
                     <Image
                       src={card.image}
                       alt={card.name}
                       fill
-                      className="object-cover object-top"
-                      sizes="200px"
-                    />
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: `linear-gradient(to top, white 0%, transparent 40%)`,
-                      }}
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                     />
                   </div>
 
-                  {/* Footer */}
-                  <div className="flex justify-between items-center mt-auto">
-                    <span
-                      className="text-[7px] font-mono tracking-[0.2em] uppercase px-1.5 py-0.5 border"
-                      style={{
-                        color: card.color,
-                        borderColor: `${card.color}25`,
-                      }}
-                    >
-                      {card.rarity}
-                    </span>
-                    <span className="font-[family-name:var(--font-display)] font-bold text-[11px] text-[#1a1a2e]/50">
-                      {card.power}
-                      <span className="text-[7px] text-[#1a1a2e]/25 ml-0.5">
-                        {card.power.includes("/") ? "ATK/HP" : ""}
+                  {/* Card info below */}
+                  <div className="mt-1.5 px-0.5">
+                    <p className="text-[10px] font-[family-name:var(--font-display)] font-bold tracking-wider uppercase text-[#1a1a2e]/70 truncate">
+                      {card.name}
+                    </p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <span
+                        className="text-[8px] font-mono tracking-[0.15em] uppercase"
+                        style={{ color: ELEMENT_COLORS[card.element] }}
+                      >
+                        {card.element}
                       </span>
-                    </span>
+                      <span className="w-0.5 h-0.5 rounded-full bg-[#1a1a2e]/15" />
+                      <span
+                        className="text-[8px] font-mono tracking-[0.1em] uppercase"
+                        style={{ color: RARITY_COLORS[card.rarity] }}
+                      >
+                        {card.rarity}
+                      </span>
+                    </div>
                   </div>
-                </div>
-
-                {/* Top edge glow */}
-                {activeCard === i && (
-                  <div
-                    className="absolute top-0 left-0 right-0 h-px"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${card.color}60, transparent)`,
-                    }}
-                  />
-                )}
-              </div>
+                </motion.div>
+              ))}
             </motion.div>
-          ))}
+          )}
+
+          {/* Empty state */}
+          {filtered.length === 0 && (
+            <div className="flex items-center justify-center h-60">
+              <p className="text-[#1a1a2e]/25 text-sm font-mono">No cards match the current filters.</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Active card info */}
-      {active && (
+      {/* Card Detail Modal */}
+      {selectedCard && (
         <motion.div
-          key={activeCard}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="absolute bottom-20 left-1/2 -translate-x-1/2 text-center max-w-lg px-6 z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          onClick={() => setSelectedCard(null)}
         >
-          <p className="text-[#1a1a2e]/35 text-xs leading-relaxed">
-            {CARDS[activeCard].desc}
-          </p>
-          <div className="mt-3 flex items-center justify-center gap-4 text-[9px] font-mono tracking-[0.2em] uppercase text-[#1a1a2e]/20">
-            <span>{CARDS[activeCard].type}</span>
-            <span className="w-1 h-1 bg-[#1a1a2e]/10 rounded-full" />
-            {CARDS[activeCard].tribe && (
-              <>
-                <span>{CARDS[activeCard].tribe}</span>
-                <span className="w-1 h-1 bg-[#1a1a2e]/10 rounded-full" />
-              </>
-            )}
-            <span>{CARDS[activeCard].rarity}</span>
-          </div>
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="relative flex flex-col md:flex-row gap-6 max-w-3xl w-full bg-[var(--spektrum-deep)] p-6 border border-black/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Large card image */}
+            <div className="relative w-full md:w-[300px] flex-shrink-0 aspect-[2.5/3.5] mx-auto max-w-[300px]">
+              <Image
+                src={selectedCard.image}
+                alt={selectedCard.name}
+                fill
+                className="object-cover"
+                sizes="300px"
+                priority
+              />
+            </div>
+
+            {/* Card details */}
+            <div className="flex-1 min-w-0">
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedCard(null)}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-[#1a1a2e]/30 hover:text-[#1a1a2e]/60 transition-colors"
+              >
+                <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5">
+                  <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" strokeWidth={1.5} />
+                </svg>
+              </button>
+
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className="text-[9px] font-mono tracking-[0.3em] uppercase px-2 py-0.5 border"
+                  style={{
+                    color: ELEMENT_COLORS[selectedCard.element],
+                    borderColor: `${ELEMENT_COLORS[selectedCard.element]}30`,
+                  }}
+                >
+                  {selectedCard.element}
+                </span>
+                <span
+                  className="text-[9px] font-mono tracking-[0.2em] uppercase"
+                  style={{ color: RARITY_COLORS[selectedCard.rarity] }}
+                >
+                  {selectedCard.rarity}
+                </span>
+              </div>
+
+              <h3 className="font-[family-name:var(--font-display)] font-black text-2xl tracking-[0.1em] uppercase text-[#1a1a2e] mt-2">
+                {selectedCard.name}
+              </h3>
+
+              <p className="text-[#1a1a2e]/40 text-xs font-mono mt-1 tracking-wide uppercase">
+                {selectedCard.type}
+                {selectedCard.tribe && ` \u2014 ${selectedCard.tribe}`}
+                {selectedCard.level && ` \u2014 Level ${selectedCard.level}`}
+              </p>
+
+              <div className="w-12 h-px bg-[#1a1a2e]/10 mt-4 mb-4" />
+
+              <p className="text-[#1a1a2e]/50 text-sm leading-relaxed">
+                {selectedCard.description}
+              </p>
+
+              {/* Stats */}
+              {(selectedCard.atk !== undefined || selectedCard.hp !== undefined) && (
+                <div className="flex gap-4 mt-4">
+                  {selectedCard.atk !== undefined && (
+                    <div>
+                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-[#1a1a2e]/25 block">ATK</span>
+                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-[#1a1a2e]/70">
+                        {selectedCard.atk}
+                      </span>
+                    </div>
+                  )}
+                  {selectedCard.hp !== undefined && (
+                    <div>
+                      <span className="text-[8px] font-mono tracking-[0.3em] uppercase text-[#1a1a2e]/25 block">HP</span>
+                      <span className="font-[family-name:var(--font-display)] font-bold text-lg text-[#1a1a2e]/70">
+                        {selectedCard.hp}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div className="text-[9px] font-mono text-[#1a1a2e]/15 mt-6 tracking-[0.2em] uppercase">
+                Genesis Expansion
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       )}
-
-      {/* Navigation arrows */}
-      <button
-        onClick={() => setActiveCard(Math.max(0, activeCard - 1))}
-        className="absolute left-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-[#1a1a2e]/20 hover:text-[#1a1a2e]/50 transition-colors z-10"
-      >
-        <svg viewBox="0 0 8 14" fill="none" className="w-3 h-5">
-          <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
-        </svg>
-      </button>
-      <button
-        onClick={() =>
-          setActiveCard(Math.min(CARDS.length - 1, activeCard + 1))
-        }
-        className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-10 flex items-center justify-center text-[#1a1a2e]/20 hover:text-[#1a1a2e]/50 transition-colors z-10"
-      >
-        <svg viewBox="0 0 8 14" fill="none" className="w-3 h-5">
-          <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
-        </svg>
-      </button>
     </div>
   );
 }
