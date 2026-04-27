@@ -191,13 +191,13 @@ html {
 /* Active sidebar item */
 .sidebar-item.active {
   background-color: #fff;
-  border-right-color: var(--spektrum-cyan);
+  border-right-color: #f97316;
 }
 .dark .sidebar-item.active {
   background-color: var(--spektrum-surface);
 }
 .sidebar-item.active .sidebar-label {
-  color: var(--spektrum-cyan);
+  color: #f97316;
 }
 .sidebar-item.active .sidebar-marker {
   opacity: 1;

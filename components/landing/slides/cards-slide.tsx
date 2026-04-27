@@ -98,9 +98,9 @@ export default function CardsSlide({ active }: SlideProps) {
           <div className="max-w-7xl mx-auto">
             {/* Title */}
             <div className="flex items-start gap-3 mb-4">
-              <div className="w-[3px] h-12 bg-gradient-to-b from-[var(--spektrum-magenta)] to-transparent mt-0.5" />
+              <div className="w-[3px] h-12 bg-gradient-to-b from-[#E8541E] to-transparent mt-0.5" />
               <div>
-                <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-magenta)]/60 block mb-0.5">
+                <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#E8541E]/60 block mb-0.5">
                   Genesis Collection
                 </span>
                 <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
@@ -152,11 +152,11 @@ export default function CardsSlide({ active }: SlideProps) {
 
               {/* Card count + search — pushed to the right */}
               <div className="flex items-center gap-3 ml-auto">
-                <span className="text-[10px] font-mono text-foreground/25 whitespace-nowrap">
+                <span className="text-[10px] font-mono text-foreground/60 whitespace-nowrap">
                   {filtered.length} cards
                 </span>
                 <div className="relative">
-                  <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-foreground/25">
+                  <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-foreground/50">
                     <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth={1.5} />
                     <path d="M11 11l4 4" stroke="currentColor" strokeWidth={1.5} />
                   </svg>
@@ -165,7 +165,7 @@ export default function CardsSlide({ active }: SlideProps) {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search cards..."
-                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-foreground/[0.06] bg-transparent text-foreground/60 placeholder:text-foreground/20 focus:outline-none focus:border-foreground/20 transition-colors"
+                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-foreground/15 bg-transparent text-foreground/80 placeholder:text-foreground/40 focus:outline-none focus:border-foreground/30 transition-colors"
                   />
                 </div>
               </div>
@@ -252,9 +252,11 @@ export default function CardsSlide({ active }: SlideProps) {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="absolute bottom-8 right-8 z-20"
         >
-          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+          <button
+            className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
+            style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+          >
             Play the Game
-            <div className="absolute inset-0 border border-white/20" />
           </button>
         </motion.div>
       )}

@@ -3,7 +3,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -38,8 +37,8 @@ export default function LoreSlide({ active }: SlideProps) {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      {/* Base geometric background */}
-      <SlideBackground variant={3} />
+      {/* Background */}
+      <div className="absolute inset-0 bg-white dark:bg-[#0a0a16]" />
 
       {/* Section title */}
       {active && (
@@ -50,9 +49,9 @@ export default function LoreSlide({ active }: SlideProps) {
           className="absolute top-6 left-6 z-10"
         >
           <div className="flex items-start gap-2">
-            <div className="w-[3px] h-16 bg-gradient-to-b from-[var(--spektrum-cyan)] to-transparent mt-1" />
+            <div className="w-[3px] h-16 bg-gradient-to-b from-[#E8541E] to-transparent mt-1" />
             <div>
-              <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[var(--spektrum-cyan)]/60 block mb-1">
+              <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#E8541E]/60 block mb-1">
                 Origins
               </span>
               <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
@@ -82,23 +81,23 @@ export default function LoreSlide({ active }: SlideProps) {
               sizes="100vw"
               priority
             />
-            {/* Overlay fade so text is readable */}
+            {/* Overlay fade so text is readable — semi-transparent to preserve stripe */}
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to left, var(--spektrum-surface) 30%, transparent 65%)`,
+                background: `linear-gradient(to left, rgba(255,255,255,0.85) 25%, transparent 60%)`,
               }}
             />
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to top, var(--spektrum-surface) 0%, transparent 25%)`,
+                background: `linear-gradient(to top, rgba(255,255,255,0.7) 0%, transparent 20%)`,
               }}
             />
             <div
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(to bottom, var(--spektrum-surface) 0%, transparent 20%)`,
+                background: `linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, transparent 15%)`,
               }}
             />
           </motion.div>
@@ -228,9 +227,11 @@ export default function LoreSlide({ active }: SlideProps) {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="absolute bottom-8 right-8 z-10"
         >
-          <button className="group relative px-8 py-3 bg-[var(--spektrum-amber)] hover:bg-[var(--spektrum-amber)]/90 text-foreground font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-[var(--spektrum-amber)]/20 hover:shadow-xl hover:shadow-[var(--spektrum-amber)]/30">
+          <button
+            className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
+            style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+          >
             Play the Game
-            <div className="absolute inset-0 border border-white/20" />
           </button>
         </motion.div>
       )}

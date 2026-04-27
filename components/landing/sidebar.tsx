@@ -40,14 +40,15 @@ export default function Sidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed left-0 top-0 bottom-0 w-64 bg-[#1a1a2e] shadow-xl shadow-black/20 z-50 flex flex-col"
+              className="fixed left-0 top-0 bottom-0 w-64 shadow-xl shadow-black/20 z-50 flex flex-col"
+              style={{ background: "linear-gradient(180deg, #1b2d3e 0%, #162535 40%, #13202e 100%)" }}
             >
               {/* Logo area */}
               <div className="p-6 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 relative">
-                    <div className="absolute inset-0 bg-[var(--spektrum-cyan)] rotate-45 scale-75" />
-                    <div className="absolute inset-[3px] bg-[#1a1a2e] rotate-45 scale-75" />
+                    <div className="absolute inset-0 bg-[#f97316] rotate-45 scale-75" />
+                    <div className="absolute inset-[3px] bg-[#162535] rotate-45 scale-75" />
                   </div>
                   <span className="font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.25em] uppercase text-white">
                     Spektrum
@@ -66,12 +67,12 @@ export default function Sidebar({
                     }}
                     className={`relative text-left px-6 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 border-r-[3px] ${
                       currentSection === i
-                        ? "bg-white/[0.06] border-r-[var(--spektrum-cyan)] text-[var(--spektrum-cyan)]"
+                        ? "bg-white/[0.06] border-r-[#f97316] text-[#f97316]"
                         : "border-r-transparent text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
                     }`}
                   >
                     {currentSection === i && (
-                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[6px] text-[var(--spektrum-cyan)]">
+                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[6px] text-[#f97316]">
                         ▶
                       </span>
                     )}
@@ -104,11 +105,11 @@ export default function Sidebar({
         initial={{ opacity: 0 }}
         animate={{ opacity: collapsed ? 1 : 0, pointerEvents: collapsed ? "auto" : "none" }}
         transition={{ duration: 0.25, delay: collapsed ? 0.2 : 0 }}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col bg-[#1a1a2e]/90 backdrop-blur-sm shadow-lg shadow-black/20 cursor-pointer"
-        style={{ width: "2.5rem" }}
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col backdrop-blur-sm shadow-lg shadow-black/20 cursor-pointer rounded-r-2xl overflow-hidden"
+        style={{ width: "2.5rem", background: "linear-gradient(180deg, #1b2d3e 0%, #162535 40%, #13202e 100%)" }}
         onClick={(e) => { e.stopPropagation(); onExpand?.(); }}
       >
-        <div className="flex-1 relative flex items-center justify-center border-r-[2px] border-r-[var(--spektrum-magenta)]" style={{ minHeight: "10rem" }}>
+        <div className="flex-1 relative flex items-center justify-center border-r-[2px] border-r-[#f97316]" style={{ minHeight: "10rem" }}>
           <span
             className="font-[family-name:var(--font-display)] font-bold text-white text-[0.625rem] tracking-[0.15em] uppercase whitespace-nowrap"
             style={{ writingMode: "vertical-lr" }}
@@ -132,8 +133,8 @@ export default function Sidebar({
         initial={{ x: "-100%" }}
         animate={{ x: collapsed ? "-100%" : 0 }}
         transition={{ type: "tween", duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center bg-[#1a1a2e]/90 backdrop-blur-sm shadow-xl shadow-black/20"
-        style={{ width: "7.1875rem", height: "20.90625rem" }}
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center backdrop-blur-sm shadow-xl shadow-black/20 rounded-r-2xl overflow-hidden"
+        style={{ width: "7.1875rem", height: "20.90625rem", background: "linear-gradient(180deg, #1b2d3e 0%, #162535 40%, #13202e 100%)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Logo */}
@@ -141,8 +142,8 @@ export default function Sidebar({
           <div className="relative" style={{ width: "2.09375rem", height: "1.84375rem" }}>
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-5 h-5 relative">
-                <div className="absolute inset-0 bg-[var(--spektrum-cyan)] rotate-45 scale-75" />
-                <div className="absolute inset-[3px] bg-[#1a1a2e] rotate-45 scale-75" />
+                <div className="absolute inset-0 bg-[#f97316] rotate-45 scale-75" />
+                <div className="absolute inset-[3px] bg-[#162535] rotate-45 scale-75" />
               </div>
             </div>
           </div>
@@ -156,7 +157,7 @@ export default function Sidebar({
               onClick={() => onNavigate(i)}
               className={`group relative w-full text-center transition-all duration-300 border-r-[1.5px] ${
                 currentSection === i
-                  ? "bg-white/[0.06] border-r-[var(--spektrum-cyan)]"
+                  ? "bg-white/[0.06] border-r-[#f97316]"
                   : "border-r-transparent hover:bg-white/[0.03]"
               }`}
               style={{ height: "2.1875rem" }}
@@ -164,7 +165,7 @@ export default function Sidebar({
               {currentSection === i && (
                 <motion.span
                   layoutId="sidebar-marker"
-                  className="absolute top-1/2 -translate-y-1/2 text-[var(--spektrum-cyan)]"
+                  className="absolute top-1/2 -translate-y-1/2 text-[#f97316]"
                   style={{ left: "0.375rem", fontSize: "0.3125rem", lineHeight: 1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
@@ -174,7 +175,7 @@ export default function Sidebar({
               <span
                 className={`font-bold uppercase leading-tight whitespace-pre-wrap text-center transition-colors duration-300 ${
                   currentSection === i
-                    ? "text-[var(--spektrum-cyan)]"
+                    ? "text-[#f97316]"
                     : "text-white/30 group-hover:text-white/60"
                 }`}
                 style={{ fontSize: "0.625rem", fontWeight: 700, lineHeight: 1.3, letterSpacing: "0.05em", width: "6.875rem", display: "inline-block" }}

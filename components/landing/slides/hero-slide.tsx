@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SlideBackground from "../slide-background";
 
 interface SlideProps {
@@ -14,11 +14,14 @@ const ROTATE_INTERVAL = 30_000;
 
 export default function HeroSlide({ active }: SlideProps) {
   const [charIndex, setCharIndex] = useState(0);
+  const scrollAccum = useRef(0);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const scrollY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 30, damping: 40, mass: 1 });
   const springY = useSpring(mouseY, { stiffness: 30, damping: 40, mass: 1 });
+  const springScrollY = useSpring(scrollY, { stiffness: 40, damping: 50, mass: 1 });
 
   // Rotate character every 30 seconds
   useEffect(() => {
@@ -42,6 +45,21 @@ export default function HeroSlide({ active }: SlideProps) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [active, mouseX, mouseY]);
 
+  // Scroll parallax — accumulate wheel delta for vertical shift
+  useEffect(() => {
+    if (!active) {
+      scrollAccum.current = 0;
+      scrollY.set(0);
+      return;
+    }
+    const handleWheel = (e: WheelEvent) => {
+      scrollAccum.current = Math.max(-60, Math.min(60, scrollAccum.current + e.deltaY * 0.15));
+      scrollY.set(scrollAccum.current);
+    };
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [active, scrollY]);
+
   return (
     <div className="w-full h-full relative overflow-hidden">
       {/* Base geometric background */}
@@ -56,7 +74,8 @@ export default function HeroSlide({ active }: SlideProps) {
           className="absolute inset-0 -translate-x-[30%] z-[1] pointer-events-none"
           style={{
             x: springX,
-            y: springY,
+            y: springScrollY,
+            translateY: springY,
             maskImage: "radial-gradient(ellipse 70% 80% at 35% 50%, black 40%, transparent 100%)",
             WebkitMaskImage: "radial-gradient(ellipse 70% 80% at 35% 50%, black 40%, transparent 100%)",
           }}
@@ -109,7 +128,7 @@ export default function HeroSlide({ active }: SlideProps) {
               transition={{ duration: 0.7, delay: 0.8 }}
               className="mt-4"
             >
-              <h2 className="font-[family-name:var(--font-display)] font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.05em] text-gray-500">
+              <h2 className="font-[family-name:var(--font-display)] font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.05em] text-[#1a1a2e]">
                 Collect
                 <span className="mx-1 md:mx-1.5">&bull;</span>
                 Strategize
@@ -125,7 +144,10 @@ export default function HeroSlide({ active }: SlideProps) {
               transition={{ duration: 0.6, delay: 1.1 }}
               className="mt-8"
             >
-              <button className="px-8 py-3 md:px-10 md:py-3.5 bg-[#E8541E] hover:bg-[#d14a18] text-white font-[family-name:var(--font-display)] font-bold text-xs md:text-sm tracking-[0.15em] uppercase rounded-full transition-all duration-300 shadow-lg shadow-[#E8541E]/30 hover:shadow-xl hover:shadow-[#E8541E]/40 cursor-pointer">
+              <button
+                className="relative px-8 py-3 md:px-10 md:py-3.5 text-white font-[family-name:var(--font-display)] font-bold text-xs md:text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 cursor-pointer overflow-hidden bg-cover bg-center"
+                style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+              >
                 Play the Game
               </button>
             </motion.div>
