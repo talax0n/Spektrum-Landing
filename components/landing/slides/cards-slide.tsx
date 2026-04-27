@@ -9,6 +9,7 @@ import {
   type CardType,
   type GenesisCard,
 } from "@/data/genesis-cards";
+import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -82,9 +83,9 @@ export default function CardsSlide({ active }: SlideProps) {
   }, []);
 
   return (
-    <div className="w-full h-full relative overflow-hidden bg-[var(--spektrum-deep)]">
-      {/* Subtle background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[200px] opacity-[0.06] bg-[var(--spektrum-cyan)]" />
+    <div className="w-full h-full relative overflow-hidden">
+      {/* Base geometric background */}
+      <SlideBackground variant={4} />
 
       {/* Header area */}
       {active && (

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -37,15 +38,8 @@ export default function LoreSlide({ active }: SlideProps) {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 gradient-mesh" />
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-        }}
-      />
+      {/* Base geometric background */}
+      <SlideBackground variant={3} />
 
       {/* Section title */}
       {active && (

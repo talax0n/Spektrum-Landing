@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -36,7 +37,8 @@ const NEWS = [
 export default function NewsSlide({ active }: SlideProps) {
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <div className="absolute inset-0 gradient-mesh" />
+      {/* Base geometric background */}
+      <SlideBackground variant={1} />
 
       {/* Section header */}
       {active && (

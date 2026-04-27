@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -52,8 +53,8 @@ const LINKS = [
 export default function CommunitySlide({ active }: SlideProps) {
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--spektrum-cyan)] rounded-full blur-[300px] opacity-[0.06]" />
+      {/* Base geometric background */}
+      <SlideBackground variant={3} />
 
       {/* Section header */}
       {active && (

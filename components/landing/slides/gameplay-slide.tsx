@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import SlideBackground from "../slide-background";
 
 interface SlideProps {
   active: boolean;
@@ -36,14 +37,8 @@ export default function GameplaySlide({ active }: SlideProps) {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <div className="absolute inset-0 bg-[var(--spektrum-deep)]" />
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
-        }}
-      />
+      {/* Base geometric background */}
+      <SlideBackground variant={2} />
 
       {/* Section header */}
       {active && (
