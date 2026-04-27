@@ -195,13 +195,13 @@ export default function CharacterSlide({ active }: SlideProps) {
         </div>
       )}
 
-      {/* ── Left: Character info (below image on mobile, overlaid on desktop) ── */}
+      {/* ── Left: Character info (centered bottom on mobile, left-aligned on desktop) ── */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="absolute bottom-24 md:bottom-16 left-6 md:left-10 z-[3]"
+          className="absolute bottom-20 md:bottom-16 left-1/2 -translate-x-1/2 md:left-10 md:translate-x-0 z-[3] text-center md:text-left"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -228,13 +228,13 @@ export default function CharacterSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* ── Right: Character panels carousel ── */}
+      {/* ── Right: Character panels carousel (desktop only) ── */}
       {active && (
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="absolute right-4 md:right-8 lg:right-12 top-1/2 -translate-y-1/2 z-[4] flex items-end gap-2 md:gap-3"
+          className="absolute right-4 md:right-8 lg:right-12 top-1/2 -translate-y-1/2 z-[4] hidden md:flex items-end gap-2 md:gap-3"
         >
           {/* Prev arrow */}
           <button

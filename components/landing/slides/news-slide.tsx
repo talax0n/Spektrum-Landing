@@ -76,8 +76,8 @@ export default function NewsSlide({ active }: SlideProps) {
       )}
 
       {/* News grid */}
-      <div className="absolute inset-0 flex items-center justify-center px-6">
-        <div className="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="absolute inset-0 flex items-center justify-center px-4 md:px-6 pt-16 md:pt-0">
+        <div className="max-w-4xl w-full grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
           {NEWS.map((item, i) => (
             <motion.a
               key={item.title}
@@ -89,7 +89,7 @@ export default function NewsSlide({ active }: SlideProps) {
             >
               <div className="flex">
                 {/* Thumbnail */}
-                <div className="w-[120px] md:w-[150px] flex-shrink-0 relative overflow-hidden">
+                <div className="w-[80px] md:w-[150px] flex-shrink-0 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[var(--spektrum-surface)]" />
                   <div
                     className="absolute inset-0 flex items-center justify-center"
@@ -105,7 +105,7 @@ export default function NewsSlide({ active }: SlideProps) {
                 </div>
 
                 {/* Text */}
-                <div className="flex-1 p-4 flex flex-col justify-between min-h-[100px]">
+                <div className="flex-1 p-3 md:p-4 flex flex-col justify-between min-h-[80px] md:min-h-[100px]">
                   <div>
                     <span
                       className="inline-block text-[8px] font-mono tracking-[0.2em] uppercase px-1.5 py-0.5 mb-2"
@@ -136,13 +136,13 @@ export default function NewsSlide({ active }: SlideProps) {
         </div>
       </div>
 
-      {/* Play the Game button — bottom right */}
+      {/* Play the Game button — bottom right (hidden on mobile) */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 right-8 z-10"
+          className="absolute bottom-8 right-8 z-10 hidden md:block"
         >
           <button
             className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
@@ -154,7 +154,7 @@ export default function NewsSlide({ active }: SlideProps) {
       )}
 
       {/* Decorative line */}
-      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-px bg-gradient-to-r from-transparent via-black/[0.04] to-transparent" />
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-px bg-gradient-to-r from-transparent via-black/[0.04] to-transparent hidden md:block" />
     </div>
   );
 }

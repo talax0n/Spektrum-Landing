@@ -63,8 +63,8 @@ export default function GameplaySlide({ active }: SlideProps) {
       )}
 
       {/* Two-column layout */}
-      <div className="absolute inset-0 flex items-center justify-center px-6">
-        <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+      <div className="absolute inset-0 flex items-center justify-center px-4 md:px-6 pt-20 md:pt-0">
+        <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-16">
           {/* Left: feature tabs */}
           {active && (
             <motion.div
@@ -127,7 +127,7 @@ export default function GameplaySlide({ active }: SlideProps) {
               transition={{ duration: 0.4 }}
             >
               {/* Visual box */}
-              <div className="relative aspect-[16/10] border border-black/[0.06] overflow-hidden mb-6 shadow-sm">
+              <div className="relative aspect-[16/10] md:aspect-[16/10] border border-black/[0.06] overflow-hidden mb-4 md:mb-6 shadow-sm hidden md:block">
                 <div className="absolute inset-0 bg-white dark:bg-[var(--spektrum-card)]" />
                 <div
                   className="absolute inset-0 flex items-center justify-center"
@@ -158,10 +158,10 @@ export default function GameplaySlide({ active }: SlideProps) {
                 </div>
               </div>
 
-              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl md:text-2xl tracking-wider uppercase text-foreground mb-3">
+              <h3 className="font-[family-name:var(--font-display)] font-bold text-lg md:text-xl lg:text-2xl tracking-wider uppercase text-foreground mb-2 md:mb-3">
                 {FEATURES[activeFeat].title}
               </h3>
-              <p className="text-foreground/40 text-sm leading-relaxed">
+              <p className="text-foreground/40 text-xs md:text-sm leading-relaxed line-clamp-4 md:line-clamp-none">
                 {FEATURES[activeFeat].desc}
               </p>
               <div
@@ -174,13 +174,13 @@ export default function GameplaySlide({ active }: SlideProps) {
           )}
         </div>
       </div>
-      {/* Play the Game button — bottom right */}
+      {/* Play the Game button — bottom right (hidden on mobile) */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 right-8 z-10"
+          className="absolute bottom-8 right-8 z-10 hidden md:block"
         >
           <button
             className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"

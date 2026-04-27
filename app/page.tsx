@@ -12,6 +12,7 @@ import GameplaySlide from "@/components/landing/slides/gameplay-slide";
 import NewsSlide from "@/components/landing/slides/news-slide";
 import CommunitySlide from "@/components/landing/slides/community-slide";
 import ScrollIndicator from "@/components/landing/scroll-indicator";
+import LoadingScreen from "@/components/landing/loading-screen";
 
 const SECTIONS = [
   { id: "home", label: "HOME" },
@@ -24,6 +25,7 @@ const SECTIONS = [
 ];
 
 export default function Home() {
+  const [loaded, setLoaded] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -136,8 +138,14 @@ export default function Home() {
     <CommunitySlide key="community" active={currentSection === 6} />,
   ];
 
+  const handleLoadComplete = useCallback(() => setLoaded(true), []);
+
   return (
     <div className="noise-overlay fixed inset-0 bg-background overflow-hidden">
+      <AnimatePresence>
+        {!loaded && <LoadingScreen onComplete={handleLoadComplete} />}
+      </AnimatePresence>
+
       {/* ── Left Sidebar (Desktop) ── */}
       <Sidebar
         sections={SECTIONS}

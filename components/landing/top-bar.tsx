@@ -70,9 +70,9 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
           onClick={onMenuToggle}
           className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 flex-shrink-0"
         >
-          <span className="w-5 h-px bg-white" />
-          <span className="w-5 h-px bg-white" />
-          <span className="w-3.5 h-px bg-white self-start ml-[10px]" />
+          <span className="w-5 h-px bg-foreground" />
+          <span className="w-5 h-px bg-foreground" />
+          <span className="w-3.5 h-px bg-foreground self-start ml-[10px]" />
         </button>
       )}
 

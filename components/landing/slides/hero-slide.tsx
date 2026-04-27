@@ -65,19 +65,19 @@ export default function HeroSlide({ active }: SlideProps) {
       {/* Base geometric background */}
       <SlideBackground variant={1} />
 
-      {/* Character anchored to the left — follows cursor + rotates */}
+      {/* Character anchored to the left (desktop) / centered background (mobile) */}
       {active && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, delay: 0.3 }}
-          className="absolute inset-0 -translate-x-[30%] z-[1] pointer-events-none"
+          className="absolute inset-0 z-[1] pointer-events-none md:-translate-x-[30%]"
           style={{
             x: springX,
             y: springScrollY,
             translateY: springY,
-            maskImage: "radial-gradient(ellipse 70% 80% at 35% 50%, black 40%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 70% 80% at 35% 50%, black 40%, transparent 100%)",
+            maskImage: "radial-gradient(ellipse 70% 80% at 50% 50%, black 40%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 80% at 50% 50%, black 40%, transparent 100%)",
           }}
         >
           <AnimatePresence mode="wait">
@@ -93,15 +93,15 @@ export default function HeroSlide({ active }: SlideProps) {
                 src={CHARACTER_IMAGES[charIndex]}
                 alt=""
                 fill
-                className="object-contain object-left-bottom opacity-90"
+                className="object-contain object-center md:object-left-bottom opacity-40 md:opacity-90"
               />
             </motion.div>
           </AnimatePresence>
         </motion.div>
       )}
 
-      {/* Content — centered in the right open space between character and orange shapes */}
-      <div className="absolute inset-0 flex items-center justify-center z-10 pl-[45%] lg:pl-[40%] pr-[5%] lg:pr-[8%]">
+      {/* Content — centered on mobile, right-shifted on desktop */}
+      <div className="absolute inset-0 flex items-center justify-center z-10 px-6 md:pl-[45%] md:pr-[5%] lg:pl-[40%] lg:pr-[8%]">
         <div className="flex flex-col items-center text-center">
         {active && (
           <>
@@ -110,7 +110,7 @@ export default function HeroSlide({ active }: SlideProps) {
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3 }}
-              className="relative w-[280px] h-[140px] sm:w-[380px] sm:h-[190px] md:w-[480px] md:h-[240px] lg:w-[560px] lg:h-[280px]"
+              className="relative w-[220px] h-[110px] sm:w-[380px] sm:h-[190px] md:w-[480px] md:h-[240px] lg:w-[560px] lg:h-[280px]"
             >
               <Image
                 src="/ui/logo.png"
@@ -128,7 +128,7 @@ export default function HeroSlide({ active }: SlideProps) {
               transition={{ duration: 0.7, delay: 0.8 }}
               className="mt-4"
             >
-              <h2 className="font-[family-name:var(--font-display)] font-medium text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.05em] text-[#1a1a2e]">
+              <h2 className="font-[family-name:var(--font-display)] font-medium text-base sm:text-xl md:text-2xl lg:text-3xl tracking-[0.05em] text-[#1a1a2e] dark:text-foreground">
                 Collect
                 <span className="mx-1 md:mx-1.5">&bull;</span>
                 Strategize

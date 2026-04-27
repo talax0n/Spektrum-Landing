@@ -93,7 +93,7 @@ export default function CardsSlide({ active }: SlideProps) {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative z-10 pt-16 md:pt-6 px-4 md:px-8 pb-3"
+          className="relative z-10 pt-14 md:pt-6 px-3 md:px-8 pb-2 md:pb-3"
         >
           <div className="max-w-7xl mx-auto">
             {/* Title */}
@@ -110,14 +110,14 @@ export default function CardsSlide({ active }: SlideProps) {
             </div>
 
             {/* Filters row */}
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
               {/* Element filters */}
               <div className="flex gap-1">
                 {ELEMENT_FILTERS.map((f) => (
                   <button
                     key={f.value}
                     onClick={() => setElementFilter(f.value)}
-                    className={`px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border transition-all duration-200 ${
+                    className={`px-2 md:px-3 py-1 text-[9px] md:text-[10px] font-mono tracking-[0.15em] uppercase border transition-all duration-200 ${
                       elementFilter === f.value
                         ? "border-foreground/20 text-foreground bg-foreground/[0.06]"
                         : "border-foreground/[0.06] text-foreground/35 hover:text-foreground/55 hover:border-foreground/15"
@@ -125,7 +125,7 @@ export default function CardsSlide({ active }: SlideProps) {
                   >
                     {f.value !== "All" && (
                       <span
-                        className="inline-block w-1.5 h-1.5 rounded-full mr-1.5"
+                        className="inline-block w-1.5 h-1.5 rounded-full mr-1"
                         style={{ backgroundColor: ELEMENT_COLORS[f.value as CardElement] }}
                       />
                     )}
@@ -140,7 +140,7 @@ export default function CardsSlide({ active }: SlideProps) {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value as CardType | "All")}
-                className="px-3 py-1 text-[10px] font-mono tracking-[0.15em] uppercase border border-foreground/[0.06] text-foreground/40 bg-transparent hover:border-foreground/15 transition-colors cursor-pointer appearance-none"
+                className="px-2 md:px-3 py-1 text-[9px] md:text-[10px] font-mono tracking-[0.15em] uppercase border border-foreground/[0.06] text-foreground/40 bg-transparent hover:border-foreground/15 transition-colors cursor-pointer appearance-none"
                 style={{ backgroundImage: "none" }}
               >
                 {TYPE_FILTERS.map((f) => (
@@ -151,9 +151,9 @@ export default function CardsSlide({ active }: SlideProps) {
               </select>
 
               {/* Card count + search — pushed to the right */}
-              <div className="flex items-center gap-3 ml-auto">
-                <span className="text-[10px] font-mono text-foreground/60 whitespace-nowrap">
-                  {filtered.length} cards
+              <div className="flex items-center gap-2 md:gap-3 ml-auto">
+                <span className="text-[9px] md:text-[10px] font-mono text-foreground/60 whitespace-nowrap">
+                  {filtered.length}
                 </span>
                 <div className="relative">
                   <svg viewBox="0 0 16 16" fill="none" className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 text-foreground/50">
@@ -164,8 +164,8 @@ export default function CardsSlide({ active }: SlideProps) {
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Search cards..."
-                    className="w-36 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-foreground/15 bg-transparent text-foreground/80 placeholder:text-foreground/40 focus:outline-none focus:border-foreground/30 transition-colors"
+                    placeholder="Search..."
+                    className="w-28 md:w-44 h-7 pl-7 pr-2 text-[10px] font-mono tracking-[0.1em] border border-foreground/15 bg-transparent text-foreground/80 placeholder:text-foreground/40 focus:outline-none focus:border-foreground/30 transition-colors"
                   />
                 </div>
               </div>
@@ -178,8 +178,8 @@ export default function CardsSlide({ active }: SlideProps) {
       <div
         ref={scrollRef}
         onWheel={handleWheel}
-        className="relative z-10 overflow-y-auto px-4 md:px-8"
-        style={{ height: "calc(100% - 140px)" }}
+        className="relative z-10 overflow-y-auto px-3 md:px-8"
+        style={{ height: "calc(100% - 130px)" }}
       >
         <div className="max-w-7xl mx-auto pb-20">
           {active && (
@@ -187,7 +187,7 @@ export default function CardsSlide({ active }: SlideProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.3 }}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-5"
+              className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-5"
             >
               {filtered.map((card, i) => (
                 <motion.div
@@ -250,7 +250,7 @@ export default function CardsSlide({ active }: SlideProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 right-8 z-20"
+          className="absolute bottom-8 right-8 z-20 hidden md:block"
         >
           <button
             className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
@@ -274,11 +274,11 @@ export default function CardsSlide({ active }: SlideProps) {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative flex flex-col md:flex-row gap-6 max-w-3xl w-full bg-[var(--spektrum-deep)] p-6 border border-black/[0.08] dark:border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
+            className="relative flex flex-col md:flex-row gap-4 md:gap-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-[var(--spektrum-deep)] p-4 md:p-6 border border-black/[0.08] dark:border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.15)]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Large card image */}
-            <div className="relative w-full md:w-[300px] flex-shrink-0 aspect-[2.5/3.5] mx-auto max-w-[300px]">
+            <div className="relative w-full md:w-[300px] flex-shrink-0 aspect-[2.5/3.5] mx-auto max-w-[200px] md:max-w-[300px]">
               <Image
                 src={selectedCard.image}
                 alt={selectedCard.name}

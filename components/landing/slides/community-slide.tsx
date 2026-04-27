@@ -87,7 +87,7 @@ export default function CommunitySlide({ active }: SlideProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="font-[family-name:var(--font-display)] font-black text-3xl md:text-5xl tracking-[0.08em] uppercase text-foreground mb-3"
+                className="font-[family-name:var(--font-display)] font-black text-2xl md:text-5xl tracking-[0.08em] uppercase text-foreground mb-2 md:mb-3"
               >
                 Join the{" "}
                 <span className="text-[var(--spektrum-cyan)] text-glow-cyan">
@@ -98,7 +98,7 @@ export default function CommunitySlide({ active }: SlideProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
-                className="text-foreground/40 text-sm max-w-lg mx-auto mb-12"
+                className="text-foreground/40 text-xs md:text-sm max-w-lg mx-auto mb-6 md:mb-12 px-4 md:px-0"
               >
                 Connect with fellow wielders, share strategies, and compete in tournaments across our growing community.
               </motion.p>
@@ -106,7 +106,7 @@ export default function CommunitySlide({ active }: SlideProps) {
           )}
 
           {/* Social cards */}
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-2 md:gap-3 px-2 md:px-0">
             {LINKS.map((link, i) => (
               <motion.a
                 key={link.name}
@@ -116,7 +116,7 @@ export default function CommunitySlide({ active }: SlideProps) {
                 initial={active ? { opacity: 0, y: 30 } : {}}
                 animate={active ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                className="group w-[140px] md:w-[160px] bg-white/60 dark:bg-white/[0.06] backdrop-blur-sm hover:bg-white/90 dark:hover:bg-white/10 p-6 flex flex-col items-center text-center transition-all duration-300 relative overflow-hidden shadow-sm shadow-black/[0.03]"
+                className="group md:w-[160px] bg-white/60 dark:bg-white/[0.06] backdrop-blur-sm hover:bg-white/90 dark:hover:bg-white/10 p-4 md:p-6 flex flex-col items-center text-center transition-all duration-300 relative overflow-hidden shadow-sm shadow-black/[0.03]"
               >
                 <div
                   className="mb-3 opacity-30 group-hover:opacity-70 transition-opacity duration-300"
@@ -148,15 +148,15 @@ export default function CommunitySlide({ active }: SlideProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="mt-12 flex justify-center"
+              className="mt-6 md:mt-12 flex justify-center px-2 md:px-0"
             >
               <div className="flex max-w-md w-full">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 bg-white/60 dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.08] text-foreground text-xs font-mono placeholder:text-foreground/25 focus:outline-none focus:border-[var(--spektrum-cyan)]/40 transition-colors"
+                  className="flex-1 min-w-0 px-3 md:px-4 py-2.5 md:py-3 bg-white/60 dark:bg-white/[0.06] border border-black/[0.08] dark:border-white/[0.08] text-foreground text-xs font-mono placeholder:text-foreground/25 focus:outline-none focus:border-[var(--spektrum-cyan)]/40 transition-colors"
                 />
-                <button className="px-5 py-3 bg-[var(--spektrum-cyan)] text-white font-bold text-[10px] tracking-[0.2em] uppercase hover:bg-foreground transition-colors duration-300 flex-shrink-0">
+                <button className="px-4 md:px-5 py-2.5 md:py-3 bg-[var(--spektrum-cyan)] text-white font-bold text-[10px] tracking-[0.2em] uppercase hover:bg-foreground transition-colors duration-300 flex-shrink-0">
                   Subscribe
                 </button>
               </div>
@@ -169,7 +169,7 @@ export default function CommunitySlide({ active }: SlideProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-10"
+              className="mt-6 md:mt-10"
             >
               <button
                 className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
@@ -186,7 +186,7 @@ export default function CommunitySlide({ active }: SlideProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
-              className="mt-16 text-[9px] font-mono tracking-[0.2em] uppercase text-foreground/15"
+              className="mt-6 md:mt-16 text-[9px] font-mono tracking-[0.2em] uppercase text-foreground/15"
             >
               &copy; 2025 Spektrum TCG. All Rights Reserved.
             </motion.div>

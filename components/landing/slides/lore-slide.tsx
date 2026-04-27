@@ -126,15 +126,21 @@ export default function LoreSlide({ active }: SlideProps) {
               src={LORE_PAGES[currentPage].image}
               alt={LORE_PAGES[currentPage].title}
               fill
-              className="object-contain object-center"
+              className="object-contain object-center md:object-center"
               sizes="100vw"
               priority
             />
-            {/* Overlay fade so text is readable — semi-transparent to preserve stripe */}
+            {/* Overlay fade so text is readable — stronger on mobile */}
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 hidden md:block"
               style={{
                 background: `linear-gradient(to left, rgba(255,255,255,0.85) 25%, transparent 60%)`,
+              }}
+            />
+            <div
+              className="absolute inset-0 md:hidden"
+              style={{
+                background: `linear-gradient(to top, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0.4) 60%, transparent 80%)`,
               }}
             />
             <div
@@ -161,9 +167,9 @@ export default function LoreSlide({ active }: SlideProps) {
         }}
       />
 
-      {/* Text content — right side */}
+      {/* Text content — bottom on mobile, right side on desktop */}
       {active && (
-        <div className="absolute inset-0 flex items-center justify-end px-8 lg:px-16 z-[2]">
+        <div className="absolute inset-0 flex items-end md:items-center justify-center md:justify-end px-6 pb-28 md:pb-0 md:px-8 lg:px-16 z-[2]">
           <div className="w-full max-w-sm lg:max-w-md">
             <AnimatePresence mode="wait">
               <motion.div
@@ -236,7 +242,7 @@ export default function LoreSlide({ active }: SlideProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 lg:left-6 lg:translate-x-0 z-10 flex gap-1"
+          className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 lg:left-6 lg:translate-x-0 z-10 flex gap-1"
         >
           {LORE_PAGES.map((page, i) => (
             <button
@@ -268,13 +274,13 @@ export default function LoreSlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Play the Game button — bottom right */}
+      {/* Play the Game button — bottom right (hidden on mobile) */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 right-8 z-10"
+          className="absolute bottom-8 right-8 z-10 hidden md:block"
         >
           <button
             className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
