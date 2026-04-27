@@ -32,7 +32,7 @@ export default function Sidebar({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-white/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
               onClick={onClose}
             />
             <motion.div
@@ -40,16 +40,16 @@ export default function Sidebar({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-xl shadow-black/5 z-50 flex flex-col"
+              className="fixed left-0 top-0 bottom-0 w-64 bg-[#1a1a2e] shadow-xl shadow-black/20 z-50 flex flex-col"
             >
               {/* Logo area */}
               <div className="p-6 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-7 h-7 relative">
                     <div className="absolute inset-0 bg-[var(--spektrum-cyan)] rotate-45 scale-75" />
-                    <div className="absolute inset-[3px] bg-white rotate-45 scale-75" />
+                    <div className="absolute inset-[3px] bg-[#1a1a2e] rotate-45 scale-75" />
                   </div>
-                  <span className="font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.25em] uppercase text-[#1a1a2e]">
+                  <span className="font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.25em] uppercase text-white">
                     Spektrum
                   </span>
                 </div>
@@ -66,8 +66,8 @@ export default function Sidebar({
                     }}
                     className={`relative text-left px-6 py-3 text-xs font-semibold tracking-[0.15em] uppercase transition-all duration-300 border-r-[3px] ${
                       currentSection === i
-                        ? "bg-[var(--spektrum-deep)] border-r-[var(--spektrum-cyan)] text-[var(--spektrum-cyan)]"
-                        : "border-r-transparent text-[#1a1a2e]/40 hover:text-[#1a1a2e] hover:bg-black/[0.02]"
+                        ? "bg-white/[0.06] border-r-[var(--spektrum-cyan)] text-[var(--spektrum-cyan)]"
+                        : "border-r-transparent text-white/35 hover:text-white/70 hover:bg-white/[0.03]"
                     }`}
                   >
                     {currentSection === i && (
@@ -82,7 +82,7 @@ export default function Sidebar({
 
               {/* Music toggle */}
               <div className="p-6">
-                <button className="w-8 h-8 flex items-center justify-center text-[#1a1a2e]/20 hover:text-[#1a1a2e]/50 transition-colors">
+                <button className="w-8 h-8 flex items-center justify-center text-white/20 hover:text-white/50 transition-colors">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
                     <path d="M9 18V5l12-2v13" />
                     <circle cx="6" cy="18" r="3" />
@@ -104,21 +104,21 @@ export default function Sidebar({
         initial={{ opacity: 0 }}
         animate={{ opacity: collapsed ? 1 : 0, pointerEvents: collapsed ? "auto" : "none" }}
         transition={{ duration: 0.25, delay: collapsed ? 0.2 : 0 }}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col bg-white shadow-lg shadow-black/[0.04] cursor-pointer"
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col bg-[#1a1a2e]/90 backdrop-blur-sm shadow-lg shadow-black/20 cursor-pointer"
         style={{ width: "2.5rem" }}
         onClick={(e) => { e.stopPropagation(); onExpand?.(); }}
       >
         <div className="flex-1 relative flex items-center justify-center border-r-[2px] border-r-[var(--spektrum-magenta)]" style={{ minHeight: "10rem" }}>
           <span
-            className="font-[family-name:var(--font-display)] font-bold text-[#1a1a2e] text-[0.625rem] tracking-[0.15em] uppercase whitespace-nowrap"
+            className="font-[family-name:var(--font-display)] font-bold text-white text-[0.625rem] tracking-[0.15em] uppercase whitespace-nowrap"
             style={{ writingMode: "vertical-lr" }}
           >
             {sections[currentSection].label}
           </span>
         </div>
 
-        <div className="flex items-center justify-center border-t border-black/[0.06]" style={{ width: "2.5rem", height: "2.5rem" }}>
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#1a1a2e]/40">
+        <div className="flex items-center justify-center border-t border-white/[0.08]" style={{ width: "2.5rem", height: "2.5rem" }}>
+          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white/40">
             <rect x="2" y="8" width="3" height="8" rx="0.5" />
             <rect x="7" y="4" width="3" height="16" rx="0.5" />
             <rect x="12" y="6" width="3" height="12" rx="0.5" />
@@ -132,7 +132,7 @@ export default function Sidebar({
         initial={{ x: "-100%" }}
         animate={{ x: collapsed ? "-100%" : 0 }}
         transition={{ type: "tween", duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center bg-white shadow-xl shadow-black/[0.06]"
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center bg-[#1a1a2e]/90 backdrop-blur-sm shadow-xl shadow-black/20"
         style={{ width: "7.1875rem", height: "20.90625rem" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -142,7 +142,7 @@ export default function Sidebar({
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-5 h-5 relative">
                 <div className="absolute inset-0 bg-[var(--spektrum-cyan)] rotate-45 scale-75" />
-                <div className="absolute inset-[3px] bg-white rotate-45 scale-75" />
+                <div className="absolute inset-[3px] bg-[#1a1a2e] rotate-45 scale-75" />
               </div>
             </div>
           </div>
@@ -156,8 +156,8 @@ export default function Sidebar({
               onClick={() => onNavigate(i)}
               className={`group relative w-full text-center transition-all duration-300 border-r-[1.5px] ${
                 currentSection === i
-                  ? "bg-[var(--spektrum-deep)] border-r-[var(--spektrum-cyan)]"
-                  : "border-r-transparent hover:bg-black/[0.02]"
+                  ? "bg-white/[0.06] border-r-[var(--spektrum-cyan)]"
+                  : "border-r-transparent hover:bg-white/[0.03]"
               }`}
               style={{ height: "2.1875rem" }}
             >
@@ -175,7 +175,7 @@ export default function Sidebar({
                 className={`font-bold uppercase leading-tight whitespace-pre-wrap text-center transition-colors duration-300 ${
                   currentSection === i
                     ? "text-[var(--spektrum-cyan)]"
-                    : "text-[#1a1a2e]/30 group-hover:text-[#1a1a2e]/60"
+                    : "text-white/30 group-hover:text-white/60"
                 }`}
                 style={{ fontSize: "0.625rem", fontWeight: 700, lineHeight: 1.3, letterSpacing: "0.05em", width: "6.875rem", display: "inline-block" }}
               >
@@ -187,7 +187,7 @@ export default function Sidebar({
 
         {/* Music toggle */}
         <div className="flex items-center justify-center" style={{ height: "2.1875rem" }}>
-          <button className="flex items-center justify-center text-[#1a1a2e]/15 hover:text-[#1a1a2e]/40 transition-colors" style={{ width: "1.125rem", height: "1.125rem" }}>
+          <button className="flex items-center justify-center text-white/15 hover:text-white/40 transition-colors" style={{ width: "1.125rem", height: "1.125rem" }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-full h-full">
               <path d="M9 18V5l12-2v13" />
               <circle cx="6" cy="18" r="3" />

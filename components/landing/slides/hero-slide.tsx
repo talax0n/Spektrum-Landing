@@ -35,6 +35,23 @@ export default function HeroSlide({ active }: SlideProps) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(245,242,236,0.7)_100%)]" />
       </div>
 
+      {/* Full-page character background */}
+      {active && (
+        <motion.div
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, delay: 0.3 }}
+          className="absolute inset-0 z-[1] pointer-events-none"
+        >
+          <Image
+            src="/character-stocks/1.png"
+            alt=""
+            fill
+            className="object-contain mix-blend-multiply opacity-[0.15]"
+          />
+        </motion.div>
+      )}
+
       {/* Central content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-10">
         {active && (
@@ -55,36 +72,41 @@ export default function HeroSlide({ active }: SlideProps) {
               />
             </motion.div>
 
-            {/* Tagline */}
+            {/* One-liner: Collect, Strategize, Battle */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.8 }}
-              className="mt-2"
+              className="mt-4"
             >
-              <h2 className="font-[family-name:var(--font-display)] font-bold text-lg sm:text-xl md:text-2xl tracking-[0.25em] uppercase">
-                <span className="text-[#1a1a2e]">BEND</span>
-                <span className="text-[var(--spektrum-magenta)] mx-1">THE</span>
-                <span className="text-[#1a1a2e]">LIGHT</span>
+              <h2 className="font-[family-name:var(--font-display)] font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-[0.2em] uppercase">
+                <span className="text-[var(--spektrum-cyan)]">Collect</span>
+                <span className="text-[#1a1a2e]/25 mx-2 md:mx-3">&bull;</span>
+                <span className="text-[var(--spektrum-magenta)]">Strategize</span>
+                <span className="text-[#1a1a2e]/25 mx-2 md:mx-3">&bull;</span>
+                <span className="text-[var(--spektrum-purple)]">Battle</span>
               </h2>
             </motion.div>
 
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            {/* Play the Game button */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="mt-3 text-[11px] md:text-xs tracking-[0.3em] uppercase text-[#1a1a2e]/35 font-medium"
+              className="mt-8"
             >
-              Collect &bull; Strategize &bull; Battle
-            </motion.p>
+              <button className="group relative px-8 py-3 md:px-10 md:py-3.5 bg-[#1a1a2e] text-white font-[family-name:var(--font-display)] text-xs md:text-sm tracking-[0.15em] rounded-full overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(243,163,56,0.4)] cursor-pointer">
+                <span className="relative z-10 group-hover:text-[#1a1a2e] transition-colors duration-300">Play the Game</span>
+                <div className="absolute inset-0 bg-[#F3A338] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </button>
+            </motion.div>
 
             {/* Corner bracket decoration */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 1.3 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[220px] md:w-[520px] md:h-[320px] pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[260px] md:w-[520px] md:h-[380px] pointer-events-none"
             >
               <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#1a1a2e]/10" />
               <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-[#1a1a2e]/10" />

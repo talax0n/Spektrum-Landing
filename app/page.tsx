@@ -10,7 +10,6 @@ import CardsSlide from "@/components/landing/slides/cards-slide";
 import GameplaySlide from "@/components/landing/slides/gameplay-slide";
 import NewsSlide from "@/components/landing/slides/news-slide";
 import CommunitySlide from "@/components/landing/slides/community-slide";
-import BottomBar from "@/components/landing/bottom-bar";
 import ScrollIndicator from "@/components/landing/scroll-indicator";
 
 const SECTIONS = [
@@ -149,9 +148,6 @@ export default function Home() {
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* ── Bottom Bar (download links / CTA) ── */}
-      <BottomBar currentSection={currentSection} />
 
       {/* ── Scroll indicator arrows ── */}
       <ScrollIndicator

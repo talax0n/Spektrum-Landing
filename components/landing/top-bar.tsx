@@ -69,9 +69,9 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
           onClick={onMenuToggle}
           className="w-10 h-10 flex flex-col items-center justify-center gap-1.5 flex-shrink-0"
         >
-          <span className="w-5 h-px bg-[#1a1a2e]" />
-          <span className="w-5 h-px bg-[#1a1a2e]" />
-          <span className="w-3.5 h-px bg-[#1a1a2e] self-start ml-[10px]" />
+          <span className="w-5 h-px bg-white" />
+          <span className="w-5 h-px bg-white" />
+          <span className="w-3.5 h-px bg-white self-start ml-[10px]" />
         </button>
       )}
 
@@ -85,7 +85,7 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-[28px] h-[28px] bg-white/80 backdrop-blur-sm flex items-center justify-center text-[#1a1a2e]/40 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
+            className={`w-[28px] h-[28px] bg-[#1a1a2e]/80 backdrop-blur-sm flex items-center justify-center text-white/50 hover:text-[var(--spektrum-cyan)] transition-colors duration-300 ml-[2px] ${
               i >= 3 ? "hidden sm:flex" : ""
             }`}
             title={s.label}
@@ -98,7 +98,7 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
       {/* Shop button */}
       <a
         href="#"
-        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-white/80 backdrop-blur-sm text-[#1a1a2e]/50 hover:text-[#1a1a2e] transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
+        className="flex items-center gap-1.5 sm:gap-2 h-[28px] px-2 sm:px-3 bg-[#1a1a2e]/80 backdrop-blur-sm text-white/50 hover:text-white transition-colors text-[10px] font-bold tracking-[0.15em] uppercase ml-1"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
           <circle cx="9" cy="21" r="1" />
@@ -107,11 +107,6 @@ export default function TopBar({ onMenuToggle, isMobile }: TopBarProps) {
         </svg>
         <span className="hidden sm:inline">SHOP</span>
       </a>
-
-      {/* "NEW" badge */}
-      <span className="h-[28px] px-2 sm:px-3 bg-[var(--spektrum-cyan)] text-white text-[9px] font-bold tracking-wider uppercase flex items-center">
-        NEW
-      </span>
     </motion.div>
   );
 }
