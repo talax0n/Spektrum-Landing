@@ -10,58 +10,272 @@ interface SlideProps {
 
 const CHARACTERS = [
   {
-    name: "Maya",
-    title: "Water Guardian",
-    tribe: "Borah",
-    element: "Water",
-    color: "#00b4d8",
-    bgColor: "#0077b6",
-    image: "/character-stocks/maya/1.png",
-  },
-  {
-    name: "Boar",
-    title: "Flame Warden",
-    tribe: "Kobar",
-    element: "Fire",
-    color: "#f97316",
-    bgColor: "#c2410c",
-    image: "/character-stocks/boar/5.png",
-  },
-  {
-    name: "Crimson",
-    title: "Chaos Striker",
-    tribe: "Kuhaka",
-    element: "Fire",
-    color: "#ef4444",
-    bgColor: "#b91c1c",
-    image: "/character-stocks/crimson/11.png",
-  },
-  {
-    name: "Count",
-    title: "Shadow Weaver",
-    tribe: "Kujana",
-    element: "Neutral",
-    color: "#a855f7",
-    bgColor: "#7c3aed",
-    image: "/character-stocks/count/19.png",
-  },
-  {
     name: "Radja",
-    title: "Inferno King",
+    title: "The Loud Brawler",
     tribe: "Kobar",
     element: "Fire",
     color: "#f59e0b",
     bgColor: "#d97706",
     image: "/character-stocks/radja/15.png",
+    story:
+      "Radja's laughter and battle cries always echo through every fight. To his enemies, it sounds like a taunt; but for Radja, the noise is his way of drowning out the screams of the past that continue to haunt him. Once an ordinary trainee who dreamed of becoming a protector, that dream was shattered in a single bloody night when a KuKu of unnaturally colossal size attacked their camp and devoured his friends. Now, behind every lethal punch and deafening roar, Radja harbors a dark mission: to hunt down the mastermind behind the experiment that created the giant KuKu.",
+  },
+  {
+    name: "Maya",
+    title: "The Flow of Vengeance",
+    tribe: "Borah",
+    element: "Water",
+    color: "#00b4d8",
+    bgColor: "#0077b6",
+    image: "/character-stocks/maya/1.png",
+    story:
+      "Beneath the neon glow of the urban districts, Maya moves as fluidly as water but strikes with the force of a tidal wave. Armed with a mystic staff and absolute mastery over the water element, she has dedicated her life to being the shadowy protector of the women in her city. Her motivation was born from a bitter tragedy: her closest friend was broken and lost her life after being trapped in The Count's dark illusions. Every lethal swing of her staff in the dark alleys is part of an endless patrol to prevent new victims, while she relentlessly tracks The Count to quench the thirst for revenge.",
+  },
+  {
+    name: "Crimson",
+    title: "The Shadow Vigilante",
+    tribe: "Kuhaka",
+    element: "Fire",
+    color: "#ef4444",
+    bgColor: "#b91c1c",
+    image: "/character-stocks/crimson/11.png",
+    story:
+      "Isolated from the outside world since childhood, Crimson was forced to swallow a bitter reality when the \"Kobar\" faction ruthlessly slaughtered his peers right before his eyes. Rather than surrendering to despair, he locked himself in a hellish training regimen. His dark dedication and fury drew the attention of an ancient mask that chose him as its host. Crimson now operates from the shadows as a lone vigilante, a double-edged sword with his own strict code of ethics, ready to cut down anyone who sows terror.",
+  },
+  {
+    name: "Count",
+    title: "The Dark Aristocrat",
+    tribe: "Kujana",
+    element: "Neutral",
+    color: "#a855f7",
+    bgColor: "#7c3aed",
+    image: "/character-stocks/count/19.png",
+    story:
+      "For The Count, intellect is a weapon far sharper than any blade. A genius researcher who accidentally discovered the \"Spektra\" particle, his life took a dark turn when an incident forced him to absorb raw, unpurified Spektra into his own body. Hiding behind immense wealth and aristocratic charm, The Count manipulates unfortunate women into becoming living filters for the Spektra, devouring the energy once purified. Behind his elegant smile, he orchestrates a grand design from the shadows — a colossal scheme that will shake the very foundations of the world.",
+  },
+  {
+    name: "Boar Witch",
+    title: "The Candlelit Shaman",
+    tribe: "Kobar",
+    element: "Fire",
+    color: "#f97316",
+    bgColor: "#c2410c",
+    image: "/character-stocks/boar/5.png",
+    story:
+      "To the Boar Witch, traditions and ancestral heritage are not sacred — they are simply tools for power. As the heir to an ancient lineage of shamans, she hijacked her own heritage to embed a Spektra entity within herself. Using mystical melting candles as her primary medium, she channels brutal and unstoppable physical strength into her partner, the Boar Berserker. The Boar Witch cares nothing for morality or the balance of the world; she exploits Spektra purely to amass wealth, power, and personal gain in the underworld.",
   },
 ];
 
+/* ────────────────────────────────────────────────────────
+   Character Detail Overlay
+   ──────────────────────────────────────────────────────── */
+function CharacterDetail({
+  characterIndex,
+  onClose,
+  onChangeCharacter,
+}: {
+  characterIndex: number;
+  onClose: () => void;
+  onChangeCharacter: (i: number) => void;
+}) {
+  const char = CHARACTERS[characterIndex];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35 }}
+      className="fixed inset-0 z-[200]"
+    >
+      {/* ── Dark background with grid pattern ── */}
+      <div className="absolute inset-0 bg-[#121220]" />
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* ── Geometric triangle behind character ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={characterIndex}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        >
+          <svg
+            viewBox="0 0 400 350"
+            className="w-[45vw] max-w-[550px] opacity-20 -translate-y-[5%]"
+          >
+            <polygon
+              points="200,30 380,320 20,320"
+              fill="none"
+              stroke={char.color}
+              strokeWidth="1.5"
+              opacity="0.6"
+            />
+            <polygon
+              points="200,30 380,320 20,320"
+              fill={char.color}
+              opacity="0.08"
+            />
+          </svg>
+          {/* Glow behind triangle */}
+          <div
+            className="absolute w-[300px] h-[300px] rounded-full blur-[100px] opacity-20"
+            style={{ backgroundColor: char.color }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Bottom gradient bar ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#0a0a14] to-transparent z-[2]" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/[0.06] z-[2]" />
+
+      {/* ── Top-left: Logo ── */}
+      <div className="absolute top-5 left-6 z-[110] flex items-center gap-3">
+        <div className="flex items-center gap-2 px-3 py-1.5 border border-white/10 bg-white/[0.03]">
+          <svg viewBox="0 0 12 12" className="w-3.5 h-3.5 text-white/50">
+            <path
+              d="M6 1L7.5 4.5L11 5.5L8.5 8L9 11.5L6 9.5L3 11.5L3.5 8L1 5.5L4.5 4.5L6 1Z"
+              fill="currentColor"
+            />
+          </svg>
+          <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/60">
+            Spektrum
+          </span>
+        </div>
+      </div>
+
+      {/* ── Top-right: Close button ── */}
+      <button
+        onClick={onClose}
+        className="absolute top-5 right-5 z-[110] w-10 h-10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+          <path
+            d="M18 6L6 18M6 6l12 12"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+
+      {/* ── Character image — center-left, full height ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={characterIndex}
+          initial={{ opacity: 0, x: -30, scale: 0.97 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 30, scale: 0.97 }}
+          transition={{ duration: 0.45 }}
+          className="absolute inset-0 z-[3] pointer-events-none"
+        >
+          {/* Desktop: positioned center-left */}
+          <div className="hidden md:block absolute inset-0">
+            <Image
+              src={char.image}
+              alt={char.name}
+              fill
+              className="object-contain object-bottom"
+              style={{ objectPosition: "35% bottom" }}
+              sizes="70vw"
+              priority
+            />
+          </div>
+          {/* Mobile: centered */}
+          <div className="md:hidden absolute top-0 left-0 right-0 h-[55vh]">
+            <Image
+              src={char.image}
+              alt={char.name}
+              fill
+              className="object-contain object-bottom"
+              sizes="100vw"
+              priority
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#121220] to-transparent" />
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Right side: Title, Name, Story ── */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={characterIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -15 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="absolute z-[10] right-6 md:right-[8%] lg:right-[10%] top-[58vh] md:top-1/2 md:-translate-y-1/2 text-left max-w-[320px] md:max-w-[340px]"
+        >
+          {/* Title label */}
+          <span
+            className="text-[10px] font-mono tracking-[0.4em] uppercase block mb-2"
+            style={{ color: char.color }}
+          >
+            {char.title}
+          </span>
+
+          {/* Name */}
+          <h2 className="font-[family-name:var(--font-display)] font-black text-3xl md:text-4xl lg:text-5xl tracking-[0.08em] uppercase text-white leading-none">
+            {char.name}
+          </h2>
+
+          {/* Story */}
+          <p className="text-white/45 text-[11px] md:text-xs leading-relaxed mt-4">
+            {char.story}
+          </p>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* ── Bottom-right: Character selection thumbnails ── */}
+      <div className="absolute bottom-5 md:bottom-6 right-6 md:right-[6%] z-[10] flex items-center gap-2">
+        {CHARACTERS.map((c, i) => {
+          const isSelected = i === characterIndex;
+          return (
+            <button
+              key={c.name}
+              onClick={() => onChangeCharacter(i)}
+              className={`relative w-14 h-14 md:w-16 md:h-16 overflow-hidden cursor-pointer transition-all duration-300 ${
+                isSelected
+                  ? "opacity-100"
+                  : "opacity-40 grayscale hover:opacity-70 hover:grayscale-0"
+              }`}
+            >
+              {isSelected && (
+                <div
+                  className="absolute inset-0 z-10 pointer-events-none"
+                  style={{ boxShadow: `inset 0 0 0 2px ${c.color}` }}
+                />
+              )}
+              <Image
+                src={c.image}
+                alt={c.name}
+                fill
+                className="object-cover object-top"
+                sizes="70px"
+              />
+            </button>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────
+   Character Slide (main)
+   ──────────────────────────────────────────────────────── */
 export default function CharacterSlide({ active }: SlideProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const touchStartX = useRef(0);
-  const mouseStartX = useRef(0);
-  const mouseDown = useRef(false);
-
+  const [detailOpen, setDetailOpen] = useState(false);
   const goNext = useCallback(() => {
     setActiveIndex((p) => (p + 1) % CHARACTERS.length);
   }, []);
@@ -69,45 +283,11 @@ export default function CharacterSlide({ active }: SlideProps) {
     setActiveIndex((p) => (p - 1 + CHARACTERS.length) % CHARACTERS.length);
   }, []);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  }, []);
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      const dx = e.changedTouches[0].clientX - touchStartX.current;
-      if (Math.abs(dx) > 50) {
-        if (dx < 0) goNext();
-        else goPrev();
-      }
-    },
-    [goNext, goPrev]
-  );
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    mouseStartX.current = e.clientX;
-    mouseDown.current = true;
-  }, []);
-  const handleMouseUp = useCallback(
-    (e: React.MouseEvent) => {
-      if (!mouseDown.current) return;
-      mouseDown.current = false;
-      const dx = e.clientX - mouseStartX.current;
-      if (Math.abs(dx) > 50) {
-        if (dx < 0) goNext();
-        else goPrev();
-      }
-    },
-    [goNext, goPrev]
-  );
-
   const current = CHARACTERS[activeIndex];
 
   return (
     <div
       className="w-full h-full relative overflow-hidden select-none"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
     >
       {/* Background */}
       <div className="absolute inset-0 bg-white dark:bg-[#0a0a16]" />
@@ -158,7 +338,7 @@ export default function CharacterSlide({ active }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#E8541E]/60 block mb-1">
                 Roster
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em]  text-foreground">
                 Characters
               </h2>
             </div>
@@ -178,8 +358,10 @@ export default function CharacterSlide({ active }: SlideProps) {
               transition={{ duration: 0.5 }}
               className="absolute inset-0 -translate-x-[20%]"
               style={{
-                maskImage: "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
-                WebkitMaskImage: "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
+                maskImage:
+                  "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
               }}
             >
               <Image
@@ -195,7 +377,7 @@ export default function CharacterSlide({ active }: SlideProps) {
         </div>
       )}
 
-      {/* ── Left: Character info (centered bottom on mobile, left-aligned on desktop) ── */}
+      {/* ── Left: Character info + View Details button ── */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -223,6 +405,42 @@ export default function CharacterSlide({ active }: SlideProps) {
               <p className="text-foreground/40 text-xs md:text-sm tracking-wider uppercase mt-1">
                 {current.title}
               </p>
+
+              {/* View Details button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDetailOpen(true);
+                }}
+                className="mt-4 inline-flex items-center gap-2 px-5 py-2 text-[10px] font-mono tracking-[0.25em] uppercase border transition-all duration-300 pointer-events-auto group"
+                style={{
+                  borderColor: `${current.color}40`,
+                  color: current.color,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = current.color;
+                  e.currentTarget.style.backgroundColor = `${current.color}15`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = `${current.color}40`;
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
+                View Details
+                <svg
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  className="w-3 h-3 transition-transform group-hover:translate-x-0.5"
+                >
+                  <path
+                    d="M4.5 2.5L8 6L4.5 9.5"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </motion.div>
           </AnimatePresence>
         </motion.div>
@@ -238,10 +456,17 @@ export default function CharacterSlide({ active }: SlideProps) {
         >
           {/* Prev arrow */}
           <button
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
             className="w-8 h-8 flex items-center justify-center border border-black/[0.08] dark:border-white/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 dark:hover:bg-white/[0.06] transition-all duration-300 mb-4 shrink-0"
           >
-            <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-foreground/40">
+            <svg
+              viewBox="0 0 8 14"
+              fill="none"
+              className="w-2.5 h-3.5 text-foreground/40"
+            >
               <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
             </svg>
           </button>
@@ -253,7 +478,10 @@ export default function CharacterSlide({ active }: SlideProps) {
               return (
                 <motion.button
                   key={char.name}
-                  onClick={(e) => { e.stopPropagation(); setActiveIndex(i); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveIndex(i);
+                  }}
                   animate={{
                     width: isActive ? 200 : 90,
                     height: isActive ? 420 : 340,
@@ -281,7 +509,9 @@ export default function CharacterSlide({ active }: SlideProps) {
                     alt={char.name}
                     fill
                     className={`object-cover object-top transition-all duration-500 ${
-                      isActive ? "opacity-100 scale-105" : "opacity-40 group-hover:opacity-60 grayscale group-hover:grayscale-0"
+                      isActive
+                        ? "opacity-100 scale-105"
+                        : "opacity-40 group-hover:opacity-60 grayscale group-hover:grayscale-0"
                     }`}
                     sizes="50vw"
                     quality={100}
@@ -313,24 +543,53 @@ export default function CharacterSlide({ active }: SlideProps) {
                     }}
                   />
 
-                  {/* Character name */}
+                  {/* Character name + View Details on active */}
                   <div className="absolute bottom-0 left-0 right-0 p-3">
                     <span
                       className={`font-[family-name:var(--font-display)] font-bold uppercase tracking-wider block transition-all duration-300 ${
-                        isActive ? "text-sm text-white" : "text-[9px] text-white/60 group-hover:text-white/80"
+                        isActive
+                          ? "text-sm text-white"
+                          : "text-[9px] text-white/60 group-hover:text-white/80"
                       }`}
                     >
                       {char.name}
                     </span>
                     {isActive && (
-                      <motion.span
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.15 }}
-                        className="text-[8px] font-mono tracking-[0.3em] uppercase text-white/50 block mt-1"
-                      >
-                        {char.tribe}
-                      </motion.span>
+                      <>
+                        <motion.span
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.15 }}
+                          className="text-[8px] font-mono tracking-[0.3em] uppercase text-white/50 block mt-1"
+                        >
+                          {char.tribe}
+                        </motion.span>
+                        <motion.button
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.25 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDetailOpen(true);
+                          }}
+                          className="mt-2 flex items-center gap-1.5 text-[8px] font-mono tracking-[0.2em] uppercase text-white/60 hover:text-white transition-colors"
+                        >
+                          View Details
+                          <svg
+                            viewBox="0 0 8 8"
+                            fill="none"
+                            className="w-2 h-2"
+                          >
+                            <path
+                              d="M2.5 1L5.5 4L2.5 7"
+                              stroke="currentColor"
+                              strokeWidth={1.2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </motion.button>
+                      </>
                     )}
                   </div>
 
@@ -342,8 +601,14 @@ export default function CharacterSlide({ active }: SlideProps) {
                         : "border-white/10 bg-white/5"
                     }`}
                   >
-                    <svg viewBox="0 0 12 12" className="w-3 h-3 text-white/50">
-                      <path d="M6 1L7.5 4.5L11 5.5L8.5 8L9 11.5L6 9.5L3 11.5L3.5 8L1 5.5L4.5 4.5L6 1Z" fill="currentColor" />
+                    <svg
+                      viewBox="0 0 12 12"
+                      className="w-3 h-3 text-white/50"
+                    >
+                      <path
+                        d="M6 1L7.5 4.5L11 5.5L8.5 8L9 11.5L6 9.5L3 11.5L3.5 8L1 5.5L4.5 4.5L6 1Z"
+                        fill="currentColor"
+                      />
                     </svg>
                   </div>
                 </motion.button>
@@ -353,10 +618,17 @@ export default function CharacterSlide({ active }: SlideProps) {
 
           {/* Next arrow */}
           <button
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
             className="w-8 h-8 flex items-center justify-center border border-black/[0.08] dark:border-white/[0.08] hover:border-[var(--spektrum-cyan)]/40 hover:bg-white/50 dark:hover:bg-white/[0.06] transition-all duration-300 mb-4 shrink-0"
           >
-            <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-foreground/40">
+            <svg
+              viewBox="0 0 8 14"
+              fill="none"
+              className="w-2.5 h-3.5 text-foreground/40"
+            >
               <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
             </svg>
           </button>
@@ -422,6 +694,19 @@ export default function CharacterSlide({ active }: SlideProps) {
           </button>
         </motion.div>
       )}
+
+      {/* ── Character Detail Overlay ── */}
+      <AnimatePresence>
+        {detailOpen && (
+          <CharacterDetail
+            characterIndex={activeIndex}
+            onClose={() => setDetailOpen(false)}
+            onChangeCharacter={(i) => {
+              setActiveIndex(i);
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

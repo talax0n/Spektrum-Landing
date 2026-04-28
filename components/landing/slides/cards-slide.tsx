@@ -103,7 +103,7 @@ export default function CardsSlide({ active }: SlideProps) {
                 <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#E8541E]/60 block mb-0.5">
                   Genesis Collection
                 </span>
-                <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] uppercase text-foreground">
+                <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em]  text-foreground">
                   Card Archive
                 </h2>
               </div>
