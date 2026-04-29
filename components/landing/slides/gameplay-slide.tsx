@@ -78,7 +78,7 @@ export default function GameplaySlide({ active }: SlideProps) {
 
       {/* Two-column layout — desktop */}
       <div className="absolute inset-0 hidden lg:flex items-center justify-center px-6">
-        <div className="max-w-5xl w-full grid grid-cols-2 gap-16">
+        <div className="max-w-5xl w-full grid grid-cols-2 gap-16 h-[480px]">
           {/* Left: feature tabs */}
           {active && (
             <motion.div
@@ -93,7 +93,7 @@ export default function GameplaySlide({ active }: SlideProps) {
                   onClick={() => setActiveFeat(i)}
                   className={`text-left p-5 border-l-[2px] transition-all duration-400 ${
                     activeFeat === i
-                      ? "border-l-[var(--spektrum-cyan)] bg-white/40 dark:bg-white/[0.06]"
+                      ? "border-l-[#E8541E] bg-white/40 dark:bg-white/[0.06]"
                       : "border-l-transparent hover:bg-white/20 dark:hover:bg-white/[0.04]"
                   }`}
                 >
@@ -139,6 +139,7 @@ export default function GameplaySlide({ active }: SlideProps) {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
+              className=""
             >
               {/* Visual box */}
               <div className="relative aspect-[16/10] border border-black/[0.06] overflow-hidden mb-6 shadow-sm">
@@ -189,7 +190,7 @@ export default function GameplaySlide({ active }: SlideProps) {
         </div>
       </div>
 
-      {/* Mobile layout — accordion expanding downward */}
+      {/* Mobile layout — tabs + detail below */}
       {active && (
         <div className="absolute inset-0 lg:hidden flex flex-col justify-center pt-20 pb-12 px-4 overflow-y-auto">
           <motion.div
@@ -199,49 +200,47 @@ export default function GameplaySlide({ active }: SlideProps) {
             className="flex flex-col gap-1"
           >
             {FEATURES.map((feat, i) => (
-              <div key={feat.title}>
-                <button
-                  onClick={() => setActiveFeat(i)}
-                  className={`w-full text-left px-4 py-3 border-l-[2px] transition-all duration-400 ${
-                    activeFeat === i
-                      ? "border-l-[var(--spektrum-cyan)] bg-white/40 dark:bg-white/[0.06]"
-                      : "border-l-transparent"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`text-lg transition-opacity duration-300 ${
-                        activeFeat === i ? "opacity-60" : "opacity-15"
-                      }`}
-                      style={{ color: feat.color }}
-                    >
-                      {feat.icon}
-                    </span>
-                    <h3
-                      className={`font-[family-name:var(--font-display)] font-bold text-xs tracking-wider uppercase transition-colors ${
-                        activeFeat === i ? "text-foreground" : "text-foreground/30"
-                      }`}
-                    >
-                      {feat.title}
-                    </h3>
-                  </div>
-                </button>
-                {activeFeat === i && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+              <button
+                key={feat.title}
+                onClick={() => setActiveFeat(i)}
+                className={`w-full text-left px-4 py-3 border-l-[2px] transition-all duration-400 ${
+                  activeFeat === i
+                    ? "border-l-[#E8541E] bg-white/40 dark:bg-white/[0.06]"
+                    : "border-l-transparent"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className={`text-lg transition-opacity duration-300 ${
+                      activeFeat === i ? "opacity-60" : "opacity-15"
+                    }`}
+                    style={{ color: feat.color }}
                   >
-                    <div className="px-4 pb-3 ml-[2px] border-l-[2px] border-l-[var(--spektrum-cyan)]">
-                      <p className="text-foreground/40 text-xs leading-relaxed pt-1">
-                        {feat.desc}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </div>
+                    {feat.icon}
+                  </span>
+                  <h3
+                    className={`font-[family-name:var(--font-display)] font-bold text-xs tracking-wider uppercase transition-colors ${
+                      activeFeat === i ? "text-foreground" : "text-foreground/30"
+                    }`}
+                  >
+                    {feat.title}
+                  </h3>
+                </div>
+              </button>
             ))}
+          </motion.div>
+
+          {/* Description shown below all tabs */}
+          <motion.div
+            key={activeFeat}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="px-4 mt-3 border-l-[2px] border-l-[#E8541E] ml-0"
+          >
+            <p className="text-foreground/40 text-xs leading-relaxed">
+              {FEATURES[activeFeat].desc}
+            </p>
           </motion.div>
         </div>
       )}

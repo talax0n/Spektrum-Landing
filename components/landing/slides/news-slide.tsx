@@ -18,7 +18,7 @@ const NEWS = [
     date: "2025.04.15",
     tag: "DEV LOG",
     title: "MagicBlock Integration Complete — Gasless Card Reveals with Ephemeral Rollups",
-    thumb: "var(--spektrum-purple)",
+    thumb: "#3d8a3d",
   },
   {
     date: "2025.04.10",

@@ -187,7 +187,7 @@ export default function CardsSlide({ active }: SlideProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.3 }}
-              className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-2 md:gap-5"
+              className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-1.5 md:gap-3"
             >
               {filtered.map((card, i) => (
                 <motion.div
