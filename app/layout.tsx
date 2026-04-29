@@ -26,6 +26,14 @@ export const metadata: Metadata = {
     "Enter the Spektrum. A next-generation trading card game where light bends, strategies collide, and every card tells a story.",
   keywords:
     "Spektrum, TCG, Trading Card Game, Card Game, Strategy, Collectible Cards",
+  icons: {
+    icon: [
+      { url: "/spektrum_app_icon_192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/spektrum_app_icon_512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/spektrum_app_icon_192x192.png",
+  },
+  manifest: "/manifest.json",
   openGraph: {
     title: "Spektrum TCG",
     description:
