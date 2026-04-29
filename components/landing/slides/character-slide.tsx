@@ -54,8 +54,8 @@ const CHARACTERS = [
     title: "The Dark Aristocrat",
     tribe: "Kujana",
     element: "Neutral",
-    color: "#a855f7",
-    bgColor: "#7c3aed",
+    color: "#3b82f6",
+    bgColor: "#2563eb",
     image: "/character-stocks/count/19.png",
     faction: "Dark Veil",
     skills: ["attack", "defense", "special", "passive", "ultimate"],
@@ -91,309 +91,8 @@ const SKILL_ICONS = [
   "M12 1L22 12L12 23L2 12L12 1ZM12 4.8L5.2 12L12 19.2L18.8 12L12 4.8Z",
 ];
 
-/* ────────────────────────────────────────────────────────
-   Character Detail Overlay
-   ──────────────────────────────────────────────────────── */
-function CharacterDetail({
-  characterIndex,
-  onClose,
-  onChangeCharacter,
-}: {
-  characterIndex: number;
-  onClose: () => void;
-  onChangeCharacter: (i: number) => void;
-}) {
-  const char = CHARACTERS[characterIndex];
+const EASE_SMOOTH: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-  // Get visible carousel indices (show 3 cards centered on current)
-  const getCarouselIndices = (current: number) => {
-    const total = CHARACTERS.length;
-    const prev = (current - 1 + total) % total;
-    const next = (current + 1) % total;
-    return [prev, current, next];
-  };
-
-  const carouselIndices = getCarouselIndices(characterIndex);
-
-  const goNext = () => {
-    onChangeCharacter((characterIndex + 1) % CHARACTERS.length);
-  };
-  const goPrev = () => {
-    onChangeCharacter(
-      (characterIndex - 1 + CHARACTERS.length) % CHARACTERS.length
-    );
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.35 }}
-      className="fixed inset-0 z-[200]"
-    >
-      {/* ── Dark background with grid pattern ── */}
-      <div className="absolute inset-0 bg-[#121220]" />
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      {/* ── Geometric triangle behind character ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={characterIndex}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.5 }}
-          className="absolute inset-0 pointer-events-none flex items-center justify-center"
-        >
-          <svg
-            viewBox="0 0 400 350"
-            className="w-[45vw] max-w-[550px] opacity-20 -translate-y-[5%] -translate-x-[20%]"
-          >
-            <polygon
-              points="200,30 380,320 20,320"
-              fill="none"
-              stroke={char.color}
-              strokeWidth="1.5"
-              opacity="0.6"
-            />
-            <polygon
-              points="200,30 380,320 20,320"
-              fill={char.color}
-              opacity="0.08"
-            />
-          </svg>
-          {/* Glow behind triangle */}
-          <div
-            className="absolute w-[300px] h-[300px] rounded-full blur-[100px] opacity-20 -translate-x-[20%]"
-            style={{ backgroundColor: char.color }}
-          />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* ── Bottom gradient bar ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#0a0a14] to-transparent z-[2]" />
-
-      {/* ── Top-left: Faction badge ── */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4, delay: 0.15 }}
-        className="absolute top-5 left-6 z-[110] flex items-center gap-3"
-      >
-        <div className="flex items-center gap-2.5 px-3.5 py-2 border border-white/10 bg-white/[0.03]">
-          <svg viewBox="0 0 12 12" className="w-4 h-4 text-white/50">
-            <path
-              d="M6 1L7.5 4.5L11 5.5L8.5 8L9 11.5L6 9.5L3 11.5L3.5 8L1 5.5L4.5 4.5L6 1Z"
-              fill="currentColor"
-            />
-          </svg>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/70 font-semibold leading-tight">
-              {char.faction}
-            </span>
-            <span className="text-[8px] font-mono tracking-[0.15em] uppercase text-white/30 leading-tight">
-              {char.tribe}
-            </span>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* ── Top-right: Close button ── */}
-      <button
-        onClick={onClose}
-        className="absolute top-5 right-5 z-[110] w-12 h-12 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer border border-white/10 hover:border-white/25 hover:bg-white/[0.06]"
-      >
-        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-          <path
-            d="M18 6L6 18M6 6l12 12"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-          />
-        </svg>
-      </button>
-
-      {/* ── Left side: Skill icons (desktop only) ── */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-[10] hidden md:flex flex-col gap-2.5"
-      >
-        {SKILL_ICONS.map((iconPath, i) => (
-          <button
-            key={i}
-            className="group relative w-11 h-11 flex items-center justify-center transition-all duration-300 cursor-pointer"
-          >
-            {/* Hexagonal background */}
-            <svg
-              viewBox="0 0 46 52"
-              className="absolute inset-0 w-full h-full"
-              fill="none"
-            >
-              <path
-                d="M23 1L44 14V38L23 51L2 38V14L23 1Z"
-                fill="white"
-                fillOpacity={0.04}
-                stroke="white"
-                strokeOpacity={0.12}
-                strokeWidth={1}
-                className="group-hover:fill-white/[0.08] group-hover:stroke-white/25 transition-all duration-300"
-              />
-            </svg>
-            <svg viewBox="0 0 24 24" className="w-4 h-4 text-white/40 group-hover:text-white/70 transition-colors relative z-10">
-              <path d={iconPath} fill="currentColor" />
-            </svg>
-          </button>
-        ))}
-      </motion.div>
-
-      {/* ── Character image — center-left, full height ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={characterIndex}
-          initial={{ opacity: 0, x: -30, scale: 0.97 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          exit={{ opacity: 0, x: 30, scale: 0.97 }}
-          transition={{ duration: 0.45 }}
-          className="absolute inset-0 z-[3] pointer-events-none"
-        >
-          {/* Desktop: positioned left */}
-          <div className="hidden md:block absolute inset-0 -left-[10%]">
-            <Image
-              src={char.image}
-              alt={char.name}
-              fill
-              className="object-contain object-bottom"
-              style={{ objectPosition: "25% bottom" }}
-              sizes="70vw"
-              priority
-            />
-          </div>
-          {/* Mobile: centered */}
-          <div className="md:hidden absolute top-0 left-0 right-0 h-[50vh]">
-            <Image
-              src={char.image}
-              alt={char.name}
-              fill
-              className="object-contain object-bottom"
-              sizes="100vw"
-              priority
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#121220] to-transparent" />
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* ── Right side: Title, Name, Story ── */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={characterIndex}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="absolute z-[10] right-6 md:right-[8%] lg:right-[10%] top-[52vh] md:top-1/2 md:-translate-y-1/2 text-left md:text-right max-w-[320px] md:max-w-[340px]"
-        >
-          {/* Title label */}
-          <span
-            className="text-[10px] font-mono tracking-[0.4em] uppercase block mb-2"
-            style={{ color: char.color }}
-          >
-            {char.title}
-          </span>
-
-          {/* Name */}
-          <h2 className="font-[family-name:var(--font-display)] font-black text-3xl md:text-4xl lg:text-5xl tracking-[0.08em] uppercase text-white leading-none">
-            {char.name}
-          </h2>
-
-          {/* Story */}
-          <p className="text-white/70 text-xs md:text-sm leading-relaxed mt-4">
-            {char.story}
-          </p>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* ── Bottom center: Character carousel (3 cards) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="absolute bottom-5 md:bottom-6 right-6 md:right-[6%] z-[10] flex items-center gap-3"
-      >
-        {/* Prev arrow */}
-        <button
-          onClick={goPrev}
-          className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-white/25 hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
-        >
-          <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-white/40">
-            <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
-          </svg>
-        </button>
-
-        {/* 3 character cards */}
-        <div className="flex items-center gap-2">
-          {carouselIndices.map((idx) => {
-            const c = CHARACTERS[idx];
-            const isSelected = idx === characterIndex;
-            return (
-              <button
-                key={`${c.name}-${idx}`}
-                onClick={() => onChangeCharacter(idx)}
-                className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${
-                  isSelected
-                    ? "w-16 h-20 md:w-20 md:h-24 opacity-100"
-                    : "w-14 h-18 md:w-16 md:h-20 opacity-50 grayscale hover:opacity-70 hover:grayscale-0"
-                }`}
-              >
-                {isSelected && (
-                  <div
-                    className="absolute inset-0 z-10 pointer-events-none"
-                    style={{ boxShadow: `inset 0 0 0 2px ${c.color}` }}
-                  />
-                )}
-                <Image
-                  src={c.image}
-                  alt={c.name}
-                  fill
-                  className="object-cover object-top"
-                  sizes="100px"
-                />
-                {/* Dark overlay for unselected */}
-                {!isSelected && (
-                  <div className="absolute inset-0 bg-black/30" />
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Next arrow */}
-        <button
-          onClick={goNext}
-          className="w-8 h-8 flex items-center justify-center border border-white/10 hover:border-white/25 hover:bg-white/[0.06] transition-all duration-300 cursor-pointer"
-        >
-          <svg viewBox="0 0 8 14" fill="none" className="w-2.5 h-3.5 text-white/40">
-            <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
-          </svg>
-        </button>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ────────────────────────────────────────────────────────
-   Character Slide (main)
-   ──────────────────────────────────────────────────────── */
 export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -407,6 +106,7 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
     },
     [onDetailToggle]
   );
+
   const goNext = useCallback(() => {
     setActiveIndex((p) => (p + 1) % CHARACTERS.length);
   }, []);
@@ -419,16 +119,26 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
     touchStartY.current = e.touches[0].clientY;
   }, []);
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    const dy = e.changedTouches[0].clientY - touchStartY.current;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-      if (dx < 0) goNext();
-      else goPrev();
-    }
-  }, [goNext, goPrev]);
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const dx = e.changedTouches[0].clientX - touchStartX.current;
+      const dy = e.changedTouches[0].clientY - touchStartY.current;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) goNext();
+        else goPrev();
+      }
+    },
+    [goNext, goPrev]
+  );
 
   const current = CHARACTERS[activeIndex];
+
+  // Carousel indices for detail mode (prev, current, next)
+  const getCarouselIndices = (cur: number) => {
+    const total = CHARACTERS.length;
+    return [(cur - 1 + total) % total, cur, (cur + 1) % total];
+  };
+  const carouselIndices = getCarouselIndices(activeIndex);
 
   return (
     <div
@@ -436,48 +146,126 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background */}
+      {/* ══════════════════════════════════════
+          BACKGROUND LAYERS
+         ══════════════════════════════════════ */}
+
+      {/* Base white background */}
       <div className="absolute inset-0 bg-white dark:bg-[#0a0a16]" />
 
-      {/* Diagonal color accent background */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute inset-0 z-0 pointer-events-none"
-        >
-          <div
+      {/* Colored accent background — fades out in detail */}
+      <motion.div
+        animate={{ opacity: detailOpen ? 0 : 1 }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 z-0 pointer-events-none"
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
             className="absolute inset-0"
-            style={{
-              background: `linear-gradient(135deg, ${current.bgColor}18 0%, transparent 50%)`,
-            }}
-          />
-          <div
-            className="absolute inset-0 dark:block hidden"
-            style={{
-              background: `linear-gradient(135deg, ${current.bgColor}25 0%, transparent 45%)`,
-            }}
-          />
-          {/* Subtle radial glow */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(ellipse at 30% 50%, ${current.color}10 0%, transparent 60%)`,
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(135deg, ${current.bgColor}18 0%, transparent 50%)`,
+              }}
+            />
+            <div
+              className="absolute inset-0 dark:block hidden"
+              style={{
+                background: `linear-gradient(135deg, ${current.bgColor}25 0%, transparent 45%)`,
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `radial-gradient(ellipse at 30% 50%, ${current.color}10 0%, transparent 60%)`,
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
 
-      {/* Section title */}
+      {/* Detail background: grid pattern — fades in */}
+      <motion.div
+        animate={{ opacity: detailOpen ? 1 : 0 }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 z-0 pointer-events-none"
+      >
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+      </motion.div>
+
+      {/* Detail: geometric triangle behind character */}
+      <motion.div
+        animate={{ opacity: detailOpen ? 1 : 0, scale: detailOpen ? 1 : 0.9 }}
+        transition={{ duration: 0.5 }}
+        className="absolute inset-0 pointer-events-none flex items-center justify-center z-[1]"
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+            className="relative flex items-center justify-center"
+          >
+            <svg
+              viewBox="0 0 400 350"
+              className="w-[45vw] max-w-[550px] opacity-20 -translate-y-[5%] -translate-x-[20%]"
+            >
+              <polygon
+                points="200,30 380,320 20,320"
+                fill="none"
+                stroke={current.color}
+                strokeWidth="1.5"
+                opacity="0.4"
+              />
+              <polygon
+                points="200,30 380,320 20,320"
+                fill={current.color}
+                opacity="0.06"
+              />
+            </svg>
+            <div
+              className="absolute w-[300px] h-[300px] rounded-full blur-[100px] opacity-15 -translate-x-[20%]"
+              style={{ backgroundColor: current.color }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Bottom gradient bar for detail */}
+      <motion.div
+        animate={{ opacity: detailOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent z-[2] pointer-events-none"
+      />
+
+      {/* ══════════════════════════════════════
+          SECTION TITLE — fades out in detail
+         ══════════════════════════════════════ */}
       {active && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          animate={{
+            opacity: detailOpen ? 0 : 1,
+            x: detailOpen ? -20 : 0,
+          }}
+          transition={{ duration: 0.4 }}
           className="absolute top-14 left-6 md:top-6 z-10"
+          style={{ pointerEvents: detailOpen ? "none" : "auto" }}
         >
           <div className="flex items-start gap-2">
             <div className="w-[3px] h-16 bg-gradient-to-b from-[#E8541E] to-transparent mt-1" />
@@ -485,7 +273,7 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               <span className="text-[9px] font-mono tracking-[0.4em] uppercase text-[#E8541E]/60 block mb-1">
                 Roster
               </span>
-              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em]  text-foreground">
+              <h2 className="font-[family-name:var(--font-display)] font-black text-xl md:text-2xl tracking-[0.1em] text-foreground">
                 Characters
               </h2>
             </div>
@@ -493,9 +281,119 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
         </motion.div>
       )}
 
-      {/* ── Left: Large character image (full-bleed like hero slide) ── */}
+      {/* ══════════════════════════════════════
+          DETAIL: Faction badge (top-left)
+         ══════════════════════════════════════ */}
+      <motion.div
+        animate={{
+          opacity: detailOpen ? 1 : 0,
+          x: detailOpen ? 0 : -20,
+        }}
+        transition={{ duration: 0.4, delay: detailOpen ? 0.15 : 0 }}
+        className="absolute top-5 left-6 z-[10] flex items-center gap-3"
+        style={{ pointerEvents: detailOpen ? "auto" : "none" }}
+      >
+        <div className="flex items-center gap-2.5 px-3.5 py-2 border border-black/10 bg-black/[0.03]">
+          <svg viewBox="0 0 12 12" className="w-4 h-4 text-black/40">
+            <path
+              d="M6 1L7.5 4.5L11 5.5L8.5 8L9 11.5L6 9.5L3 11.5L3.5 8L1 5.5L4.5 4.5L6 1Z"
+              fill="currentColor"
+            />
+          </svg>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-black/70 font-semibold leading-tight">
+              {current.faction}
+            </span>
+            <span className="text-[8px] font-mono tracking-[0.15em] uppercase text-black/30 leading-tight">
+              {current.tribe}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* ══════════════════════════════════════
+          DETAIL: Close button (top-right)
+         ══════════════════════════════════════ */}
+      <motion.button
+        animate={{ opacity: detailOpen ? 1 : 0 }}
+        transition={{ duration: 0.3, delay: detailOpen ? 0.1 : 0 }}
+        onClick={() => toggleDetail(false)}
+        className="absolute top-5 right-5 z-[10] w-12 h-12 flex items-center justify-center text-black/40 hover:text-black transition-colors cursor-pointer border border-black/10 hover:border-black/25 hover:bg-black/[0.06]"
+        style={{ pointerEvents: detailOpen ? "auto" : "none" }}
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+          <path
+            d="M18 6L6 18M6 6l12 12"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+          />
+        </svg>
+      </motion.button>
+
+      {/* ══════════════════════════════════════
+          DETAIL: Skill icons (left side, desktop)
+         ══════════════════════════════════════ */}
+      <motion.div
+        animate={{
+          opacity: detailOpen ? 1 : 0,
+          x: detailOpen ? 0 : -20,
+        }}
+        transition={{ duration: 0.4, delay: detailOpen ? 0.2 : 0 }}
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-[10] hidden md:flex flex-col gap-2.5"
+        style={{ pointerEvents: detailOpen ? "auto" : "none" }}
+      >
+        {SKILL_ICONS.map((iconPath, i) => (
+          <button
+            key={i}
+            className="group relative w-11 h-11 flex items-center justify-center transition-all duration-300 cursor-pointer"
+          >
+            <svg
+              viewBox="0 0 46 52"
+              className="absolute inset-0 w-full h-full"
+              fill="none"
+            >
+              <path
+                d="M23 1L44 14V38L23 51L2 38V14L23 1Z"
+                fill="black"
+                fillOpacity={0.04}
+                stroke="black"
+                strokeOpacity={0.12}
+                strokeWidth={1}
+                className="group-hover:fill-black/[0.08] group-hover:stroke-black/25 transition-all duration-300"
+              />
+            </svg>
+            <svg
+              viewBox="0 0 24 24"
+              className="w-4 h-4 text-black/40 group-hover:text-black/70 transition-colors relative z-10"
+            >
+              <path d={iconPath} fill="currentColor" />
+            </svg>
+          </button>
+        ))}
+      </motion.div>
+
+      {/* ══════════════════════════════════════
+          CHARACTER IMAGE (desktop)
+          Single image that moves to center when detail opens
+         ══════════════════════════════════════ */}
       {active && (
-        <div className="absolute inset-0 z-[1] pointer-events-none hidden md:block">
+        <motion.div
+          className="absolute inset-0 z-[5] pointer-events-none hidden md:block"
+          animate={{
+            x: detailOpen ? "-10%" : "-20%",
+            scale: detailOpen ? 1.05 : 1,
+          }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+          style={{
+            maskImage: detailOpen
+              ? "none"
+              : "radial-gradient(ellipse 80% 90% at 35% 50%, black 25%, transparent 65%)",
+            WebkitMaskImage: detailOpen
+              ? "none"
+              : "radial-gradient(ellipse 80% 90% at 35% 50%, black 25%, transparent 65%)",
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -503,34 +401,36 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 30, scale: 0.98 }}
               transition={{ duration: 0.5 }}
-              className="absolute inset-0 -translate-x-[20%]"
-              style={{
-                maskImage:
-                  "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 75% 85% at 35% 50%, black 30%, transparent 70%)",
-              }}
+              className="absolute inset-0"
             >
               <Image
                 src={current.image}
                 alt={current.name}
                 fill
-                className="object-contain object-left-bottom"
+                className="object-contain object-bottom"
+                style={{ objectPosition: "30% bottom" }}
                 sizes="100vw"
                 priority
               />
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
       )}
 
-      {/* ── Left: Character info + View Details button ── */}
+      {/* ══════════════════════════════════════
+          LEFT: Character info + View Details
+          — fades out in detail
+         ══════════════════════════════════════ */}
       {active && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="absolute bottom-20 md:bottom-16 left-1/2 -translate-x-1/2 md:left-10 md:translate-x-0 z-[3] text-center md:text-left"
+          animate={{
+            opacity: detailOpen ? 0 : 1,
+            y: detailOpen ? 20 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+          className="absolute bottom-20 md:bottom-16 left-1/2 -translate-x-1/2 md:left-10 md:translate-x-0 z-[6] text-center md:text-left"
+          style={{ pointerEvents: detailOpen ? "none" : "auto" }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -549,11 +449,7 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               <h3 className="font-[family-name:var(--font-display)] font-black text-3xl md:text-4xl lg:text-5xl tracking-[0.08em] uppercase text-foreground">
                 {current.name}
               </h3>
-              <p className="text-foreground/40 text-xs md:text-sm tracking-wider uppercase mt-1">
-                {current.title}
-              </p>
 
-              {/* View Details button */}
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -593,13 +489,20 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
         </motion.div>
       )}
 
-      {/* ── Right: Character panels carousel (desktop only) ── */}
+      {/* ══════════════════════════════════════
+          RIGHT: Character card panels
+          — slides right off-screen in detail
+         ══════════════════════════════════════ */}
       {active && (
         <motion.div
           initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          animate={{
+            opacity: detailOpen ? 0 : 1,
+            x: detailOpen ? 300 : 0,
+          }}
+          transition={{ duration: 0.5, ease: EASE_SMOOTH }}
           className="absolute right-4 md:right-8 lg:right-12 top-1/2 -translate-y-1/2 z-[4] hidden md:flex items-end gap-2 md:gap-3"
+          style={{ pointerEvents: detailOpen ? "none" : "auto" }}
         >
           {/* Prev arrow */}
           <button
@@ -640,7 +543,6 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     height: isActive ? 420 : 340,
                   }}
                 >
-                  {/* Panel background */}
                   <div
                     className="absolute inset-0 transition-all duration-500"
                     style={{
@@ -650,7 +552,6 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     }}
                   />
 
-                  {/* Character image */}
                   <Image
                     src={char.image}
                     alt={char.name}
@@ -665,12 +566,10 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     unoptimized
                   />
 
-                  {/* Dark overlay for inactive */}
                   {!isActive && (
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
                   )}
 
-                  {/* Active top accent line */}
                   {isActive && (
                     <motion.div
                       layoutId="panel-accent"
@@ -680,7 +579,6 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     />
                   )}
 
-                  {/* Bottom gradient for text */}
                   <div
                     className="absolute bottom-0 left-0 right-0 h-1/2"
                     style={{
@@ -690,7 +588,6 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     }}
                   />
 
-                  {/* Character name + View Details on active */}
                   <div className="absolute bottom-0 left-0 right-0 p-3">
                     <span
                       className={`font-[family-name:var(--font-display)] font-bold uppercase tracking-wider block transition-all duration-300 ${
@@ -706,8 +603,16 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                         <motion.span
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.1 }}
+                          className="text-[10px] font-mono tracking-[0.15em] uppercase text-white/80 block mt-0.5"
+                        >
+                          {char.title}
+                        </motion.span>
+                        <motion.span
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.15 }}
-                          className="text-[8px] font-mono tracking-[0.3em] uppercase text-white/50 block mt-1"
+                          className="text-[9px] font-mono tracking-[0.25em] uppercase text-white/50 block mt-1"
                         >
                           {char.tribe}
                         </motion.span>
@@ -740,7 +645,6 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
                     )}
                   </div>
 
-                  {/* Faction emblem placeholder */}
                   <div
                     className={`absolute top-3 right-3 w-5 h-5 rounded-full border transition-all duration-300 flex items-center justify-center ${
                       isActive
@@ -782,7 +686,134 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
         </motion.div>
       )}
 
-      {/* ── Mobile: Character image (shown above panels) ── */}
+      {/* ══════════════════════════════════════
+          DETAIL: Right side content (title, name, story)
+          — slides in from right
+         ══════════════════════════════════════ */}
+      <motion.div
+        animate={{
+          x: detailOpen ? 0 : 80,
+          opacity: detailOpen ? 1 : 0,
+        }}
+        transition={{
+          duration: 0.5,
+          delay: detailOpen ? 0.2 : 0,
+          ease: EASE_SMOOTH,
+        }}
+        className="absolute z-[10] right-6 md:right-[8%] lg:right-[10%] top-[52vh] md:top-1/2 md:-translate-y-1/2 text-left md:text-right max-w-[320px] md:max-w-[340px]"
+        style={{ pointerEvents: detailOpen ? "auto" : "none" }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.4 }}
+          >
+            <span
+              className="text-[10px] font-mono tracking-[0.4em] uppercase block mb-2"
+              style={{ color: current.color }}
+            >
+              {current.title}
+            </span>
+
+            <h2 className="font-[family-name:var(--font-display)] font-black text-3xl md:text-4xl lg:text-5xl tracking-[0.08em] uppercase text-black leading-none">
+              {current.name}
+            </h2>
+
+            <p className="text-black/60 text-xs md:text-sm leading-relaxed mt-4">
+              {current.story}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+
+      {/* ══════════════════════════════════════
+          DETAIL: Bottom carousel (3 cards + arrows)
+          — slides up when detail opens
+         ══════════════════════════════════════ */}
+      <motion.div
+        animate={{
+          opacity: detailOpen ? 1 : 0,
+          y: detailOpen ? 0 : 30,
+        }}
+        transition={{
+          duration: 0.4,
+          delay: detailOpen ? 0.25 : 0,
+          ease: EASE_SMOOTH,
+        }}
+        className="absolute bottom-5 md:bottom-6 right-6 md:right-[6%] z-[10] flex items-center gap-3"
+        style={{ pointerEvents: detailOpen ? "auto" : "none" }}
+      >
+        {/* Prev arrow */}
+        <button
+          onClick={goPrev}
+          className="w-8 h-8 flex items-center justify-center border border-black/10 hover:border-black/25 hover:bg-black/[0.06] transition-all duration-300 cursor-pointer"
+        >
+          <svg
+            viewBox="0 0 8 14"
+            fill="none"
+            className="w-2.5 h-3.5 text-black/40"
+          >
+            <path d="M7 1L1 7L7 13" stroke="currentColor" strokeWidth={1.5} />
+          </svg>
+        </button>
+
+        {/* 3 character cards */}
+        <div className="flex items-center gap-2">
+          {carouselIndices.map((idx) => {
+            const c = CHARACTERS[idx];
+            const isSelected = idx === activeIndex;
+            return (
+              <button
+                key={`${c.name}-${idx}`}
+                onClick={() => setActiveIndex(idx)}
+                className={`relative overflow-hidden cursor-pointer transition-all duration-300 ${
+                  isSelected
+                    ? "w-16 h-20 md:w-20 md:h-24 opacity-100 shadow-md"
+                    : "w-14 h-18 md:w-16 md:h-20 opacity-60 grayscale hover:opacity-80 hover:grayscale-0"
+                }`}
+              >
+                {isSelected && (
+                  <div
+                    className="absolute inset-0 z-10 pointer-events-none"
+                    style={{ boxShadow: `inset 0 0 0 2px ${c.color}` }}
+                  />
+                )}
+                <Image
+                  src={c.image}
+                  alt={c.name}
+                  fill
+                  className="object-cover object-top"
+                  sizes="100px"
+                />
+                {!isSelected && (
+                  <div className="absolute inset-0 bg-black/30" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Next arrow */}
+        <button
+          onClick={goNext}
+          className="w-8 h-8 flex items-center justify-center border border-black/10 hover:border-black/25 hover:bg-black/[0.06] transition-all duration-300 cursor-pointer"
+        >
+          <svg
+            viewBox="0 0 8 14"
+            fill="none"
+            className="w-2.5 h-3.5 text-black/40"
+          >
+            <path d="M1 1L7 7L1 13" stroke="currentColor" strokeWidth={1.5} />
+          </svg>
+        </button>
+      </motion.div>
+
+      {/* ══════════════════════════════════════
+          MOBILE: Character image
+         ══════════════════════════════════════ */}
       {active && (
         <div className="absolute inset-0 z-[1] pointer-events-none md:hidden">
           <AnimatePresence mode="wait">
@@ -793,6 +824,14 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.5 }}
               className="absolute inset-0 top-[15%]"
+              style={{
+                maskImage:
+                  "linear-gradient(to bottom, transparent 0%, black 10%, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent 0%, black 10%, black 60%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+                maskComposite: "intersect",
+                WebkitMaskComposite: "source-in",
+              }}
             >
               <Image
                 src={current.image}
@@ -803,14 +842,19 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               />
             </motion.div>
           </AnimatePresence>
-          {/* Bottom fade for mobile */}
-          <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white dark:from-[#0a0a16] to-transparent" />
         </div>
       )}
 
-      {/* ── Navigation dots (mobile) ── */}
+      {/* ══════════════════════════════════════
+          MOBILE: Navigation dots — fades out in detail
+         ══════════════════════════════════════ */}
       {active && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 md:hidden">
+        <motion.div
+          animate={{ opacity: detailOpen ? 0 : 1 }}
+          transition={{ duration: 0.3 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 md:hidden"
+          style={{ pointerEvents: detailOpen ? "none" : "auto" }}
+        >
           {CHARACTERS.map((_, i) => (
             <button
               key={i}
@@ -822,38 +866,33 @@ export default function CharacterSlide({ active, onDetailToggle }: SlideProps) {
               }`}
             />
           ))}
-        </div>
-      )}
-
-      {/* Play the Game button — bottom right */}
-      {active && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="absolute bottom-8 right-8 z-10 hidden md:block"
-        >
-          <button
-            className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
-            style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
-          >
-            Play the Game
-          </button>
         </motion.div>
       )}
 
-      {/* ── Character Detail Overlay ── */}
-      <AnimatePresence>
-        {detailOpen && (
-          <CharacterDetail
-            characterIndex={activeIndex}
-            onClose={() => toggleDetail(false)}
-            onChangeCharacter={(i) => {
-              setActiveIndex(i);
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {/* ══════════════════════════════════════
+          Play the Game button — fades out in detail
+         ══════════════════════════════════════ */}
+      {active && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{
+            opacity: detailOpen ? 0 : 1,
+            y: detailOpen ? 20 : 0,
+          }}
+          transition={{ duration: 0.3 }}
+          className="absolute bottom-8 right-8 z-10 hidden md:block"
+          style={{ pointerEvents: detailOpen ? "none" : "auto" }}
+        >
+          <a
+            href="https://spektrumtcg.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:brightness-110 overflow-hidden bg-gradient-to-r from-[#E8541E] to-[#f59e0b] inline-block"
+          >
+            Play the Game
+          </a>
+        </motion.div>
+      )}
     </div>
   );
 }

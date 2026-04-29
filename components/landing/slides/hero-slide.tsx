@@ -144,12 +144,14 @@ export default function HeroSlide({ active }: SlideProps) {
               transition={{ duration: 0.6, delay: 1.1 }}
               className="mt-8"
             >
-              <button
-                className="relative px-8 py-3 md:px-10 md:py-3.5 text-white font-[family-name:var(--font-display)] font-bold text-xs md:text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 cursor-pointer overflow-hidden bg-cover bg-center"
-                style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+              <a
+                href="https://spektrumtcg.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative px-8 py-3 md:px-10 md:py-3.5 text-white font-[family-name:var(--font-display)] font-bold text-xs md:text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:brightness-110 cursor-pointer overflow-hidden bg-gradient-to-r from-[#E8541E] to-[#f59e0b] inline-block"
               >
                 Play the Game
-              </button>
+              </a>
             </motion.div>
 
           </>

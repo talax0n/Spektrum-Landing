@@ -197,12 +197,14 @@ export default function CommunitySlide({ active }: SlideProps) {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="mt-6 md:mt-10"
             >
-              <button
-                className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-black/30 hover:shadow-xl hover:shadow-black/40 hover:brightness-110 overflow-hidden bg-cover bg-center"
-                style={{ backgroundImage: "url('/ui/v2-ui/bg-bottombar.png')" }}
+              <a
+                href="https://spektrumtcg.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative px-8 py-3 text-white font-[family-name:var(--font-display)] font-bold text-sm tracking-[0.15em] uppercase rounded-2xl transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:brightness-110 overflow-hidden bg-gradient-to-r from-[#E8541E] to-[#f59e0b] inline-block"
               >
                 Play the Game
-              </button>
+              </a>
             </motion.div>
           )}
 
