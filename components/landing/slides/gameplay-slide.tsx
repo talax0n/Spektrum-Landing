@@ -10,25 +10,39 @@ interface SlideProps {
 
 const FEATURES = [
   {
+    title: "Turn-Based Strategy",
+    subtitle: "THINK BEFORE YOU STRIKE",
+    desc: "Spektrum is a turn-based card game where every decision matters. Draw, summon, evolve, and attack in carefully planned phases. Outsmart your opponent by reading the board, managing tempo, and striking at the perfect moment.",
+    icon: "⚔",
+    color: "var(--spektrum-cyan)",
+  },
+  {
+    title: "Personalize Your Lore",
+    subtitle: "YOUR STORY, YOUR DECK",
+    desc: "Build a 40-card deck that tells your story. Choose your tribe, pick your elemental affinity, and craft a strategy that reflects your playstyle. Every deck is a personal expression of your journey through the world of Spektrum.",
+    icon: "✦",
+    color: "var(--spektrum-purple)",
+  },
+  {
     title: "Spektra Resource System",
     subtitle: "FUEL YOUR STRATEGY",
     desc: "Every turn, place one Avatar card from your hand into your Spektra Pile to generate elemental energy. Fire Avatars produce Fire Spektra, Water produces Water. Manage your resource economy — spend Spektra to summon Avatars, cast Spells, and activate Equipment abilities.",
     icon: "◇",
-    color: "var(--spektrum-cyan)",
+    color: "var(--spektrum-magenta)",
   },
   {
     title: "Avatar Evolution",
     subtitle: "LEVEL UP YOUR FIGHTERS",
     desc: "Level 1 Avatars can evolve into powerful Level 2 forms. Evolution requires matching tribes — a Kobar Level 1 evolves into a Kobar Level 2. But beware: Summoning Sickness prevents evolution on the same turn an Avatar enters play. Time your evolutions carefully.",
     icon: "⬆",
-    color: "var(--spektrum-magenta)",
+    color: "var(--spektrum-gold)",
   },
   {
     title: "Life Card System",
     subtitle: "FOUR CHANCES TO SURVIVE",
     desc: "Each player begins with 4 Life Cards drawn face-down from their deck. When your Active Avatar is defeated, you lose one Life Card — but it goes to your hand, not the graveyard. Lose all 4 Life Cards or have your Active Avatar fall with no Reserves, and the match is over.",
     icon: "♡",
-    color: "var(--spektrum-gold)",
+    color: "var(--spektrum-cyan)",
   },
 ];
 
@@ -46,7 +60,7 @@ export default function GameplaySlide({ active }: SlideProps) {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="absolute top-6 left-6 z-10"
+          className="absolute top-14 left-6 md:top-6 z-10"
         >
           <div className="flex items-start gap-2">
             <div className="w-[3px] h-16 bg-gradient-to-b from-[#E8541E] to-transparent mt-1" />
@@ -62,9 +76,9 @@ export default function GameplaySlide({ active }: SlideProps) {
         </motion.div>
       )}
 
-      {/* Two-column layout */}
-      <div className="absolute inset-0 flex items-center justify-center px-4 md:px-6 pt-20 md:pt-0">
-        <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 lg:gap-16">
+      {/* Two-column layout — desktop */}
+      <div className="absolute inset-0 hidden lg:flex items-center justify-center px-6">
+        <div className="max-w-5xl w-full grid grid-cols-2 gap-16">
           {/* Left: feature tabs */}
           {active && (
             <motion.div
@@ -127,7 +141,7 @@ export default function GameplaySlide({ active }: SlideProps) {
               transition={{ duration: 0.4 }}
             >
               {/* Visual box */}
-              <div className="relative aspect-[16/10] md:aspect-[16/10] border border-black/[0.06] overflow-hidden mb-4 md:mb-6 shadow-sm hidden md:block">
+              <div className="relative aspect-[16/10] border border-black/[0.06] overflow-hidden mb-6 shadow-sm">
                 <div className="absolute inset-0 bg-white dark:bg-[var(--spektrum-card)]" />
                 <div
                   className="absolute inset-0 flex items-center justify-center"
@@ -136,7 +150,7 @@ export default function GameplaySlide({ active }: SlideProps) {
                   }}
                 >
                   <span
-                    className="text-[100px] md:text-[140px] opacity-[0.08] animate-float"
+                    className="text-[140px] opacity-[0.08] animate-float"
                     style={{ color: FEATURES[activeFeat].color }}
                   >
                     {FEATURES[activeFeat].icon}
@@ -158,10 +172,10 @@ export default function GameplaySlide({ active }: SlideProps) {
                 </div>
               </div>
 
-              <h3 className="font-[family-name:var(--font-display)] font-bold text-lg md:text-xl lg:text-2xl tracking-wider uppercase text-foreground mb-2 md:mb-3">
+              <h3 className="font-[family-name:var(--font-display)] font-bold text-xl lg:text-2xl tracking-wider uppercase text-foreground mb-3">
                 {FEATURES[activeFeat].title}
               </h3>
-              <p className="text-foreground/40 text-xs md:text-sm leading-relaxed line-clamp-4 md:line-clamp-none">
+              <p className="text-foreground/40 text-sm leading-relaxed">
                 {FEATURES[activeFeat].desc}
               </p>
               <div
@@ -174,6 +188,63 @@ export default function GameplaySlide({ active }: SlideProps) {
           )}
         </div>
       </div>
+
+      {/* Mobile layout — accordion expanding downward */}
+      {active && (
+        <div className="absolute inset-0 lg:hidden flex flex-col justify-center pt-20 pb-12 px-4 overflow-y-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col gap-1"
+          >
+            {FEATURES.map((feat, i) => (
+              <div key={feat.title}>
+                <button
+                  onClick={() => setActiveFeat(i)}
+                  className={`w-full text-left px-4 py-3 border-l-[2px] transition-all duration-400 ${
+                    activeFeat === i
+                      ? "border-l-[var(--spektrum-cyan)] bg-white/40 dark:bg-white/[0.06]"
+                      : "border-l-transparent"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`text-lg transition-opacity duration-300 ${
+                        activeFeat === i ? "opacity-60" : "opacity-15"
+                      }`}
+                      style={{ color: feat.color }}
+                    >
+                      {feat.icon}
+                    </span>
+                    <h3
+                      className={`font-[family-name:var(--font-display)] font-bold text-xs tracking-wider uppercase transition-colors ${
+                        activeFeat === i ? "text-foreground" : "text-foreground/30"
+                      }`}
+                    >
+                      {feat.title}
+                    </h3>
+                  </div>
+                </button>
+                {activeFeat === i && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-4 pb-3 ml-[2px] border-l-[2px] border-l-[var(--spektrum-cyan)]">
+                      <p className="text-foreground/40 text-xs leading-relaxed pt-1">
+                        {feat.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      )}
       {/* Play the Game button — bottom right (hidden on mobile) */}
       {active && (
         <motion.div

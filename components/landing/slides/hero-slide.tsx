@@ -71,7 +71,7 @@ export default function HeroSlide({ active }: SlideProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, delay: 0.3 }}
-          className="absolute inset-0 z-[1] pointer-events-none md:-translate-x-[30%]"
+          className="absolute inset-0 z-[1] pointer-events-none hidden md:block md:-translate-x-[30%]"
           style={{
             x: springX,
             y: springScrollY,

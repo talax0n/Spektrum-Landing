@@ -62,7 +62,7 @@ export default function CommunitySlide({ active }: SlideProps) {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="absolute top-6 left-6 z-10"
+          className="absolute top-14 left-6 md:top-6 z-10"
         >
           <div className="flex items-start gap-2">
             <div className="w-[3px] h-16 bg-gradient-to-b from-[#E8541E] to-transparent mt-1" />

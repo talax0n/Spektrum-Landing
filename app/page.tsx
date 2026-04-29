@@ -31,6 +31,7 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [characterDetailOpen, setCharacterDetailOpen] = useState(false);
   const touchStart = useRef(0);
   const lastScroll = useRef(0);
   const wheelTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -131,7 +132,7 @@ export default function Home() {
   const SLIDES = [
     <HeroSlide key="hero" active={currentSection === 0} />,
     <LoreSlide key="lore" active={currentSection === 1} />,
-    <CharacterSlide key="characters" active={currentSection === 2} />,
+    <CharacterSlide key="characters" active={currentSection === 2} onDetailToggle={setCharacterDetailOpen} />,
     <GameplaySlide key="gameplay" active={currentSection === 3} />,
     <CardsSlide key="cards" active={currentSection === 4} />,
     <NewsSlide key="news" active={currentSection === 5} />,
@@ -146,20 +147,24 @@ export default function Home() {
         {!loaded && <LoadingScreen onComplete={handleLoadComplete} />}
       </AnimatePresence>
 
-      {/* ── Left Sidebar (Desktop) ── */}
-      <Sidebar
-        sections={SECTIONS}
-        currentSection={currentSection}
-        onNavigate={(i) => { goToSection(i); setSidebarCollapsed(false); }}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        isMobile={isMobile}
-        collapsed={sidebarCollapsed}
-        onExpand={() => setSidebarCollapsed(false)}
-      />
+      {/* ── Left Sidebar (Desktop) — hidden when character detail is open ── */}
+      {!characterDetailOpen && (
+        <Sidebar
+          sections={SECTIONS}
+          currentSection={currentSection}
+          onNavigate={(i) => { goToSection(i); setSidebarCollapsed(false); }}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          isMobile={isMobile}
+          collapsed={sidebarCollapsed}
+          onExpand={() => setSidebarCollapsed(false)}
+        />
+      )}
 
-      {/* ── Top Bar ── */}
-      <TopBar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
+      {/* ── Top Bar — hidden when character detail is open ── */}
+      {!characterDetailOpen && (
+        <TopBar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
+      )}
 
       {/* ── Main Content (Fullscreen slides) ── */}
       <div className="fixed inset-0" onClick={() => { if (!isMobile && !sidebarCollapsed) setSidebarCollapsed(true); }}>
@@ -177,23 +182,27 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      {/* ── Scroll indicator arrows ── */}
-      <ScrollIndicator
-        currentSection={currentSection}
-        totalSections={SECTIONS.length}
-        onNext={() => goToSection(currentSection + 1)}
-        onPrev={() => goToSection(currentSection - 1)}
-      />
-
-      {/* ── Bottom progress bar ── */}
-      <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-black/[0.04] dark:bg-white/[0.06] z-40">
-        <div
-          className="h-full bg-[var(--spektrum-cyan)] section-progress"
-          style={{
-            width: `${((currentSection + 1) / SECTIONS.length) * 100}%`,
-          }}
+      {/* ── Scroll indicator arrows — hidden when character detail is open ── */}
+      {!characterDetailOpen && (
+        <ScrollIndicator
+          currentSection={currentSection}
+          totalSections={SECTIONS.length}
+          onNext={() => goToSection(currentSection + 1)}
+          onPrev={() => goToSection(currentSection - 1)}
         />
-      </div>
+      )}
+
+      {/* ── Bottom progress bar — hidden when character detail is open ── */}
+      {!characterDetailOpen && (
+        <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-black/[0.04] dark:bg-white/[0.06] z-40">
+          <div
+            className="h-full bg-[var(--spektrum-cyan)] section-progress"
+            style={{
+              width: `${((currentSection + 1) / SECTIONS.length) * 100}%`,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
