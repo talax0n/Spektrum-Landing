@@ -19,6 +19,8 @@ const ELEMENT_FILTERS: { label: string; value: CardElement | "All" }[] = [
   { label: "All", value: "All" },
   { label: "Fire", value: "Fire" },
   { label: "Water", value: "Water" },
+  { label: "Air", value: "Air" },
+  { label: "Earth", value: "Earth" },
   { label: "Neutral", value: "Neutral" },
 ];
 
@@ -36,6 +38,8 @@ const TYPE_FILTERS: { label: string; value: CardType | "All" }[] = [
 const ELEMENT_COLORS: Record<CardElement, string> = {
   Fire: "#e03e3e",
   Water: "#0091a3",
+  Air: "#2f9e62",
+  Earth: "#d6a928",
   Neutral: "#6b6878",
 };
 
@@ -222,12 +226,14 @@ export default function CardsSlide({ active }: SlideProps) {
                         {card.element}
                       </span>
                       <span className="w-0.5 h-0.5 rounded-full bg-foreground/15" />
-                      <span
-                        className="text-[8px] font-mono tracking-[0.1em] uppercase"
-                        style={{ color: RARITY_COLORS[card.rarity] }}
-                      >
-                        {card.rarity}
-                      </span>
+                      {card.rarity && (
+                        <span
+                          className="text-[8px] font-mono tracking-[0.1em] uppercase"
+                          style={{ color: RARITY_COLORS[card.rarity] }}
+                        >
+                          {card.rarity}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -313,12 +319,14 @@ export default function CardsSlide({ active }: SlideProps) {
                 >
                   {selectedCard.element}
                 </span>
-                <span
-                  className="text-[9px] font-mono tracking-[0.2em] uppercase"
-                  style={{ color: RARITY_COLORS[selectedCard.rarity] }}
-                >
-                  {selectedCard.rarity}
-                </span>
+                {selectedCard.rarity && (
+                  <span
+                    className="text-[9px] font-mono tracking-[0.2em] uppercase"
+                    style={{ color: RARITY_COLORS[selectedCard.rarity] }}
+                  >
+                    {selectedCard.rarity}
+                  </span>
+                )}
               </div>
 
               <h3 className="font-[family-name:var(--font-display)] font-black text-2xl tracking-[0.1em] uppercase text-foreground mt-2">

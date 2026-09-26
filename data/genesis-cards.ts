@@ -1,4 +1,4 @@
-export type CardElement = "Fire" | "Water" | "Neutral";
+export type CardElement = "Fire" | "Water" | "Air" | "Earth" | "Neutral";
 export type CardType = "Avatar" | "Spell" | "Quick Spell" | "Ritual Armor" | "Field" | "Equipment" | "Item";
 export type CardRarity = "Common" | "Uncommon" | "Rare" | "Super Rare" | "Mythic";
 
@@ -11,7 +11,7 @@ export interface GenesisCard {
   level?: number;
   atk?: number;
   hp?: number;
-  rarity: CardRarity;
+  rarity?: CardRarity;
   description: string;
   image: string;
 }
@@ -19,8 +19,110 @@ export interface GenesisCard {
 const FIRE_BASE = "/cards/GENESIS/fire";
 const WATER_BASE = "/cards/GENESIS/water";
 const NEUTRAL_BASE = "/cards/GENESIS/neutral";
+const AIR_BASE = "/cards/GENESIS/green";
+const EARTH_BASE = "/cards/GENESIS/yellow";
+
+const AIR_AVATARS = [
+  "Air Sword Trainee",
+  "Big Gal",
+  "Big Guy",
+  "Borah Trainee",
+  "Borah Windstream",
+  "Forest",
+  "Green Boxs Giant",
+  "Green Cloth Giant",
+  "Gust Trainee",
+  "Hi-Jo",
+  "Jade",
+  "Jumper A",
+  "Jumper B",
+  "Kobar Glider",
+  "Kobar Windstream",
+  "Mint",
+  "Sage",
+  "Salad",
+  "Shaman A",
+  "Shaman B",
+  "Street Thug",
+  "Thief",
+  "Wind Eater",
+  "Wind Whisperer",
+] as const;
+
+const EARTH_AVATARS = [
+  "Boulder Brute",
+  "Bronze",
+  "Cave Troll",
+  "Clay Acolyte",
+  "Clay Monk",
+  "Crystal Troll",
+  "Earth Maiden",
+  "Gading",
+  "Genderuwo",
+  "Giants Bride",
+  "Guard Trainee",
+  "Honey",
+  "Khuni",
+  "Kobar Digger",
+  "Kobar Trainee",
+  "Mud Eater",
+  "Mud Thug",
+  "Mustard",
+  "Pebble Trainee",
+  "Rust",
+  "Shaman A",
+  "Shaman B",
+  "Thief A",
+  "Thief B",
+] as const;
+
+const AIR_SPELLS = [
+  ["Downburst", "Field Spell", "Field"],
+  ["Open Skies", "Field Spell", "Field"],
+  ["Air Knife", "Quick Spell", "Quick Spell"],
+  ["Crosswind", "Quick Spell", "Quick Spell"],
+  ["Tailspin", "Quick Spell", "Quick Spell"],
+  ["Vanish", "Quick Spell", "Quick Spell"],
+  ["Stormveil", "Ritual Armor", "Ritual Armor"],
+  ["Windrider Cloak", "Ritual Armor", "Ritual Armor"],
+  ["Gale Cutter", "Spell", "Spell"],
+  ["Scouting Gale", "Spell", "Spell"],
+  ["Second Wind", "Spell", "Spell"],
+  ["Shear", "Spell", "Spell"],
+  ["Sleight of Wind", "Spell", "Spell"],
+  ["Tempest Call", "Spell", "Spell"],
+  ["Zephyr Chart", "Spell", "Spell"],
+] as const satisfies readonly (readonly [string, string, CardType])[];
+
+const NEW_ELEMENT_CARDS: GenesisCard[] = [
+  ...AIR_AVATARS.map((name) => ({
+    id: `air-${name.toLowerCase().replaceAll(" ", "-")}`,
+    name,
+    element: "Air" as const,
+    type: "Avatar" as const,
+    description: "Genesis Air avatar.",
+    image: `${AIR_BASE}/avatar/Green Avatar_Ava - ${name}.webp`,
+  })),
+  ...AIR_SPELLS.map(([name, fileType, type]) => ({
+    id: `air-${name.toLowerCase().replaceAll(" ", "-")}`,
+    name,
+    element: "Air" as const,
+    type,
+    description: `Genesis Air ${type.toLowerCase()}.`,
+    image: `${AIR_BASE}/spell/Green Spell_${fileType} - ${name}.webp`,
+  })),
+  ...EARTH_AVATARS.map((name) => ({
+    id: `earth-${name.toLowerCase().replaceAll(" ", "-")}`,
+    name,
+    element: "Earth" as const,
+    type: "Avatar" as const,
+    description: "Genesis Earth avatar.",
+    image: `${EARTH_BASE}/avatar/Yellow Avatar_Ava - ${name}.webp`,
+  })),
+];
 
 export const GENESIS_CARDS: GenesisCard[] = [
+  ...NEW_ELEMENT_CARDS,
   // ═══════════════════════════════════════
   // FIRE AVATARS — Level 1 (Common)
   // ═══════════════════════════════════════
